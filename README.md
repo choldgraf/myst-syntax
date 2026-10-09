@@ -1,16 +1,35 @@
 # myst-syntax
 
-Syntax highlighting for [MyST Markdown](https://mystmd.org): roles, directives, options, labels, comments and more, on top of Markdown.
+Syntax highlighting for [MyST Markdown](https://mystmd.org), on top of an editor's Markdown highlighting.
 
 It has two parts:
 
-- `myst.tmLanguage.json`: a [TextMate grammar](https://macromates.com/manual/en/language_grammars) that injects MyST into an editor's Markdown grammar, as VS Code does.
+- `myst.tmLanguage.json`: a [TextMate grammar](https://macromates.com/manual/en/language_grammars) for editors like VS Code.
+  It injects MyST into the editor's Markdown grammar.
 - `myst-syntax/codemirror`: a [CodeMirror 6](https://codemirror.net) extension to use with `markdown()`.
 
-This is an early version, moved out of [MyST Author](https://github.com/choldgraf/myst-author).
+They highlight different syntax:
+
+| Syntax | TextMate | CodeMirror |
+| --- | --- | --- |
+| Roles, directives, options and labels | ✓ | ✓ |
+| Comments (`%`) and block breaks (`+++`) | ✓ | |
+| Substitutions (`{{ x }}`) and footnote references | ✓ | |
+| YAML options in a directive | ✓ | |
+| Inline math (`$x$`) | | ✓ |
+| Citations (`@key`) | | ✓ |
+
 There's no other CodeMirror package for MyST.
 For TextMate, it aims to replace the older, unmaintained [`vscode-myst-syntax`](https://github.com/chrisjsewell/vscode-myst-syntax) grammar.
 The goal is to move it to the [jupyter-book](https://github.com/jupyter-book) organization; see the [roadmap](ROADMAP.md).
+
+## Install it
+
+It isn't on npm, so install it from GitHub:
+
+```sh
+npm install github:choldgraf/myst-syntax
+```
 
 ## Use it
 

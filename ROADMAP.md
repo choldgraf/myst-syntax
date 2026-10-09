@@ -1,19 +1,18 @@
 # Roadmap
 
 What this repo needs to do to be as useful as possible, most important first.
-Today it's two highlighters copied out of MyST Author, each written for one editor.
-The goal is to move it to the [jupyter-book](https://github.com/jupyter-book) organization once it's useful beyond MyST Author, so keep it small, editor-neutral and BSD-3.
+The goal is to move it to the [jupyter-book](https://github.com/jupyter-book) organization, so keep it small, editor-neutral and BSD-3.
 
 ## Where it fits
 
-- **CodeMirror 6:** no MyST package exists, so this is the clearest gap. JupyterLab and many web editors use CodeMirror, and JupyterLab accepts CodeMirror extensions like this one as they are.
-- **TextMate:** the older [`chrisjsewell/vscode-myst-syntax`](https://github.com/chrisjsewell/vscode-myst-syntax) grammar (about 60k installs through the MyST VS Code extension) has been unmaintained since March 2023 and isn't part of jupyter-book.
-  This grammar should replace it, so it needs to match what that one does well, such as highlighting the code inside `{code-cell} python`.
-- **Elsewhere:** MyST-Parser's Sphinx docs use a Pygments lexer, and the mystmd docs highlight code with Prism/highlight.js (through myst-theme), so neither would use a TextMate grammar.
+- The CodeMirror part is for JupyterLab and the many web editors that use CodeMirror.
+  JupyterLab accepts CodeMirror extensions like this one as they are, but no JupyterLab extension uses it yet.
+- The TextMate grammar is for VS Code, and for docs sites that highlight with Shiki.
+  Sphinx and mystmd sites don't use it: MyST-Parser's Sphinx docs use a Pygments lexer, and myst-theme uses Prism or highlight.js.
 
 ## 1. Highlight the code inside code directives
 
-The older grammar highlights the code in `{code-cell} python`, `{code} js` and similar directives in that language; ours leaves it plain.
+`vscode-myst-syntax` highlights the code in `{code-cell} python`, `{code} js` and similar directives in that language; ours leaves it plain.
 Do the same: for each common language, a pattern that includes its grammar (`source.python` and so on) between the fences.
 Its approach is worth reading, but it's Apache-2.0, so credit it if any of it is copied.
 
@@ -27,39 +26,29 @@ None of these need a parser:
 
 ## 3. Both parts highlight the same things
 
-Today they cover different syntax:
-
-| Syntax | TextMate | CodeMirror |
-| --- | --- | --- |
-| Roles, directives, options, labels | ✓ | ✓ |
-| Inline math (`$x$`) | | ✓ |
-| Citations (`@key`) | | ✓ |
-| Comments (`%`), block breaks (`+++`) | ✓ | |
-| Substitutions (`{{ x }}`), footnote references | ✓ | |
-| YAML options in a directive | ✓ | |
-| Code inside code directives | | |
-
+The two parts highlight different syntax, as the [README](README.md) shows.
 Write one example document that covers everything, check both parts against it, and fill in the gaps.
 [myst-parser-unified](https://github.com/choldgraf/myst-parser-unified)'s syntax edge cases are a good source of tricky examples.
 
 ## 4. A working Shiki recipe
 
 The grammar has `name` and `injectTo`, which Shiki needs to inject it into Markdown.
-In our tests that works for some load orders and not others: `['yaml', 'markdown', myst]` works, `['markdown', 'yaml', myst]` doesn't.
+Tried by hand, it works for some load orders and not others: `['yaml', 'markdown', myst]` works, `['markdown', 'yaml', myst]` doesn't.
 Find out why, document the recipe, and report it to Shiki if it's a bug.
 
 Then, if docs sites ask for it, add a `myst` language so ```` ```myst ```` blocks highlight.
-It needs an `injections` key aimed at its own scope: including the Markdown grammar plus MyST patterns doesn't work, because Markdown's paragraph rule wins over inline patterns like roles.
+It needs an `injections` key aimed at its own scope.
+A grammar that includes the Markdown grammar and adds MyST patterns doesn't work, because Markdown's paragraph rule wins over inline patterns like roles.
 
 ## 5. Lezer, when something needs a syntax tree
 
-Rewrite the CodeMirror part as [`@lezer/markdown`](https://github.com/lezer-parser/markdown) extensions when a user needs more than highlighting: folding directives, or other extensions reading the structure (for example jupyterlab-myst).
+Rewrite the CodeMirror part as [`@lezer/markdown`](https://github.com/lezer-parser/markdown) extensions when a user needs more than highlighting: folding directives, or other extensions reading the structure (for example [jupyterlab-myst](https://github.com/jupyter-book/jupyterlab-myst)).
 Highlighting alone doesn't need it.
 
 ## 6. Move to jupyter-book and publish
 
-Once 1–3 are done, propose moving the repo to the jupyter-book organization (myst-author's upstream proposal U3), and publish it to npm from there.
-The CodeMirror extension is TypeScript, and Node doesn't strip types inside `node_modules`, so publishing needs a build step that emits JavaScript and `.d.ts` files.
+Once 1–3 are done, propose moving the repo to the jupyter-book organization, and publish it to npm from there.
+Publishing needs a build step that emits JavaScript and `.d.ts` files, because Node doesn't strip types inside `node_modules`.
 
 ## Later, if asked
 
