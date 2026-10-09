@@ -15,3 +15,11 @@ test('patterns match MyST syntax', () => {
   assert.deepEqual(matches('math', 'cost $5 and $x^2$ or $y$, not $$z$$'), ['$x^2$', '$y$']);
   assert.deepEqual(matches('citation', 'As @smith2020 said; mail a@b.org'), ['@smith2020']);
 });
+
+test('role and directive names can use `.` and `+`, like mystmd', () => {
+  for (const name of ['note', 'a.b', 'a+b', 'a:b', 'a-b', 'a_b']) {
+    assert.deepEqual(matches('role', `{${name}}\`x\``), [`{${name}}\`x\``]);
+    assert.deepEqual(matches('directive', `\`\`\`{${name}}`), [`{${name}}`]);
+    assert.deepEqual(matches('directive', `:::{${name}}`), [`{${name}}`]);
+  }
+});

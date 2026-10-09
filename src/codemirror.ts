@@ -1,9 +1,12 @@
 import { Decoration, EditorView, MatchDecorator, ViewPlugin, type DecorationSet, type ViewUpdate } from '@codemirror/view';
 
+// Fills in NAME, the characters of a role or directive name. mystmd accepts any character but `}`.
+const withName = (re: RegExp) => new RegExp(re.source.replaceAll('NAME', String.raw`[\w:.+-]`), re.flags);
+
 /** MyST syntax on top of Markdown. Each regex matches within one line; the whole match is highlighted. */
 export const patterns = {
-  role: /\{[\w:.-]+\}`[^`\n]*`/g,
-  directive: /(?<=^\s*(?:`{3,}|:{3,}))\{[\w:.-]+\}/g,
+  role: withName(/\{NAME+\}`[^`\n]*`/g),
+  directive: withName(/(?<=^\s*(?:`{3,}|:{3,}))\{NAME+\}/g),
   // Approximation of "option lines after a fence": decorators only see one line at a time.
   option: /^:[\w-]+:(?=\s|$)/g,
   label: /^\([\w:.-]+\)=(?=\s*$)/g,
