@@ -15,11 +15,9 @@
     "test": "node --test 'src/**/*.test.ts'"
   },
   "peerDependencies": {
-    "@codemirror/state": "^6.0.0",
     "@codemirror/view": "^6.0.0"
   },
   "devDependencies": {
-    "@codemirror/state": "^6.5.2",
     "@codemirror/view": "^6.38.0",
     "@shikijs/langs": "^4.5.0",
     "vscode-oniguruma": "^2.0.1",

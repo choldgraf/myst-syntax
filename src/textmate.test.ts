@@ -42,6 +42,11 @@ test('the grammar scopes MyST syntax', () => {
   assert.deepEqual(scoped('Hi {{ name }}', 'variable.other.substitution.myst'), [' name ']);
 });
 
-test('the grammar leaves code directives to Markdown', () => {
+test('the grammar leaves code to Markdown', () => {
   assert.deepEqual(scoped('```{code} python\nx = 1\n```', 'entity.name.function.directive.myst'), []);
+  assert.deepEqual(scoped('```text\n% not a comment\n```', 'comment.line.percentage.myst'), []);
+});
+
+test('a longer fence closes a directive', () => {
+  assert.deepEqual(scoped('````{note}\n`````\n% a comment', 'meta.directive.myst'), ['````', '{', 'note', '}', '`````']);
 });

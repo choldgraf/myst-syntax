@@ -6,12 +6,13 @@ const withName = (re: RegExp) => new RegExp(re.source.replaceAll('NAME', String.
 /** MyST syntax on top of Markdown. Each regex matches within one line; the whole match is highlighted. */
 export const patterns = {
   role: withName(/\{NAME+\}`[^`\n]*`/g),
-  directive: withName(/(?<=^\s*(?:`{3,}|:{3,}))\{NAME+\}/g),
+  directive: withName(/(?<=^\s*(?:`{3,}|:{3,})\s*)\{NAME+\}/g),
   // Approximation of "option lines after a fence": decorators only see one line at a time.
-  option: /^:[\w-]+:(?=\s|$)/g,
+  option: /(?<=^\s*):[\w-]+:(?=\s|$)/g,
   // Label characters follow mystmd's TARGET_PATTERN (markdown-it-myst).
   label: /(?<=^\s*)\([a-zA-Z0-9|@<>*./_\-+:]+\)=(?=\s*$)/g,
-  math: /(?<![\\$])\$(?=\S)[^$\n]*?\S\$(?!\$)|(?<![\\$])\$\S\$(?!\$)/g,
+  // Close to mystmd's dollarmath: spaces and digits are allowed inside. Skips `$$`, which is display math.
+  math: /(?<![\\$])\$[^$\n]+\$(?!\$)/g,
   citation: /(?<![\w@])@[\w:.-]*\w/g,
 };
 

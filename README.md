@@ -19,9 +19,8 @@ They highlight different syntax:
 | Inline math (`$x$`) | | ✓ |
 | Citations (`@key`) | | ✓ |
 
-There's no other CodeMirror package for MyST.
 For TextMate, it aims to replace the older, unmaintained [`vscode-myst-syntax`](https://github.com/chrisjsewell/vscode-myst-syntax) grammar.
-The goal is to move it to the [jupyter-book](https://github.com/jupyter-book) organization; see the [roadmap](ROADMAP.md).
+See the [roadmap](ROADMAP.md) for what's next.
 
 ## Install it
 
@@ -33,7 +32,8 @@ npm install github:choldgraf/myst-syntax
 
 ## Use it
 
-In a VS Code extension's `package.json`:
+In a VS Code extension, copy `node_modules/myst-syntax/myst.tmLanguage.json` into the extension when you build it.
+Then add the copy to the extension's `package.json`:
 
 ```json
 "contributes": {
@@ -47,6 +47,7 @@ In CodeMirror:
 
 ```ts
 import { markdown } from '@codemirror/lang-markdown';
+import { EditorView } from '@codemirror/view';
 import { myst } from 'myst-syntax/codemirror';
 
 new EditorView({ extensions: [markdown(), myst()] });

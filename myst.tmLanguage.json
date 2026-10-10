@@ -4,7 +4,7 @@
   "injectTo": [
     "text.html.markdown"
   ],
-  "injectionSelector": "L:text.html.markdown -meta.embedded -markup.inline.raw",
+  "injectionSelector": "L:text.html.markdown -meta.embedded -markup.inline.raw -markup.fenced_code",
   "patterns": [
     {
       "include": "#backtick-directive"
@@ -34,7 +34,7 @@
   "repository": {
     "backtick-directive": {
       "begin": "^\\s*(`{3,})\\s*(\\{)(?!(?:code|code-block|code-cell|sourcecode|math|mermaid|raw)\\})([\\w:.+-]+)(\\})(.*)$",
-      "end": "^\\s*\\1\\s*$",
+      "end": "^\\s*\\1`*\\s*$",
       "name": "meta.directive.myst",
       "beginCaptures": {
         "1": {
@@ -72,7 +72,7 @@
     },
     "colon-directive": {
       "begin": "^\\s*(:{3,})\\s*(\\{)([\\w:.+-]+)(\\})(.*)$",
-      "end": "^\\s*\\1\\s*$",
+      "end": "^\\s*\\1:*\\s*$",
       "name": "meta.directive.myst",
       "beginCaptures": {
         "1": {
