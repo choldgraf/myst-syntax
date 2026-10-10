@@ -7,7 +7,8 @@ The goal is to move it to the [jupyter-book](https://github.com/jupyter-book) or
 
 - The CodeMirror part is for JupyterLab and the many web editors that use CodeMirror.
   JupyterLab accepts CodeMirror extensions like this one as they are, but no JupyterLab extension uses it yet.
-- The TextMate grammar is for VS Code, and for docs sites that highlight with Shiki.
+- The TextMate grammar is for VS Code.
+  Docs sites that highlight with Shiki could use it once step 4 works.
   Sphinx and mystmd sites don't use it: MyST-Parser's Sphinx docs use a Pygments lexer, and myst-theme uses Prism or highlight.js.
 
 ## 1. Highlight the code inside code directives
