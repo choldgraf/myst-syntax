@@ -36,6 +36,8 @@ test('the grammar scopes MyST syntax', () => {
   assert.deepEqual(scoped('```{figure} logo.svg\n:width: 50%\n```', 'entity.other.attribute-name.myst'), ['width']);
   assert.deepEqual(scoped(':::{note}\n:::', 'entity.name.function.directive.myst'), ['note']);
   assert.deepEqual(scoped('(intro)=', 'entity.name.label.myst'), ['intro']);
+  assert.deepEqual(scoped('(fig.1|a)=', 'entity.name.label.myst'), ['fig.1|a']);
+  assert.deepEqual(scoped('(café)=', 'entity.name.label.myst'), []);
   assert.deepEqual(scoped('% a comment', 'comment.line.percentage.myst'), ['% a comment']);
   assert.deepEqual(scoped('Hi {{ name }}', 'variable.other.substitution.myst'), [' name ']);
 });

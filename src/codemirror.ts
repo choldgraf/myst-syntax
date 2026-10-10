@@ -9,7 +9,8 @@ export const patterns = {
   directive: withName(/(?<=^\s*(?:`{3,}|:{3,}))\{NAME+\}/g),
   // Approximation of "option lines after a fence": decorators only see one line at a time.
   option: /^:[\w-]+:(?=\s|$)/g,
-  label: /^\([\w:.-]+\)=(?=\s*$)/g,
+  // Label characters follow mystmd's TARGET_PATTERN (markdown-it-myst).
+  label: /(?<=^\s*)\([a-zA-Z0-9|@<>*./_\-+:]+\)=(?=\s*$)/g,
   math: /(?<![\\$])\$(?=\S)[^$\n]*?\S\$(?!\$)|(?<![\\$])\$\S\$(?!\$)/g,
   citation: /(?<![\w@])@[\w:.-]*\w/g,
 };

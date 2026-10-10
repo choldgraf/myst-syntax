@@ -137,7 +137,8 @@
       }
     },
     "target": {
-      "match": "^\\s*(\\()([^)\\s]+)(\\))(=)\\s*$",
+      "comment": "Label characters follow mystmd's TARGET_PATTERN (markdown-it-myst).",
+      "match": "^\\s*(\\()([a-zA-Z0-9|@<>*./_\\-+:]+)(\\))(=)\\s*$",
       "captures": {
         "1": {
           "name": "punctuation.definition.target.myst"

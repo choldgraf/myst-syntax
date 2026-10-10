@@ -12,6 +12,8 @@ test('patterns match MyST syntax', () => {
   assert.deepEqual(matches('option', ':label: fig-1'), [':label:']);
   assert.deepEqual(matches('option', ':::{note}'), []);
   assert.deepEqual(matches('label', '(intro)='), ['(intro)=']);
+  assert.deepEqual(matches('label', '  (fig.1|a)='), ['(fig.1|a)=']);
+  assert.deepEqual(matches('label', '(a b)='), []);
   assert.deepEqual(matches('math', 'cost $5 and $x^2$ or $y$, not $$z$$'), ['$x^2$', '$y$']);
   assert.deepEqual(matches('citation', 'As @smith2020 said; mail a@b.org'), ['@smith2020']);
 });
