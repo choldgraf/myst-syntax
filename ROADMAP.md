@@ -1,7 +1,7 @@
 # Roadmap
 
-What this repo needs to do to be as useful as possible, most important first.
-The goal is to move it to the [jupyter-book](https://github.com/jupyter-book) organization, so keep it small, editor-neutral and BSD-3.
+Next steps, most important first.
+Keep it small, editor-neutral and BSD-3, so it can move to [jupyter-book](https://github.com/jupyter-book) (step 6).
 
 ## Where it fits
 
@@ -9,11 +9,12 @@ The goal is to move it to the [jupyter-book](https://github.com/jupyter-book) or
   JupyterLab accepts CodeMirror extensions like this one as they are, but no JupyterLab extension uses it yet.
 - The TextMate grammar is for VS Code.
   Docs sites that highlight with Shiki could use it once step 4 works.
-  Sphinx and mystmd sites don't use it: MyST-Parser's Sphinx docs use a Pygments lexer, and myst-theme uses Prism or highlight.js.
+  Sphinx and mystmd sites don't use it: MyST-Parser's Sphinx docs use a Pygments lexer, and myst-theme uses highlight.js.
 
 ## 1. Highlight the code inside code directives
 
-`vscode-myst-syntax` highlights the code in `{code-cell} python`, `{code} js` and similar directives in that language; ours leaves it plain.
+`vscode-myst-syntax` highlights the code in `{code-cell} python`, `{code} js` and similar directives in that language.
+Ours leaves that code plain.
 Do the same: for each common language, a pattern that includes its grammar (`source.python` and so on) between the fences.
 Its approach is worth reading, but it's Apache-2.0, so credit it if any of it is copied.
 
@@ -22,7 +23,7 @@ Its approach is worth reading, but it's Apache-2.0, so credit it if any of it is
 None of these need a parser:
 
 - Colours are hard-coded for light themes. Use `&light` and `&dark` in `baseTheme`.
-- Roles and options are matched inside code blocks. Skip ranges that `@codemirror/lang-markdown`'s syntax tree marks as code.
+- Every pattern matches inside code blocks, so a Python `@property` shows as a citation. Skip ranges that `@codemirror/lang-markdown`'s syntax tree marks as code.
 - The option pattern matches any `:name:` line, not only lines after a directive's opening fence.
 
 ## 3. Both parts highlight the same things
@@ -43,7 +44,8 @@ A grammar that includes the Markdown grammar and adds MyST patterns doesn't work
 
 ## 5. Lezer, when something needs a syntax tree
 
-Rewrite the CodeMirror part as [`@lezer/markdown`](https://github.com/lezer-parser/markdown) extensions when a user needs more than highlighting: folding directives, or other extensions reading the structure (for example [jupyterlab-myst](https://github.com/jupyter-book/jupyterlab-myst)).
+Rewrite the CodeMirror part as [`@lezer/markdown`](https://github.com/lezer-parser/markdown) extensions when someone needs a syntax tree.
+Examples: folding directives, or letting [jupyterlab-myst](https://github.com/jupyter-book/jupyterlab-myst) read the document structure.
 Highlighting alone doesn't need it.
 
 ## 6. Move to jupyter-book and publish

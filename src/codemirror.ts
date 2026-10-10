@@ -1,12 +1,10 @@
-import { Decoration, EditorView, MatchDecorator, ViewPlugin, type DecorationSet, type ViewUpdate } from '@codemirror/view';
-
-// Fills in NAME, the characters of a role or directive name. mystmd accepts any character but `}`.
-const withName = (re: RegExp) => new RegExp(re.source.replaceAll('NAME', String.raw`[\w:.+-]`), re.flags);
+import { Decoration, EditorView, MatchDecorator, ViewPlugin, type ViewUpdate } from '@codemirror/view';
 
 /** MyST syntax on top of Markdown. Each regex matches within one line; the whole match is highlighted. */
 export const patterns = {
-  role: withName(/\{NAME+\}`[^`\n]*`/g),
-  directive: withName(/(?<=^\s*(?:`{3,}|:{3,})\s*)\{NAME+\}/g),
+  // Role and directive names use `[\w:.+-]`, like the TextMate grammar. mystmd allows anything but `}`.
+  role: /\{[\w:.+-]+\}`[^`\n]*`/g,
+  directive: /(?<=^\s*(?:`{3,}|:{3,})\s*)\{[\w:.+-]+\}/g,
   // Approximation of "option lines after a fence": decorators only see one line at a time.
   option: /(?<=^\s*):[\w-]+:(?=\s|$)/g,
   // Label characters follow mystmd's TARGET_PATTERN (markdown-it-myst).
@@ -16,22 +14,19 @@ export const patterns = {
   citation: /(?<![\w@])@[\w:.-]*\w/g,
 };
 
-const decorators = Object.entries(patterns).map(
-  ([name, regexp]) => new MatchDecorator({ regexp, decoration: Decoration.mark({ class: `cm-myst-${name}` }) }),
-);
-
-const highlighter = ViewPlugin.fromClass(
-  class {
-    sets: DecorationSet[];
-    constructor(view: EditorView) {
-      this.sets = decorators.map((d) => d.createDeco(view));
-    }
-    update(u: ViewUpdate) {
-      this.sets = decorators.map((d, i) => d.updateDeco(u, this.sets[i]));
-    }
-  },
-  { provide: (p) => decorators.map((_, i) => EditorView.decorations.of((view) => view.plugin(p)?.sets[i] ?? Decoration.none)) },
-);
+// One plugin per pattern, as in CodeMirror's MatchDecorator example.
+const highlighters = Object.entries(patterns).map(([name, regexp]) => {
+  const decorator = new MatchDecorator({ regexp, decoration: Decoration.mark({ class: `cm-myst-${name}` }) });
+  return ViewPlugin.define(
+    (view) => ({
+      decorations: decorator.createDeco(view),
+      update(u: ViewUpdate) {
+        this.decorations = decorator.updateDeco(u, this.decorations);
+      },
+    }),
+    { decorations: (p) => p.decorations },
+  );
+});
 
 const theme = EditorView.baseTheme({
   '.cm-myst-role': { color: '#7c3aed' },
@@ -42,7 +37,7 @@ const theme = EditorView.baseTheme({
   '.cm-myst-citation': { color: '#15803d' },
 });
 
-/** MyST highlighting for roles, directives, options, labels, math and citations. Use with `markdown()`. */
+/** MyST highlighting for the syntax in `patterns`. Use with `markdown()`. */
 export function myst() {
-  return [highlighter, theme];
+  return [highlighters, theme];
 }
