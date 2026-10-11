@@ -25,6 +25,7 @@ None of these need a parser:
 - Colours are hard-coded for light themes. Use `&light` and `&dark` in `baseTheme`.
 - Every pattern matches inside code blocks, so a Python `@property` shows as a citation. Skip ranges that `@codemirror/lang-markdown`'s syntax tree marks as code.
 - The option pattern matches any `:name:` line, not only lines after a directive's opening fence.
+- A directive in a list item (`- ```{note}`) isn't highlighted, by this or the TextMate grammar: both allow only spaces before the fence.
 
 ## 3. Both parts highlight the same things
 

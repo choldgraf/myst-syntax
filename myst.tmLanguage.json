@@ -115,7 +115,7 @@
       }
     },
     "block-break": {
-      "match": "^\\+\\+\\+.*$",
+      "match": "^\\s*\\+\\+\\+.*$",
       "name": "meta.separator.myst"
     },
     "comment": {

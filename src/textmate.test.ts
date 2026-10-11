@@ -39,6 +39,7 @@ test('the grammar scopes MyST syntax', () => {
   assert.deepEqual(scoped('(fig.1|a)=', 'entity.name.label.myst'), ['fig.1|a']);
   assert.deepEqual(scoped('(café)=', 'entity.name.label.myst'), []);
   assert.deepEqual(scoped('% a comment', 'comment.line.percentage.myst'), ['% a comment']);
+  assert.deepEqual(scoped('  +++ {"a": 1}', 'meta.separator.myst'), ['  +++ {"a": 1}']);
   assert.deepEqual(scoped('Hi {{ name }}', 'variable.other.substitution.myst'), [' name ']);
 });
 
