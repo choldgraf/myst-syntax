@@ -115,11 +115,11 @@
       }
     },
     "block-break": {
-      "match": "^\\s*\\+\\+\\+.*$",
+      "match": "^ {0,3}\\+\\+\\+.*$",
       "name": "meta.separator.myst"
     },
     "comment": {
-      "match": "^\\s*%.*$",
+      "match": "^ {0,3}%.*$",
       "name": "comment.line.percentage.myst"
     },
     "yaml-options": {

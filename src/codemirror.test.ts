@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { patterns } from './codemirror.ts';
+import { markdown } from '@codemirror/lang-markdown';
+import { EditorState } from '@codemirror/state';
+import { inCode, patterns } from './codemirror.ts';
 
 const matches = (name: keyof typeof patterns, line: string) => [...line.matchAll(patterns[name])].map((m) => m[0]);
 
@@ -28,4 +30,11 @@ test('role and directive names can use `.` and `+`, like mystmd', () => {
     assert.deepEqual(matches('directive', `\`\`\`{${name}}`), [`{${name}}`]);
     assert.deepEqual(matches('directive', `:::{${name}}`), [`{${name}}`]);
   }
+});
+
+test('code is skipped, but directive bodies are not', () => {
+  const doc = '```python\n@property\n```\n\n```{note}\n@smith\n```\n\nSee `@x` and @y.';
+  const state = EditorState.create({ doc, extensions: [markdown()] });
+  const at = (text: string) => inCode(state, doc.indexOf(text));
+  assert.deepEqual([at('@property'), at('@smith'), at('@x'), at('@y')], [true, false, true, false]);
 });

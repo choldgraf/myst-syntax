@@ -51,3 +51,7 @@ test('the grammar leaves code to Markdown', () => {
 test('a longer fence closes a directive', () => {
   assert.deepEqual(scoped('````{note}\n`````\n% a comment', 'meta.directive.myst'), ['````', '{', 'note', '}', '`````']);
 });
+
+test('indented code is left to Markdown', () => {
+  assert.deepEqual(scoped('Text.\n\n    % not a comment\n    +++', 'comment.line.percentage.myst'), []);
+});
