@@ -36,7 +36,7 @@ const highlighters = Object.entries(patterns).map(([name, regexp]) => {
     (view) => ({
       decorations: decorator.createDeco(view),
       update(u: ViewUpdate) {
-        // Opening a code fence changes lines below the edit, so redo the visible lines when the syntax tree changes.
+        // Redo the visible lines whenever the tree changes, since a new code fence changes lines below the edit.
         this.decorations = syntaxTree(u.startState) === syntaxTree(u.state) ? decorator.updateDeco(u, this.decorations) : decorator.createDeco(u.view);
       },
     }),

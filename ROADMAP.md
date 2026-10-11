@@ -25,6 +25,7 @@ None of these need a parser:
 - Code inside directives like `{code-cell}` is highlighted as MyST, because only plain Markdown code is skipped.
 - The option pattern matches any `:name:` line, not only lines after a directive's opening fence.
 - A directive in a list item (`- ```{note}`) isn't highlighted, by this or the TextMate grammar: both allow only spaces before the fence.
+  Likewise, the TextMate grammar misses comments and block breaks indented four or more spaces in a list item.
 
 ## 3. Both parts highlight the same things
 
