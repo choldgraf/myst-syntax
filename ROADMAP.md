@@ -6,7 +6,7 @@ Keep it small, editor-neutral and BSD-3, so it can move to [jupyter-book](https:
 ## Where it fits
 
 - The CodeMirror part is for JupyterLab and the many web editors that use CodeMirror.
-  JupyterLab accepts CodeMirror extensions like this one as they are, but no JupyterLab extension uses it yet.
+  No JupyterLab extension uses it yet.
 - The TextMate grammar is for VS Code.
   Docs sites that highlight with Shiki could use it once step 4 works.
   Sphinx and mystmd sites don't use it: MyST-Parser's Sphinx docs use a Pygments lexer, and myst-theme uses highlight.js.
@@ -22,8 +22,7 @@ Its approach is worth reading, but it's Apache-2.0, so credit it if any of it is
 
 None of these need a parser:
 
-- Colours are hard-coded for light themes. Use `&light` and `&dark` in `baseTheme`.
-- Every pattern matches inside code blocks, so a Python `@property` shows as a citation. Skip ranges that `@codemirror/lang-markdown`'s syntax tree marks as code.
+- Code inside directives like `{code-cell}` is highlighted as MyST, because only plain Markdown code is skipped.
 - The option pattern matches any `:name:` line, not only lines after a directive's opening fence.
 - A directive in a list item (`- ```{note}`) isn't highlighted, by this or the TextMate grammar: both allow only spaces before the fence.
 

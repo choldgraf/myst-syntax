@@ -22,6 +22,7 @@ They highlight different syntax:
 TextMate leaves backtick code directives such as `{code}`, `{code-cell}` and `{math}` to Markdown, so their names and contents stay plain.
 
 For TextMate, it aims to replace the older, unmaintained [`vscode-myst-syntax`](https://github.com/chrisjsewell/vscode-myst-syntax) grammar.
+It doesn't yet highlight the code inside directives like `{code-cell} python`, which `vscode-myst-syntax` does.
 See the [roadmap](ROADMAP.md) for what's next.
 
 ## Install it
@@ -55,10 +56,10 @@ import { myst } from 'myst-syntax/codemirror';
 new EditorView({ extensions: [markdown(), myst()] });
 ```
 
-It adds a `cm-myst-<name>` class to each match, such as `cm-myst-role`.
-The default colours suit light themes, so override these classes in a dark theme.
+It adds a `cm-myst-<name>` class to each match, such as `cm-myst-role`, with colours for light and dark themes.
+It skips Markdown code, so `@property` in a Python block isn't a citation.
 
-The CodeMirror extension is TypeScript, so use it from a bundler.
+The CodeMirror extension is TypeScript, so use it from a bundler that compiles TypeScript in `node_modules`, such as Vite or esbuild.
 
 ## Develop
 
