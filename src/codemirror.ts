@@ -1,6 +1,7 @@
-import { syntaxTree } from '@codemirror/language';
+import { LanguageDescription, ParseContext, syntaxTree } from '@codemirror/language';
 import type { EditorState } from '@codemirror/state';
 import { Decoration, EditorView, MatchDecorator, ViewPlugin, type ViewUpdate } from '@codemirror/view';
+import { parseCode } from '@lezer/markdown';
 
 /** MyST syntax on top of Markdown. Each regex matches within one line; the whole match is highlighted. */
 export const patterns = {
@@ -17,13 +18,32 @@ export const patterns = {
   citation: /(?<![\w@])@\w(?:[\w:.#$%&+?~/-]*\w)?/g,
 };
 
-/** Whether `pos` is in Markdown code, such as `x` or ```python, but not in a directive, whose fence also parses as code. */
+// A code directive's info string, like `{code-cell} python`, and its language
+const codeDirective = /^\{(?:code|code-block|code-cell|sourcecode)\}\s*(\S*)/;
+
+/**
+ * Highlights code directives like ```{code-cell} python in their language, as `markdown({ codeLanguages })` does for ```python.
+ * Use as `markdown({ codeLanguages: languages, extensions: [mystCode(languages)] })`, with `languages` from `@codemirror/language-data`.
+ */
+export function mystCode(languages: readonly LanguageDescription[]) {
+  return parseCode({
+    codeParser(info) {
+      const name = info.match(codeDirective)?.[1];
+      const found = name ? LanguageDescription.matchLanguageName(languages, name) : null;
+      if (!found) return null;
+      return found.support ? found.support.language.parser : ParseContext.getSkippingParser(found.load());
+    },
+  });
+}
+
+/** Whether `pos` is in Markdown code, such as `x`, ```python or ```{code-cell}, but not in another directive, whose fence also parses as code. */
 export function inCode(state: EditorState, pos: number) {
   for (let node = syntaxTree(state).resolveInner(pos, 1); node.parent; node = node.parent) {
     if (node.name === 'InlineCode' || node.name === 'CodeBlock') return true;
     if (node.name === 'FencedCode') {
       const info = node.getChild('CodeInfo');
-      return !(info && state.sliceDoc(info.from, info.to).startsWith('{'));
+      const text = info ? state.sliceDoc(info.from, info.to) : '';
+      return !text.startsWith('{') || codeDirective.test(text);
     }
   }
   return false;

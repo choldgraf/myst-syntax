@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { test } from 'node:test';
 import markdown from '@shikijs/langs/markdown';
+import python from '@shikijs/langs/python';
 import textmate from 'vscode-textmate';
 import oniguruma from 'vscode-oniguruma';
 
@@ -12,7 +13,7 @@ const { INITIAL, Registry } = textmate;
 const { loadWASM, OnigScanner, OnigString } = oniguruma;
 await loadWASM(readFileSync(require.resolve('vscode-oniguruma/release/onig.wasm')).buffer);
 const myst = JSON.parse(readFileSync(new URL('../myst.tmLanguage.json', import.meta.url), 'utf8'));
-const grammars: Record<string, any> = { 'text.html.markdown': markdown[0], [myst.scopeName]: myst };
+const grammars: Record<string, any> = { 'text.html.markdown': markdown[0], 'source.python': python[0], [myst.scopeName]: myst };
 const registry = new Registry({
   onigLib: Promise.resolve({ createOnigScanner: (p) => new OnigScanner(p), createOnigString: (s) => new OnigString(s) }),
   loadGrammar: async (scope) => grammars[scope] ?? null,
@@ -43,8 +44,18 @@ test('the grammar scopes MyST syntax', () => {
   assert.deepEqual(scoped('Hi {{ name }}', 'variable.other.substitution.myst'), [' name ']);
 });
 
-test('the grammar leaves code to Markdown', () => {
-  assert.deepEqual(scoped('```{code} python\nx = 1\n```', 'entity.name.function.directive.myst'), []);
+test('code directives are highlighted in their language', () => {
+  const cell = '```{code-cell} ipython3\n:tags: [hide-input]\ndef f(): pass\n```';
+  assert.deepEqual(scoped(cell, 'entity.name.function.directive.myst'), ['code-cell']);
+  assert.deepEqual(scoped(cell, 'entity.other.attribute-name.myst'), ['tags']);
+  assert.deepEqual(scoped(cell, 'storage.type.function.python'), ['def']);
+  assert.deepEqual(scoped(cell + '\n{ref}`x`', 'entity.name.function.role.myst'), ['ref']);
+});
+
+test('code in other languages stays plain', () => {
+  const block = '```{code} fortran\n{ref}`x`\n```';
+  assert.deepEqual(scoped(block, 'entity.name.function.directive.myst'), ['code']);
+  assert.deepEqual(scoped(block, 'entity.name.function.role.myst'), []);
   assert.deepEqual(scoped('```text\n% not a comment\n```', 'comment.line.percentage.myst'), []);
 });
 

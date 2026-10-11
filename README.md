@@ -18,11 +18,12 @@ They highlight different syntax:
 | YAML options in a directive | ✓ | |
 | Inline math (`$x$`) | | ✓ |
 | Citations (`@key`) | | ✓ |
+| Code in code directives, like `{code-cell} python` | ✓ | ✓ |
 
-TextMate leaves backtick code directives such as `{code}`, `{code-cell}` and `{math}` to Markdown, so their names and contents stay plain.
+TextMate highlights code directives in Python, R, Julia, JavaScript, TypeScript, shell, JSON, YAML, SQL, HTML and CSS.
+It leaves other code directives, such as `{math}` or a `{code-cell}` without a language, to Markdown, so they stay plain.
 
 For TextMate, it aims to replace the older, unmaintained [`vscode-myst-syntax`](https://github.com/chrisjsewell/vscode-myst-syntax) grammar.
-It doesn't yet highlight the code inside directives like `{code-cell} python`, which `vscode-myst-syntax` does.
 See the [roadmap](ROADMAP.md) for what's next.
 
 ## Install it
@@ -50,14 +51,17 @@ In CodeMirror:
 
 ```ts
 import { markdown } from '@codemirror/lang-markdown';
+import { languages } from '@codemirror/language-data';
 import { EditorView } from '@codemirror/view';
-import { myst } from 'myst-syntax/codemirror';
+import { myst, mystCode } from 'myst-syntax/codemirror';
 
-new EditorView({ extensions: [markdown(), myst()] });
+new EditorView({ extensions: [markdown({ codeLanguages: languages, extensions: [mystCode(languages)] }), myst()] });
 ```
 
-It adds a `cm-myst-<name>` class to each match, such as `cm-myst-role`, with colours for light and dark themes.
-It skips Markdown code, so `@property` in a Python block isn't a citation.
+`myst()` adds a `cm-myst-<name>` class to each match, such as `cm-myst-role`, with colours for light and dark themes.
+It skips code, so `@property` in a Python block isn't a citation.
+`mystCode` highlights code directives in their language, as `codeLanguages` does for plain ```` ```python ```` blocks.
+Leave out `codeLanguages` and `mystCode` if you don't want code highlighted.
 
 The CodeMirror extension is TypeScript, so use it from a bundler that compiles TypeScript in `node_modules`, such as Vite or esbuild.
 
