@@ -11,7 +11,8 @@ export const patterns = {
   label: /(?<=^\s*)\([a-zA-Z0-9|@<>*./_\-+:]+\)=(?=\s*$)/g,
   // Close to mystmd's dollarmath: spaces and digits are allowed inside. Skips `$$`, which is display math.
   math: /(?<![\\$])\$[^$\n]+\$(?!\$)/g,
-  citation: /(?<![\w@])@[\w:.-]*\w/g,
+  // Citation key characters follow mystmd's `inText` (markdown-it-myst's citations.js).
+  citation: /(?<![\w@])@\w(?:[\w:.#$%&+?~/-]*\w)?/g,
 };
 
 // One plugin per pattern, as in CodeMirror's MatchDecorator example.
