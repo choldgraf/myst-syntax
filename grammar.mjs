@@ -1,6 +1,7 @@
 // Writes myst.tmLanguage.json. Edit this file, not the JSON, then run `npm run grammar`.
 import { writeFileSync } from 'node:fs';
 
+// Same list as `codeDirective` in src/codemirror.ts.
 const codeDirectives = 'code|code-block|code-cell|sourcecode';
 
 // Code directives like {code-cell} python. TextMate can only include a grammar by name, so each language has its own rule.

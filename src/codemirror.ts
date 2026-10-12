@@ -18,7 +18,7 @@ export const patterns = {
   citation: /(?<![\w@])@\w(?:[\w:.#$%&+?~/-]*\w)?/g,
 };
 
-// A code directive's info string, like `{code-cell} python`, and its language
+// A code directive's info string, like `{code-cell} python`, and its language. Same list as `codeDirectives` in grammar.mjs.
 const codeDirective = /^\{(?:code|code-block|code-cell|sourcecode)\}\s*(\S*)/;
 
 /**
