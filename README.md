@@ -20,8 +20,9 @@ They highlight different syntax:
 | Citations (`@key`) | | ✓ |
 | Code in code directives, like `{code-cell} python` | ✓ | ✓ |
 
-TextMate highlights code directives in Python, R, Julia, JavaScript, TypeScript, shell, JSON, YAML, SQL, HTML and CSS.
-It leaves other code directives, such as `{math}` or a `{code-cell}` without a language, to Markdown, so they stay plain.
+TextMate highlights code directives in common languages, such as Python, R and JavaScript.
+In TextMate, code directives in other languages, or without one, stay plain, and so do `{math}`, `{mermaid}` and `{raw}`.
+Neither part treats colon-fenced code directives as code yet; see the [roadmap](ROADMAP.md).
 
 For TextMate, it aims to replace the older, unmaintained [`vscode-myst-syntax`](https://github.com/chrisjsewell/vscode-myst-syntax) grammar.
 See the [roadmap](ROADMAP.md) for what's next.

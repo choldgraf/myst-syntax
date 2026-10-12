@@ -11,13 +11,15 @@ Keep it small, editor-neutral and BSD-3, so it can move to [jupyter-book](https:
   Docs sites that highlight with Shiki could use it once step 3 works.
   Sphinx and mystmd sites don't use it: MyST-Parser's Sphinx docs use a Pygments lexer, and myst-theme uses highlight.js.
 
-## 1. Cheap CodeMirror fixes
+## 1. Cheap fixes
 
 None of these need a parser:
 
-- The option pattern matches any `:name:` line, not only lines after a directive's opening fence.
-- A directive in a list item (`- ```{note}`) isn't highlighted, by this or the TextMate grammar: both allow only spaces before the fence.
+- CodeMirror's option pattern matches any `:name:` line, not only lines after a directive's opening fence.
+- A directive in a list item (`- ```{note}`) isn't highlighted by either part: both allow only spaces before the fence.
   Likewise, the TextMate grammar misses comments and block breaks indented four or more spaces in a list item.
+- Neither part treats a colon-fenced code directive (`:::{code-block} python`) as code, so its body gets MyST highlighting.
+  TextMate also misses `~~~` fences.
 
 ## 2. Both parts highlight the same things
 
