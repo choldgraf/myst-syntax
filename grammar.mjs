@@ -20,11 +20,8 @@ const languages = [
 ];
 
 const punctuation = { name: 'punctuation.definition.directive.myst' };
-
-// The closing fence is at least as long as the opening one.
-const codeRule = (argument) => ({
-  begin: '^\\s*(`{3,})\\s*(\\{)(' + codeDirectives + ')(\\})\\s*' + argument,
-  end: '^\\s*\\1`*\\s*$',
+// Fence, braces, name and argument, the same for code and other directives.
+const directiveCaptures = {
   beginCaptures: {
     1: punctuation,
     2: punctuation,
@@ -33,6 +30,13 @@ const codeRule = (argument) => ({
     5: { name: 'string.unquoted.argument.myst' },
   },
   endCaptures: { 0: punctuation },
+};
+
+// The closing fence is at least as long as the opening one.
+const codeRule = (argument) => ({
+  begin: '^\\s*(`{3,})\\s*(\\{)(' + codeDirectives + ')(\\})\\s*' + argument,
+  end: '^\\s*\\1`*\\s*$',
+  ...directiveCaptures,
 });
 
 const code = {};
@@ -62,14 +66,7 @@ const grammar = {
       begin: '^\\s*(`{3,}(?!\\s*\\{(?:' + codeDirectives + '|math|mermaid|raw)\\})|:{3,})\\s*(\\{)([\\w:.+-]+)(\\})(.*)$',
       end: '^\\s*\\1[`:]*\\s*$',
       name: 'meta.directive.myst',
-      beginCaptures: {
-        1: { name: 'punctuation.definition.directive.myst' },
-        2: { name: 'punctuation.definition.directive.myst' },
-        3: { name: 'entity.name.function.directive.myst' },
-        4: { name: 'punctuation.definition.directive.myst' },
-        5: { name: 'string.unquoted.argument.myst' },
-      },
-      endCaptures: { 0: { name: 'punctuation.definition.directive.myst' } },
+      ...directiveCaptures,
       patterns: [{ include: '#yaml-options' }, { include: '#option' }, { include: 'text.html.markdown' }],
     },
     option: {
