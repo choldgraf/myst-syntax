@@ -24,7 +24,7 @@ None of these need a parser:
 ## 2. Both parts highlight the same things
 
 The two parts highlight different syntax, as the [README](README.md) shows.
-Write one example document that covers everything, check both parts against it, and fill in the gaps.
+Both parts are checked against the shared examples in `src/cases.ts`; add new syntax there first, then fill in the gaps.
 [myst-parser-unified](https://github.com/choldgraf/myst-parser-unified)'s syntax edge cases are a good source of tricky examples.
 
 ## 3. A working Shiki recipe

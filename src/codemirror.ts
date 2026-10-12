@@ -6,12 +6,12 @@ import { parseCode } from '@lezer/markdown';
 /** MyST syntax on top of Markdown. Each regex matches within one line; the whole match is highlighted. */
 export const patterns = {
   // Role and directive names use `[\w:.+-]`, like the TextMate grammar. mystmd allows anything but `}`.
-  role: /\{[\w:.+-]+\}`[^`\n]*`/g,
-  directive: /(?<=^\s*(?:`{3,}|:{3,})\s*)\{[\w:.+-]+\}/g,
+  role: /\{([\w:.+-]+)\}`[^`\n]*`/g,
+  directive: /(?<=^\s*(?:`{3,}|:{3,})\s*)\{([\w:.+-]+)\}/g,
   // Approximation of "option lines after a fence": decorators only see one line at a time.
-  option: /(?<=^\s*):[\w-]+:(?=\s|$)/g,
+  option: /(?<=^\s*):([\w-]+):(?=\s|$)/g,
   // Label characters follow mystmd's TARGET_PATTERN (markdown-it-myst).
-  label: /(?<=^\s*)\([a-zA-Z0-9|@<>*./_\-+:]+\)=(?=\s*$)/g,
+  label: /(?<=^\s*)\(([a-zA-Z0-9|@<>*./_\-+:]+)\)=(?=\s*$)/g,
   // Close to mystmd's dollarmath: spaces and digits are allowed inside. Skips `$$`, which is display math.
   math: /(?<![\\$])\$[^$\n]+\$(?!\$)/g,
   // Citation key characters follow mystmd's `inText` (markdown-it-myst's citations.js).

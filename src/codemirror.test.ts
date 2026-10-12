@@ -4,34 +4,25 @@ import { markdown } from '@codemirror/lang-markdown';
 import { python } from '@codemirror/lang-python';
 import { LanguageDescription, syntaxTree } from '@codemirror/language';
 import { EditorState } from '@codemirror/state';
+import { cases } from './cases.ts';
 import { inCode, mystCode, patterns } from './codemirror.ts';
 
 const matches = (name: keyof typeof patterns, line: string) => [...line.matchAll(patterns[name])].map((m) => m[0]);
 
-test('patterns match MyST syntax', () => {
-  assert.deepEqual(matches('role', 'See {numref}`fig-1` and {ref}`intro`.'), ['{numref}`fig-1`', '{ref}`intro`']);
-  assert.deepEqual(matches('directive', '```{figure} logo.svg'), ['{figure}']);
-  assert.deepEqual(matches('directive', ':::{tab-item} First'), ['{tab-item}']);
-  assert.deepEqual(matches('directive', '``` {note}'), ['{note}']);
-  assert.deepEqual(matches('directive', 'text {figure}'), []);
-  assert.deepEqual(matches('option', ':label: fig-1'), [':label:']);
-  assert.deepEqual(matches('option', '  :class: x'), [':class:']);
-  assert.deepEqual(matches('option', ':::{note}'), []);
-  assert.deepEqual(matches('label', '(intro)='), ['(intro)=']);
-  assert.deepEqual(matches('label', '  (fig.1|a)='), ['(fig.1|a)=']);
-  assert.deepEqual(matches('label', '(a b)='), []);
+// Line by line, as MatchDecorator does.
+const names = (name: keyof typeof patterns, doc: string) => doc.split('\n').flatMap((l) => [...l.matchAll(patterns[name])].map((m) => m[1]));
+
+test('patterns match the shared cases', () => {
+  for (const [kind, list] of Object.entries(cases)) {
+    for (const [doc, expected] of list) assert.deepEqual(names(kind as keyof typeof cases, doc), expected);
+  }
+});
+
+test('patterns match math and citations', () => {
   assert.deepEqual(matches('math', 'a $x^2$ and $ y $, not $$z$$'), ['$x^2$', '$ y $']);
   assert.deepEqual(matches('math', 'cost $5 or $10'), ['$5 or $']);
   assert.deepEqual(matches('citation', 'As @smith2020 said; mail a@b.org'), ['@smith2020']);
   assert.deepEqual(matches('citation', 'See @doi:10.1/x.'), ['@doi:10.1/x']);
-});
-
-test('role and directive names can use `.` and `+`, like mystmd', () => {
-  for (const name of ['note', 'a.b', 'a+b', 'a:b', 'a-b', 'a_b']) {
-    assert.deepEqual(matches('role', `{${name}}\`x\``), [`{${name}}\`x\``]);
-    assert.deepEqual(matches('directive', `\`\`\`{${name}}`), [`{${name}}`]);
-    assert.deepEqual(matches('directive', `:::{${name}}`), [`{${name}}`]);
-  }
 });
 
 test('code is skipped, but directive bodies are not', () => {

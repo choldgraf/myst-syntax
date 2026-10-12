@@ -6,6 +6,7 @@ import markdown from '@shikijs/langs/markdown';
 import python from '@shikijs/langs/python';
 import textmate from 'vscode-textmate';
 import oniguruma from 'vscode-oniguruma';
+import { cases } from './cases.ts';
 
 // Load the grammar the way VS Code does: injected into the Markdown grammar.
 const require = createRequire(import.meta.url);
@@ -31,14 +32,17 @@ function scoped(src: string, scope: string) {
   });
 }
 
+const scopes = {
+  role: 'entity.name.function.role.myst',
+  directive: 'entity.name.function.directive.myst',
+  option: 'entity.other.attribute-name.myst',
+  label: 'entity.name.label.myst',
+};
+
 test('the grammar scopes MyST syntax', () => {
-  assert.deepEqual(scoped('See {numref}`fig-1`.', 'entity.name.function.role.myst'), ['numref']);
-  assert.deepEqual(scoped('```{figure} logo.svg\n:width: 50%\n```', 'entity.name.function.directive.myst'), ['figure']);
-  assert.deepEqual(scoped('```{figure} logo.svg\n:width: 50%\n```', 'entity.other.attribute-name.myst'), ['width']);
-  assert.deepEqual(scoped(':::{note}\n:::', 'entity.name.function.directive.myst'), ['note']);
-  assert.deepEqual(scoped('(intro)=', 'entity.name.label.myst'), ['intro']);
-  assert.deepEqual(scoped('(fig.1|a)=', 'entity.name.label.myst'), ['fig.1|a']);
-  assert.deepEqual(scoped('(café)=', 'entity.name.label.myst'), []);
+  for (const [kind, list] of Object.entries(cases)) {
+    for (const [doc, expected] of list) assert.deepEqual(scoped(doc, scopes[kind as keyof typeof cases]), expected);
+  }
   assert.deepEqual(scoped('% a comment', 'comment.line.percentage.myst'), ['% a comment']);
   assert.deepEqual(scoped('  +++ {"a": 1}', 'meta.separator.myst'), ['  +++ {"a": 1}']);
   assert.deepEqual(scoped('Hi {{ name }}', 'variable.other.substitution.myst'), [' name ']);
