@@ -7,7 +7,40 @@
   "injectionSelector": "L:text.html.markdown -meta.embedded -markup.inline.raw -markup.fenced_code",
   "patterns": [
     {
-      "include": "#code-directive"
+      "include": "#code-python"
+    },
+    {
+      "include": "#code-r"
+    },
+    {
+      "include": "#code-julia"
+    },
+    {
+      "include": "#code-javascript"
+    },
+    {
+      "include": "#code-typescript"
+    },
+    {
+      "include": "#code-shell"
+    },
+    {
+      "include": "#code-json"
+    },
+    {
+      "include": "#code-yaml"
+    },
+    {
+      "include": "#code-sql"
+    },
+    {
+      "include": "#code-html"
+    },
+    {
+      "include": "#code-css"
+    },
+    {
+      "include": "#code-other"
     },
     {
       "include": "#directive"
@@ -32,9 +65,8 @@
     }
   ],
   "repository": {
-    "code-directive": {
-      "comment": "Code directives like {code-cell} python. TextMate can only include a grammar by name, so each language has its own rule, which starts after the {name}.",
-      "begin": "^\\s*(`{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})",
+    "code-python": {
+      "begin": "^\\s*(`{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:python3?|ipython3?|py))(?=\\s|$).*$",
       "end": "^\\s*\\1`*\\s*$",
       "beginCaptures": {
         "1": {
@@ -48,58 +80,14 @@
         },
         "4": {
           "name": "punctuation.definition.directive.myst"
+        },
+        "5": {
+          "name": "string.unquoted.argument.myst"
         }
       },
       "endCaptures": {
         "0": {
           "name": "punctuation.definition.directive.myst"
-        }
-      },
-      "patterns": [
-        {
-          "include": "#code-python"
-        },
-        {
-          "include": "#code-r"
-        },
-        {
-          "include": "#code-julia"
-        },
-        {
-          "include": "#code-javascript"
-        },
-        {
-          "include": "#code-typescript"
-        },
-        {
-          "include": "#code-shell"
-        },
-        {
-          "include": "#code-json"
-        },
-        {
-          "include": "#code-yaml"
-        },
-        {
-          "include": "#code-sql"
-        },
-        {
-          "include": "#code-html"
-        },
-        {
-          "include": "#code-css"
-        },
-        {
-          "include": "#code-other"
-        }
-      ]
-    },
-    "code-python": {
-      "begin": "\\G\\s*((?i:python3?|ipython3?|py))(?=\\s|$).*$",
-      "end": "(?=^\\s*`{3,}\\s*$)",
-      "beginCaptures": {
-        "1": {
-          "name": "string.unquoted.argument.myst"
         }
       },
       "contentName": "meta.embedded.block.python",
@@ -116,11 +104,28 @@
       ]
     },
     "code-r": {
-      "begin": "\\G\\s*((?i:r|ir))(?=\\s|$).*$",
-      "end": "(?=^\\s*`{3,}\\s*$)",
+      "begin": "^\\s*(`{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:r|ir))(?=\\s|$).*$",
+      "end": "^\\s*\\1`*\\s*$",
       "beginCaptures": {
         "1": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "2": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "3": {
+          "name": "entity.name.function.directive.myst"
+        },
+        "4": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "5": {
           "name": "string.unquoted.argument.myst"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.directive.myst"
         }
       },
       "contentName": "meta.embedded.block.r",
@@ -137,11 +142,28 @@
       ]
     },
     "code-julia": {
-      "begin": "\\G\\s*((?i:julia(?:-[\\d.]+)?|jl))(?=\\s|$).*$",
-      "end": "(?=^\\s*`{3,}\\s*$)",
+      "begin": "^\\s*(`{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:julia(?:-[\\d.]+)?|jl))(?=\\s|$).*$",
+      "end": "^\\s*\\1`*\\s*$",
       "beginCaptures": {
         "1": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "2": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "3": {
+          "name": "entity.name.function.directive.myst"
+        },
+        "4": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "5": {
           "name": "string.unquoted.argument.myst"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.directive.myst"
         }
       },
       "contentName": "meta.embedded.block.julia",
@@ -158,11 +180,28 @@
       ]
     },
     "code-javascript": {
-      "begin": "\\G\\s*((?i:javascript|js))(?=\\s|$).*$",
-      "end": "(?=^\\s*`{3,}\\s*$)",
+      "begin": "^\\s*(`{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:javascript|js))(?=\\s|$).*$",
+      "end": "^\\s*\\1`*\\s*$",
       "beginCaptures": {
         "1": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "2": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "3": {
+          "name": "entity.name.function.directive.myst"
+        },
+        "4": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "5": {
           "name": "string.unquoted.argument.myst"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.directive.myst"
         }
       },
       "contentName": "meta.embedded.block.javascript",
@@ -179,11 +218,28 @@
       ]
     },
     "code-typescript": {
-      "begin": "\\G\\s*((?i:typescript|ts))(?=\\s|$).*$",
-      "end": "(?=^\\s*`{3,}\\s*$)",
+      "begin": "^\\s*(`{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:typescript|ts))(?=\\s|$).*$",
+      "end": "^\\s*\\1`*\\s*$",
       "beginCaptures": {
         "1": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "2": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "3": {
+          "name": "entity.name.function.directive.myst"
+        },
+        "4": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "5": {
           "name": "string.unquoted.argument.myst"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.directive.myst"
         }
       },
       "contentName": "meta.embedded.block.typescript",
@@ -200,11 +256,28 @@
       ]
     },
     "code-shell": {
-      "begin": "\\G\\s*((?i:bash|sh|shell|zsh))(?=\\s|$).*$",
-      "end": "(?=^\\s*`{3,}\\s*$)",
+      "begin": "^\\s*(`{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:bash|sh|shell|zsh))(?=\\s|$).*$",
+      "end": "^\\s*\\1`*\\s*$",
       "beginCaptures": {
         "1": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "2": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "3": {
+          "name": "entity.name.function.directive.myst"
+        },
+        "4": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "5": {
           "name": "string.unquoted.argument.myst"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.directive.myst"
         }
       },
       "contentName": "meta.embedded.block.shell",
@@ -221,11 +294,28 @@
       ]
     },
     "code-json": {
-      "begin": "\\G\\s*((?i:json))(?=\\s|$).*$",
-      "end": "(?=^\\s*`{3,}\\s*$)",
+      "begin": "^\\s*(`{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:json))(?=\\s|$).*$",
+      "end": "^\\s*\\1`*\\s*$",
       "beginCaptures": {
         "1": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "2": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "3": {
+          "name": "entity.name.function.directive.myst"
+        },
+        "4": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "5": {
           "name": "string.unquoted.argument.myst"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.directive.myst"
         }
       },
       "contentName": "meta.embedded.block.json",
@@ -242,11 +332,28 @@
       ]
     },
     "code-yaml": {
-      "begin": "\\G\\s*((?i:ya?ml))(?=\\s|$).*$",
-      "end": "(?=^\\s*`{3,}\\s*$)",
+      "begin": "^\\s*(`{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:ya?ml))(?=\\s|$).*$",
+      "end": "^\\s*\\1`*\\s*$",
       "beginCaptures": {
         "1": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "2": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "3": {
+          "name": "entity.name.function.directive.myst"
+        },
+        "4": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "5": {
           "name": "string.unquoted.argument.myst"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.directive.myst"
         }
       },
       "contentName": "meta.embedded.block.yaml",
@@ -263,11 +370,28 @@
       ]
     },
     "code-sql": {
-      "begin": "\\G\\s*((?i:sql))(?=\\s|$).*$",
-      "end": "(?=^\\s*`{3,}\\s*$)",
+      "begin": "^\\s*(`{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:sql))(?=\\s|$).*$",
+      "end": "^\\s*\\1`*\\s*$",
       "beginCaptures": {
         "1": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "2": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "3": {
+          "name": "entity.name.function.directive.myst"
+        },
+        "4": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "5": {
           "name": "string.unquoted.argument.myst"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.directive.myst"
         }
       },
       "contentName": "meta.embedded.block.sql",
@@ -284,11 +408,28 @@
       ]
     },
     "code-html": {
-      "begin": "\\G\\s*((?i:html))(?=\\s|$).*$",
-      "end": "(?=^\\s*`{3,}\\s*$)",
+      "begin": "^\\s*(`{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:html))(?=\\s|$).*$",
+      "end": "^\\s*\\1`*\\s*$",
       "beginCaptures": {
         "1": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "2": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "3": {
+          "name": "entity.name.function.directive.myst"
+        },
+        "4": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "5": {
           "name": "string.unquoted.argument.myst"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.directive.myst"
         }
       },
       "contentName": "meta.embedded.block.html",
@@ -305,11 +446,28 @@
       ]
     },
     "code-css": {
-      "begin": "\\G\\s*((?i:css))(?=\\s|$).*$",
-      "end": "(?=^\\s*`{3,}\\s*$)",
+      "begin": "^\\s*(`{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:css))(?=\\s|$).*$",
+      "end": "^\\s*\\1`*\\s*$",
       "beginCaptures": {
         "1": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "2": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "3": {
+          "name": "entity.name.function.directive.myst"
+        },
+        "4": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "5": {
           "name": "string.unquoted.argument.myst"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.directive.myst"
         }
       },
       "contentName": "meta.embedded.block.css",
@@ -327,17 +485,34 @@
     },
     "code-other": {
       "comment": "Other languages, or none, stay plain.",
-      "begin": "\\G.*$",
-      "end": "(?=^\\s*`{3,}\\s*$)",
+      "begin": "^\\s*(`{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*(.*)$",
+      "end": "^\\s*\\1`*\\s*$",
       "beginCaptures": {
-        "0": {
+        "1": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "2": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "3": {
+          "name": "entity.name.function.directive.myst"
+        },
+        "4": {
+          "name": "punctuation.definition.directive.myst"
+        },
+        "5": {
           "name": "string.unquoted.argument.myst"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.directive.myst"
         }
       },
       "contentName": "markup.fenced_code.block.myst"
     },
     "directive": {
-      "comment": "Backtick and colon fences. Code-like directives in backtick fences are left to #code-directive, or to Markdown, which shows their contents as plain code.",
+      "comment": "Backtick and colon fences. Code-like directives in backtick fences are left to the #code-* rules, or to Markdown, which shows their contents as plain code.",
       "begin": "^\\s*(`{3,}(?!\\s*\\{(?:code|code-block|code-cell|sourcecode|math|mermaid|raw)\\})|:{3,})\\s*(\\{)([\\w:.+-]+)(\\})(.*)$",
       "end": "^\\s*\\1[`:]*\\s*$",
       "name": "meta.directive.myst",

@@ -65,6 +65,7 @@ test('code in other languages stays plain', () => {
 
 test('a longer fence closes a directive', () => {
   assert.deepEqual(scoped('````{note}\n`````\n% a comment', 'meta.directive.myst'), ['````', '{', 'note', '}', '`````']);
+  assert.deepEqual(scoped('````{code-cell} python\ndef f(): pass\n```\ndef g(): pass\n````', 'storage.type.function.python'), ['def', 'def']);
 });
 
 test('indented code is left to Markdown', () => {

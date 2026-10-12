@@ -12,7 +12,8 @@
     "myst.tmLanguage.json"
   ],
   "scripts": {
-    "test": "node --test 'src/**/*.test.ts'"
+    "test": "node --test 'src/**/*.test.ts'",
+    "grammar": "node grammar.mjs"
   },
   "peerDependencies": {
     "@codemirror/language": "^6.0.0",
