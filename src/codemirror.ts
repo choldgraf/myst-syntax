@@ -13,7 +13,7 @@ export const patterns = {
   role: new RegExp('\\{(' + nameChars + '+)\\}`[^`\\n]*`', 'g'),
   directive: new RegExp('(?<=' + lineStart + '(?:`{3,}|~{3,}|:{3,})\\s*)\\{(' + nameChars + '+)\\}', 'g'),
   // Highlighted only right after a directive's opening fence; see `highlighted`.
-  option: /(?<=^\s*):([\w-]+):(?=\s|$)/g,
+  option: new RegExp('(?<=' + lineStart + '):([\\w-]+):(?=\\s|$)', 'g'),
   label: new RegExp('(?<=' + lineStart + ')\\((' + labelChars + '+)\\)=(?=\\s*$)', 'g'),
   // Close to mystmd's dollarmath: spaces and digits are allowed inside. Skips `$$`, which is display math.
   math: /(?<![\\$])\$([^$\n]+)\$(?!\$)/g,
@@ -41,7 +41,8 @@ const colonCode: BlockParser = {
     const from = cx.lineStart + line.pos;
     const info = from + open[0].indexOf(open[2]);
     const children = [cx.elt('CodeMark', from, from + open[1].length), cx.elt('CodeInfo', info, info + open[2].length)];
-    for (let first = true; cx.nextLine() && (line as any).depth >= (cx as any).stack.length; first = false) {
+    // The same check lang-markdown's own `FencedCode` parser uses to stay inside the enclosing list item or blockquote.
+    for (let first = true; cx.nextLine() && (line as any).depth >= cx.depth; first = false) {
       const close = line.text.slice(line.pos).match(/^:+(?=\s*$)/);
       if (close && close[0].length >= open[1].length) {
         children.push(...line.markers, cx.elt('CodeMark', cx.lineStart + line.pos, cx.lineStart + line.pos + close[0].length));
