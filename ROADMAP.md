@@ -15,8 +15,7 @@ Keep it small, editor-neutral and BSD-3, so it can move to [jupyter-book](https:
 
 None of these need a parser:
 
-- The TextMate grammar doesn't highlight a directive in a list item (`- ```{note}`): it allows only spaces before the fence.
-  It also misses comments and block breaks indented four or more spaces in a list item.
+- The TextMate grammar misses comments and block breaks indented in a list item.
 
 ## 2. Both parts highlight the same things
 

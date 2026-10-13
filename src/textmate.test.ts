@@ -37,3 +37,8 @@ test('a longer fence closes a directive', () => {
 test('indented code is left to Markdown', () => {
   assert.deepEqual(scoped('Text.\n\n    % not a comment\n    +++', 'comment.line.percentage.myst'), []);
 });
+
+test('an indented fence closes a directive in a list item', () => {
+  const item = '- ```{code-cell} python\n  def f(): pass\n  ```\n  def g(): pass';
+  assert.deepEqual(scoped(item, 'storage.type.function.python'), ['def']);
+});

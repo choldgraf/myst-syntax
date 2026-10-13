@@ -17,6 +17,9 @@ const languages = [
   ['css', 'css', 'source.css'],
 ];
 
+// The start of a line, or \G: where Markdown's list and blockquote rules leave the scanner after their markers and indentation.
+// vscode-textmate only lets \G match right after a begin or while match, so this doesn't match after a token in the middle of a line.
+const lineStart = '(?:^|\\G)';
 const punctuation = { name: 'punctuation.definition.directive.myst' };
 // Fence, braces, name and argument, the same for code and other directives.
 const directiveCaptures = {
@@ -32,8 +35,8 @@ const directiveCaptures = {
 
 // The closing fence is at least as long as the opening one.
 const codeRule = (argument) => ({
-  begin: '^\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(' + codeDirectives + ')(\\})\\s*' + argument,
-  end: '^\\s*\\1[`~:]*\\s*$',
+  begin: lineStart + '\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(' + codeDirectives + ')(\\})\\s*' + argument,
+  end: lineStart + '\\s*\\1[`~:]*\\s*$',
   ...directiveCaptures,
 });
 
@@ -55,20 +58,20 @@ const grammar = {
   name: 'myst',
   scopeName: 'text.myst.injection',
   injectTo: ['text.html.markdown'],
-  injectionSelector: 'L:text.html.markdown -meta.embedded -markup.inline.raw -markup.fenced_code',
+  injectionSelector: 'L:text.html.markdown -meta.embedded -markup.inline.raw -markup.fenced_code -markup.raw.block',
   patterns: [...Object.keys(code), 'directive', 'role', 'target', 'block-break', 'comment', 'substitution', 'footnote'].map((name) => ({ include: `#${name}` })),
   repository: {
     ...code,
     directive: {
       comment: 'Backtick, tilde and colon fences. Code directives are left to the #code-* rules, which come first; {math}, {mermaid} and {raw} in backtick and tilde fences are left to Markdown, which shows their contents as plain code.',
-      begin: '^\\s*((?:`{3,}|~{3,})(?!\\s*\\{(?:' + codeDirectives + '|math|mermaid|raw)\\})|:{3,})\\s*(\\{)(' + nameChars + '+)(\\})(.*)$',
-      end: '^\\s*\\1[`~:]*\\s*$',
+      begin: lineStart + '\\s*((?:`{3,}|~{3,})(?!\\s*\\{(?:' + codeDirectives + '|math|mermaid|raw)\\})|:{3,})\\s*(\\{)(' + nameChars + '+)(\\})(.*)$',
+      end: lineStart + '\\s*\\1[`~:]*\\s*$',
       name: 'meta.directive.myst',
       ...directiveCaptures,
       patterns: [{ include: '#yaml-options' }, { include: '#option' }, { include: 'text.html.markdown' }],
     },
     option: {
-      match: '^\\s*(:)([\\w-]+)(:)(?=\\s|$)',
+      match: lineStart + '\\s*(:)([\\w-]+)(:)(?=\\s|$)',
       captures: {
         1: { name: 'punctuation.definition.option.myst' },
         2: { name: 'entity.other.attribute-name.myst' },
@@ -85,7 +88,7 @@ const grammar = {
     },
     target: {
       comment: "Label characters follow mystmd's TARGET_PATTERN (markdown-it-myst).",
-      match: '^\\s*(\\()(' + labelChars + '+)(\\))(=)\\s*$',
+      match: lineStart + '\\s*(\\()(' + labelChars + '+)(\\))(=)\\s*$',
       captures: {
         1: { name: 'punctuation.definition.target.myst' },
         2: { name: 'entity.name.label.myst' },
@@ -102,8 +105,8 @@ const grammar = {
       name: 'comment.line.percentage.myst',
     },
     'yaml-options': {
-      begin: '^\\s*---\\s*$',
-      end: '^\\s*---\\s*$|(?=^\\s*:{3,}\\s*$)',
+      begin: lineStart + '\\s*---\\s*$',
+      end: lineStart + '\\s*---\\s*$|(?=' + lineStart + '\\s*:{3,}\\s*$)',
       contentName: 'meta.embedded.block.yaml',
       beginCaptures: { 0: { name: 'punctuation.definition.options.myst' } },
       endCaptures: { 0: { name: 'punctuation.definition.options.myst' } },

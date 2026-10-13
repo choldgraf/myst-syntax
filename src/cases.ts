@@ -11,7 +11,8 @@ export const cases = {
     ['text {figure}', []],
     ...names.map((n) => [`\`\`\`{${n}}\n\`\`\``, [n]]),
     ...names.map((n) => [`:::{${n}}\n:::`, [n]]),
+    ['- :::{note}\n  :::\n\n1. ```{tip}\n   ```\n\n- Item\n\n  ```{warning}\n  ```', ['note', 'tip', 'warning']],
   ],
-  option: [['```{figure} x\n:width: 50%\n  :class: y\n```', ['width', 'class']], [':::{note}\n:::', []], ['Text\n:key: value', []]],
+  option: [['```{figure} x\n:width: 50%\n  :class: y\n```', ['width', 'class']], [':::{note}\n:::', []], ['Text\n:key: value', []], ['- :::{note}\n  :class: x\n  :::', ['class']]],
   label: [['(intro)=', ['intro']], ['  (fig.1|a)=', ['fig.1|a']], ['(a b)=', []], ['(café)=', []]],
 } satisfies Record<string, [string, string[]][]>;

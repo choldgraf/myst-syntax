@@ -22,7 +22,8 @@ They highlight different syntax:
 | Citations (`@key`) | | ✓ |
 | Code in code directives, like `{code-cell} python` | ✓ | ✓ |
 
-Both parts highlight directives in backtick, tilde and colon fences.
+Both parts highlight directives in backtick, tilde and colon fences, at the top level and inside list items.
+TextMate also highlights them inside blockquotes.
 TextMate highlights code directives in common languages, such as Python, R and JavaScript.
 In TextMate, code directives in other languages, or without one, stay plain, and so do `{math}`, `{mermaid}` and `{raw}`.
 

@@ -4,7 +4,7 @@
   "injectTo": [
     "text.html.markdown"
   ],
-  "injectionSelector": "L:text.html.markdown -meta.embedded -markup.inline.raw -markup.fenced_code",
+  "injectionSelector": "L:text.html.markdown -meta.embedded -markup.inline.raw -markup.fenced_code -markup.raw.block",
   "patterns": [
     {
       "include": "#code-python"
@@ -66,8 +66,8 @@
   ],
   "repository": {
     "code-python": {
-      "begin": "^\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:python3?|ipython3?|py))(?=\\s|$).*$",
-      "end": "^\\s*\\1[`~:]*\\s*$",
+      "begin": "(?:^|\\G)\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:python3?|ipython3?|py))(?=\\s|$).*$",
+      "end": "(?:^|\\G)\\s*\\1[`~:]*\\s*$",
       "beginCaptures": {
         "1": {
           "name": "punctuation.definition.directive.myst"
@@ -104,8 +104,8 @@
       ]
     },
     "code-r": {
-      "begin": "^\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:r|ir))(?=\\s|$).*$",
-      "end": "^\\s*\\1[`~:]*\\s*$",
+      "begin": "(?:^|\\G)\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:r|ir))(?=\\s|$).*$",
+      "end": "(?:^|\\G)\\s*\\1[`~:]*\\s*$",
       "beginCaptures": {
         "1": {
           "name": "punctuation.definition.directive.myst"
@@ -142,8 +142,8 @@
       ]
     },
     "code-julia": {
-      "begin": "^\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:julia(?:-[\\d.]+)?|jl))(?=\\s|$).*$",
-      "end": "^\\s*\\1[`~:]*\\s*$",
+      "begin": "(?:^|\\G)\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:julia(?:-[\\d.]+)?|jl))(?=\\s|$).*$",
+      "end": "(?:^|\\G)\\s*\\1[`~:]*\\s*$",
       "beginCaptures": {
         "1": {
           "name": "punctuation.definition.directive.myst"
@@ -180,8 +180,8 @@
       ]
     },
     "code-javascript": {
-      "begin": "^\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:javascript|js))(?=\\s|$).*$",
-      "end": "^\\s*\\1[`~:]*\\s*$",
+      "begin": "(?:^|\\G)\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:javascript|js))(?=\\s|$).*$",
+      "end": "(?:^|\\G)\\s*\\1[`~:]*\\s*$",
       "beginCaptures": {
         "1": {
           "name": "punctuation.definition.directive.myst"
@@ -218,8 +218,8 @@
       ]
     },
     "code-typescript": {
-      "begin": "^\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:typescript|ts))(?=\\s|$).*$",
-      "end": "^\\s*\\1[`~:]*\\s*$",
+      "begin": "(?:^|\\G)\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:typescript|ts))(?=\\s|$).*$",
+      "end": "(?:^|\\G)\\s*\\1[`~:]*\\s*$",
       "beginCaptures": {
         "1": {
           "name": "punctuation.definition.directive.myst"
@@ -256,8 +256,8 @@
       ]
     },
     "code-shell": {
-      "begin": "^\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:bash|sh|shell|zsh))(?=\\s|$).*$",
-      "end": "^\\s*\\1[`~:]*\\s*$",
+      "begin": "(?:^|\\G)\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:bash|sh|shell|zsh))(?=\\s|$).*$",
+      "end": "(?:^|\\G)\\s*\\1[`~:]*\\s*$",
       "beginCaptures": {
         "1": {
           "name": "punctuation.definition.directive.myst"
@@ -294,8 +294,8 @@
       ]
     },
     "code-json": {
-      "begin": "^\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:json))(?=\\s|$).*$",
-      "end": "^\\s*\\1[`~:]*\\s*$",
+      "begin": "(?:^|\\G)\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:json))(?=\\s|$).*$",
+      "end": "(?:^|\\G)\\s*\\1[`~:]*\\s*$",
       "beginCaptures": {
         "1": {
           "name": "punctuation.definition.directive.myst"
@@ -332,8 +332,8 @@
       ]
     },
     "code-yaml": {
-      "begin": "^\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:ya?ml))(?=\\s|$).*$",
-      "end": "^\\s*\\1[`~:]*\\s*$",
+      "begin": "(?:^|\\G)\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:ya?ml))(?=\\s|$).*$",
+      "end": "(?:^|\\G)\\s*\\1[`~:]*\\s*$",
       "beginCaptures": {
         "1": {
           "name": "punctuation.definition.directive.myst"
@@ -370,8 +370,8 @@
       ]
     },
     "code-sql": {
-      "begin": "^\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:sql))(?=\\s|$).*$",
-      "end": "^\\s*\\1[`~:]*\\s*$",
+      "begin": "(?:^|\\G)\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:sql))(?=\\s|$).*$",
+      "end": "(?:^|\\G)\\s*\\1[`~:]*\\s*$",
       "beginCaptures": {
         "1": {
           "name": "punctuation.definition.directive.myst"
@@ -408,8 +408,8 @@
       ]
     },
     "code-html": {
-      "begin": "^\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:html))(?=\\s|$).*$",
-      "end": "^\\s*\\1[`~:]*\\s*$",
+      "begin": "(?:^|\\G)\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:html))(?=\\s|$).*$",
+      "end": "(?:^|\\G)\\s*\\1[`~:]*\\s*$",
       "beginCaptures": {
         "1": {
           "name": "punctuation.definition.directive.myst"
@@ -446,8 +446,8 @@
       ]
     },
     "code-css": {
-      "begin": "^\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:css))(?=\\s|$).*$",
-      "end": "^\\s*\\1[`~:]*\\s*$",
+      "begin": "(?:^|\\G)\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*((?i:css))(?=\\s|$).*$",
+      "end": "(?:^|\\G)\\s*\\1[`~:]*\\s*$",
       "beginCaptures": {
         "1": {
           "name": "punctuation.definition.directive.myst"
@@ -485,8 +485,8 @@
     },
     "code-other": {
       "comment": "Other languages, or none, stay plain.",
-      "begin": "^\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*(.*)$",
-      "end": "^\\s*\\1[`~:]*\\s*$",
+      "begin": "(?:^|\\G)\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(code|code-block|code-cell|sourcecode)(\\})\\s*(.*)$",
+      "end": "(?:^|\\G)\\s*\\1[`~:]*\\s*$",
       "beginCaptures": {
         "1": {
           "name": "punctuation.definition.directive.myst"
@@ -513,8 +513,8 @@
     },
     "directive": {
       "comment": "Backtick, tilde and colon fences. Code directives are left to the #code-* rules, which come first; {math}, {mermaid} and {raw} in backtick and tilde fences are left to Markdown, which shows their contents as plain code.",
-      "begin": "^\\s*((?:`{3,}|~{3,})(?!\\s*\\{(?:code|code-block|code-cell|sourcecode|math|mermaid|raw)\\})|:{3,})\\s*(\\{)([\\w:.+-]+)(\\})(.*)$",
-      "end": "^\\s*\\1[`~:]*\\s*$",
+      "begin": "(?:^|\\G)\\s*((?:`{3,}|~{3,})(?!\\s*\\{(?:code|code-block|code-cell|sourcecode|math|mermaid|raw)\\})|:{3,})\\s*(\\{)([\\w:.+-]+)(\\})(.*)$",
+      "end": "(?:^|\\G)\\s*\\1[`~:]*\\s*$",
       "name": "meta.directive.myst",
       "beginCaptures": {
         "1": {
@@ -551,7 +551,7 @@
       ]
     },
     "option": {
-      "match": "^\\s*(:)([\\w-]+)(:)(?=\\s|$)",
+      "match": "(?:^|\\G)\\s*(:)([\\w-]+)(:)(?=\\s|$)",
       "captures": {
         "1": {
           "name": "punctuation.definition.option.myst"
@@ -580,7 +580,7 @@
     },
     "target": {
       "comment": "Label characters follow mystmd's TARGET_PATTERN (markdown-it-myst).",
-      "match": "^\\s*(\\()([a-zA-Z0-9|@<>*./_\\-+:]+)(\\))(=)\\s*$",
+      "match": "(?:^|\\G)\\s*(\\()([a-zA-Z0-9|@<>*./_\\-+:]+)(\\))(=)\\s*$",
       "captures": {
         "1": {
           "name": "punctuation.definition.target.myst"
@@ -605,8 +605,8 @@
       "name": "comment.line.percentage.myst"
     },
     "yaml-options": {
-      "begin": "^\\s*---\\s*$",
-      "end": "^\\s*---\\s*$|(?=^\\s*:{3,}\\s*$)",
+      "begin": "(?:^|\\G)\\s*---\\s*$",
+      "end": "(?:^|\\G)\\s*---\\s*$|(?=(?:^|\\G)\\s*:{3,}\\s*$)",
       "contentName": "meta.embedded.block.yaml",
       "beginCaptures": {
         "0": {

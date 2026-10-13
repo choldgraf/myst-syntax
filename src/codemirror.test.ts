@@ -31,12 +31,6 @@ test('options only follow a directive fence', () => {
   assert.deepEqual(names('option', ':::{note}\nText\n:key: value\n:::'), []);
 });
 
-test('directives in list items are highlighted', () => {
-  const doc = '- :::{note}\n  :class: x\n  :::\n\n1. ```{tip}\n   ```\n\n- Item\n\n  ```{warning}\n  ```';
-  assert.deepEqual(names('directive', doc), ['note', 'tip', 'warning']);
-  assert.deepEqual(names('option', doc), ['class']);
-});
-
 test('patterns match math and citations', () => {
   assert.deepEqual(matches('math', 'a $x^2$ and $ y $, not $$z$$'), ['$x^2$', '$ y $']);
   assert.deepEqual(matches('math', 'cost $5 or $10'), ['$5 or $']);
