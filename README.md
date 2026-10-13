@@ -71,6 +71,28 @@ Leave out `codeLanguages` and `mystCode` if you don't want code highlighted.
 
 The CodeMirror extension is TypeScript, so use it from a bundler that compiles TypeScript in `node_modules`, such as Vite or esbuild.
 
+### Using with Shiki
+
+[Shiki](https://shiki.style) can load the grammar and inject it into Markdown:
+
+```ts
+import { createHighlighter } from 'shiki';
+import myst from 'myst-syntax/myst.tmLanguage.json' with { type: 'json' };
+
+const highlighter = await createHighlighter({ themes: ['github-light'], langs: ['yaml', 'markdown', myst] });
+highlighter.codeToHtml(src, { lang: 'markdown', theme: 'github-light' });
+```
+
+Load `yaml` first, then `markdown`, then the grammar, and nothing else.
+This is a Shiki bug: once a second language that Markdown embeds lazily, like `yaml` or `python`, is loaded, Shiki rebuilds Markdown without its injections.
+To load more languages, pass Markdown with its lazy list emptied, and then the order doesn't matter:
+
+```ts
+import markdown from '@shikijs/langs/markdown';
+
+langs: ['yaml', 'python', { ...markdown[0], embeddedLangsLazy: [] }, myst]
+```
+
 ## Develop
 
 You need Node 24 or later, which runs the TypeScript files directly.

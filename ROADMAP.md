@@ -8,7 +8,7 @@ Keep it small, editor-neutral and BSD-3, so it can move to [jupyter-book](https:
 - The CodeMirror part is for JupyterLab and the many web editors that use CodeMirror.
   No JupyterLab extension uses it yet.
 - The TextMate grammar is for VS Code.
-  Docs sites that highlight with Shiki could use it once step 3 works.
+  Docs sites that highlight with Shiki can use it too, as the [README](README.md) shows.
   Sphinx and mystmd sites don't use it: MyST-Parser's Sphinx docs use a Pygments lexer, and myst-theme uses highlight.js.
 
 ## 1. Cheap fixes
@@ -25,9 +25,9 @@ Both parts are checked against the shared examples in `src/cases.ts`; add new sy
 
 ## 3. A working Shiki recipe
 
-The grammar has `name` and `injectTo`, which Shiki needs to inject it into Markdown.
-Tried by hand, it works for some load orders and not others: `['yaml', 'markdown', myst]` works, `['markdown', 'yaml', myst]` doesn't.
-Find out why, document the recipe, and report it to Shiki if it's a bug.
+Done: the [README](README.md) has the recipe, and `src/shiki.test.ts` pins it.
+The load order matters because of a Shiki bug: `Registry.loadLanguage` in `@shikijs/primitive` rebuilds Markdown without its injections when it loads a second language from Markdown's `embeddedLangsLazy` list.
+Left: report it to Shiki.
 
 Then, if docs sites ask for it, add a `myst` language so ```` ```myst ```` blocks highlight.
 It needs an `injections` key aimed at its own scope.
