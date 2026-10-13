@@ -7,7 +7,8 @@ import { codeDirectives, labelChars, nameChars } from './rules.ts';
 /** MyST syntax on top of Markdown. Each regex matches within one line; the whole match is highlighted. */
 export const patterns = {
   role: new RegExp('\\{(' + nameChars + '+)\\}`[^`\\n]*`', 'g'),
-  directive: new RegExp('(?<=^\\s*(?:`{3,}|~{3,}|:{3,})\\s*)\\{(' + nameChars + '+)\\}', 'g'),
+  // After any list item markers, like `- ` or `1. `, and the fence.
+  directive: new RegExp('(?<=^\\s*(?:(?:[-+*]|\\d+[.)])\\s+)*(?:`{3,}|~{3,}|:{3,})\\s*)\\{(' + nameChars + '+)\\}', 'g'),
   // Highlighted only right after a directive's opening fence; see `highlighted`.
   option: /(?<=^\s*):([\w-]+):(?=\s|$)/g,
   label: new RegExp('(?<=^\\s*)\\((' + labelChars + '+)\\)=(?=\\s*$)', 'g'),
