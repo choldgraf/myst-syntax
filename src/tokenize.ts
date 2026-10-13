@@ -1,10 +1,12 @@
-// Tokenizes with the MyST grammar, for the tests and `conformance.ts`.
+// Tokenizes with the MyST grammar and the CodeMirror patterns, for the tests and `conformance.ts`.
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import type { EditorState } from '@codemirror/state';
 import markdown from '@shikijs/langs/markdown';
 import python from '@shikijs/langs/python';
 import textmate from 'vscode-textmate';
 import oniguruma from 'vscode-oniguruma';
+import { highlighted, patterns } from './codemirror.ts';
 
 // Load the grammar the way VS Code does: injected into the Markdown grammar.
 const require = createRequire(import.meta.url);
@@ -28,6 +30,12 @@ export function scoped(src: string, scope: string) {
     stack = ruleStack;
     return tokens.filter((t) => t.scopes.includes(scope)).map((t) => line.slice(t.startIndex, t.endIndex));
   });
+}
+
+/** The names CodeMirror highlights with the pattern `name`, matching line by line as `myst()` does. */
+export function highlightedNames(state: EditorState, name: keyof typeof patterns) {
+  const lines = Array.from({ length: state.doc.lines }, (_, i) => state.doc.line(i + 1));
+  return lines.flatMap((line) => [...line.text.matchAll(patterns[name])].filter((m) => highlighted(state, name, line.from + m.index)).map((m) => m[1]));
 }
 
 export const scopes = {

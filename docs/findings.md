@@ -40,7 +40,7 @@ In myst-spec, TextMate's 4 exclusions are all `{math}`, and CodeMirror's 5 are `
 | myst-spec (63 with a name) | TextMate | 59 | 0 | 4 |
 | myst-spec | CodeMirror | 58 | 0 | 5 |
 | Corpus (398 with a name) | TextMate | 355 | 33 | 10 |
-| Corpus | CodeMirror | 293 | 44 | 61 |
+| Corpus | CodeMirror | 294 | 43 | 61 |
 
 The corpus is shallow clones of the mystmd, jupyter-book, 2i2c-docs and example-outputs repos: 1554 `.md` files and 9 notebooks.
 It isn't checked in; point `MYST_CORPUS` at your own folder to run the same check.

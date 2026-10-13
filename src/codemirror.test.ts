@@ -5,17 +5,11 @@ import { python } from '@codemirror/lang-python';
 import { LanguageDescription, syntaxTree } from '@codemirror/language';
 import { EditorState } from '@codemirror/state';
 import { cases } from './cases.ts';
-import { highlighted, inCode, mystCode, patterns } from './codemirror.ts';
+import { inCode, mystCode, type patterns } from './codemirror.ts';
+import { highlightedNames } from './tokenize.ts';
 
-// Line by line, as `myst()` does.
 function names(name: keyof typeof patterns, doc: string) {
-  const state = EditorState.create({ doc, extensions: [markdown({ extensions: [mystCode([])] })] });
-  let from = 0;
-  return doc.split('\n').flatMap((line) => {
-    const found = [...line.matchAll(patterns[name])].filter((m) => highlighted(state, name, from + m.index)).map((m) => m[1]);
-    from += line.length + 1;
-    return found;
-  });
+  return highlightedNames(EditorState.create({ doc, extensions: [markdown({ extensions: [mystCode([])] })] }), name);
 }
 
 test('patterns match the shared cases', () => {
