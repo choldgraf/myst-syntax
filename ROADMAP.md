@@ -13,9 +13,7 @@ Keep it small, editor-neutral and BSD-3, so it can move to [jupyter-book](https:
 
 ## 1. Cheap fixes
 
-None of these need a parser:
-
-- The TextMate grammar misses comments and block breaks indented in a list item.
+Done: both parts highlight directives inside list items, and TextMate also highlights comments and block breaks there.
 
 ## 2. Both parts highlight the same things
 

@@ -42,3 +42,9 @@ test('an indented fence closes a directive in a list item', () => {
   const item = '- ```{code-cell} python\n  def f(): pass\n  ```\n  def g(): pass';
   assert.deepEqual(scoped(item, 'storage.type.function.python'), ['def']);
 });
+
+test('comments and block breaks are highlighted in list items', () => {
+  const item = '- Item\n\n  % a comment\n    +++\n  not % a comment';
+  assert.deepEqual(scoped(item, 'comment.line.percentage.myst'), ['% a comment']);
+  assert.deepEqual(scoped(item, 'meta.separator.myst'), ['+++']);
+});

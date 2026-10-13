@@ -97,11 +97,11 @@ const grammar = {
       },
     },
     'block-break': {
-      match: '^ {0,3}\\+\\+\\+.*$',
+      match: lineStart + ' {0,3}\\+\\+\\+.*$',
       name: 'meta.separator.myst',
     },
     comment: {
-      match: '^ {0,3}%.*$',
+      match: lineStart + ' {0,3}%.*$',
       name: 'comment.line.percentage.myst',
     },
     'yaml-options': {
