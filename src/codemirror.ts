@@ -4,18 +4,26 @@ import { Decoration, EditorView, MatchDecorator, ViewPlugin, type ViewUpdate } f
 import { type BlockParser, parseCode } from '@lezer/markdown';
 import { citationChars, codeDirectives, labelChars, nameChars } from './rules.ts';
 
+// The start of a line's text, after any indentation and list item or blockquote markers, like `- `, `1. ` or `> `.
+// grammar.mjs has its own `lineStart`, since TextMate's Markdown grammar consumes those markers before MyST rules see the line.
+const lineStart = String.raw`^\s*(?:(?:[-+*]|\d+[.)])\s+|>\s*)*`;
+
 /** MyST syntax on top of Markdown. Each regex matches within one line; the whole match is highlighted. */
 export const patterns = {
   role: new RegExp('\\{(' + nameChars + '+)\\}`[^`\\n]*`', 'g'),
-  // After any list item markers, like `- ` or `1. `, and the fence.
-  directive: new RegExp('(?<=^\\s*(?:(?:[-+*]|\\d+[.)])\\s+)*(?:`{3,}|~{3,}|:{3,})\\s*)\\{(' + nameChars + '+)\\}', 'g'),
+  directive: new RegExp('(?<=' + lineStart + '(?:`{3,}|~{3,}|:{3,})\\s*)\\{(' + nameChars + '+)\\}', 'g'),
   // Highlighted only right after a directive's opening fence; see `highlighted`.
   option: /(?<=^\s*):([\w-]+):(?=\s|$)/g,
-  label: new RegExp('(?<=^\\s*)\\((' + labelChars + '+)\\)=(?=\\s*$)', 'g'),
+  label: new RegExp('(?<=' + lineStart + ')\\((' + labelChars + '+)\\)=(?=\\s*$)', 'g'),
   // Close to mystmd's dollarmath: spaces and digits are allowed inside. Skips `$$`, which is display math.
   math: /(?<![\\$])\$([^$\n]+)\$(?!\$)/g,
   // Each key, alone or in brackets like [@a; @b]. Keys start and end with a word character, as in mystmd's `inText`.
   citation: new RegExp('(?<![\\w@])@(\\w(?:' + citationChars + '*\\w)?)', 'g'),
+  comment: new RegExp('(?<=' + lineStart + ')(%.*)', 'g'),
+  'block-break': new RegExp('(?<=' + lineStart + ')(\\+\\+\\+.*)', 'g'),
+  substitution: /\{\{([^}\n]*)\}\}/g,
+  // Markdown parses these as links; @lezer/markdown has no footnote syntax.
+  footnote: /\[\^([^\]\s]+)\]/g,
 };
 
 // A code directive's info string, like `{code-cell} python`, and its language.
@@ -117,12 +125,20 @@ const theme = EditorView.baseTheme({
   '&light .cm-myst-label': { color: '#b45309' },
   '&light .cm-myst-math': { color: '#be185d' },
   '&light .cm-myst-citation': { color: '#15803d' },
+  '&light .cm-myst-comment': { color: '#6b7280', fontStyle: 'italic' },
+  '&light .cm-myst-block-break': { color: '#6b7280' },
+  '&light .cm-myst-substitution': { color: '#c2410c' },
+  '&light .cm-myst-footnote': { color: '#0e7490' },
   '&dark .cm-myst-role': { color: '#c4b5fd' },
   '&dark .cm-myst-directive': { color: '#7dd3fc', fontWeight: 'bold' },
   '&dark .cm-myst-option': { color: '#5eead4' },
   '&dark .cm-myst-label': { color: '#fcd34d' },
   '&dark .cm-myst-math': { color: '#f9a8d4' },
   '&dark .cm-myst-citation': { color: '#86efac' },
+  '&dark .cm-myst-comment': { color: '#9ca3af', fontStyle: 'italic' },
+  '&dark .cm-myst-block-break': { color: '#9ca3af' },
+  '&dark .cm-myst-substitution': { color: '#fdba74' },
+  '&dark .cm-myst-footnote': { color: '#67e8f9' },
 });
 
 /** MyST highlighting for the syntax in `patterns`. Use with `markdown()`. */

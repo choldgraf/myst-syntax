@@ -105,7 +105,7 @@ const grammar = {
       endCaptures: { 1: { name: 'punctuation.definition.math.myst' } },
     },
     math: {
-      comment: "Close to mystmd's dollarmath: spaces and digits are allowed inside. Skips $$, which is display math.",
+      comment: 'Like patterns.math in src/codemirror.ts.',
       match: '(?<![\\\\$])(\\$)([^$]+)(\\$)(?!\\$)',
       captures: {
         1: { name: 'punctuation.definition.math.myst' },
@@ -114,7 +114,7 @@ const grammar = {
       },
     },
     citation: {
-      comment: "Each key, alone or in brackets like [@a; @b]. Keys start and end with a word character, as in mystmd's inText.",
+      comment: 'Like patterns.citation in src/codemirror.ts.',
       match: '(?<![\\w@])(@)(\\w(?:' + citationChars + '*\\w)?)',
       captures: {
         1: { name: 'punctuation.definition.citation.myst' },
@@ -122,12 +122,12 @@ const grammar = {
       },
     },
     'block-break': {
-      match: lineStart + ' {0,3}\\+\\+\\+.*$',
-      name: 'meta.separator.myst',
+      match: lineStart + ' {0,3}(\\+\\+\\+.*)$',
+      captures: { 1: { name: 'meta.separator.myst' } },
     },
     comment: {
-      match: lineStart + ' {0,3}%.*$',
-      name: 'comment.line.percentage.myst',
+      match: lineStart + ' {0,3}(%.*)$',
+      captures: { 1: { name: 'comment.line.percentage.myst' } },
     },
     'yaml-options': {
       begin: lineStart + '\\s*---\\s*$',
@@ -146,8 +146,12 @@ const grammar = {
       },
     },
     footnote: {
-      match: '\\[\\^[^\\]\\s]+\\]',
-      name: 'constant.other.footnote.myst',
+      match: '(\\[\\^)([^\\]\\s]+)(\\])',
+      captures: {
+        1: { name: 'punctuation.definition.footnote.myst' },
+        2: { name: 'constant.other.footnote.myst' },
+        3: { name: 'punctuation.definition.footnote.myst' },
+      },
     },
   },
 };

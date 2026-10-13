@@ -15,16 +15,16 @@ They highlight different syntax:
 | Syntax | TextMate | CodeMirror |
 | --- | --- | --- |
 | Roles, directives, options and labels | ✓ | ✓ |
-| Comments (`%`) and block breaks (`+++`) | ✓ | |
-| Substitutions (`{{ x }}`) and footnote references | ✓ | |
+| Comments (`%`) and block breaks (`+++`) | ✓ | ✓ |
+| Substitutions (`{{ x }}`) and footnote references (`[^1]`) | ✓ | ✓ |
 | YAML options in a directive | ✓ | |
 | Inline math (`$x$`) | ✓ | ✓ |
 | Display math (`$$`) | ✓ | |
 | Citations (`@key`, `[@a; @b]`) | ✓ | ✓ |
 | Code in code directives, like `{code-cell} python` | ✓ | ✓ |
 
-Both parts highlight directives in backtick, tilde and colon fences, at the top level and inside list items.
-TextMate also highlights comments and block breaks inside list items, and all three inside blockquotes.
+Both parts highlight directives in backtick, tilde and colon fences.
+Directives, labels, comments and block breaks are highlighted at the top level, inside list items and inside blockquotes.
 TextMate highlights code directives in common languages, such as Python, R and JavaScript.
 In TextMate, code directives in other languages, or without one, stay plain, and so do `{math}`, `{mermaid}` and `{raw}`.
 

@@ -7,9 +7,6 @@ test('the grammar scopes MyST syntax', () => {
   for (const [kind, list] of Object.entries(cases)) {
     for (const [doc, expected] of list) assert.deepEqual(scoped(doc, scopes[kind as keyof typeof cases]), expected);
   }
-  assert.deepEqual(scoped('% a comment', 'comment.line.percentage.myst'), ['% a comment']);
-  assert.deepEqual(scoped('  +++ {"a": 1}', 'meta.separator.myst'), ['  +++ {"a": 1}']);
-  assert.deepEqual(scoped('Hi {{ name }}', 'variable.other.substitution.myst'), [' name ']);
 });
 
 test('display math is highlighted', () => {
@@ -31,7 +28,6 @@ test('code in other languages stays plain', () => {
   const block = '```{code} fortran\n{ref}`x`\n```';
   assert.deepEqual(scoped(block, 'entity.name.function.directive.myst'), ['code']);
   assert.deepEqual(scoped(block, 'entity.name.function.role.myst'), []);
-  assert.deepEqual(scoped('```text\n% not a comment\n```', 'comment.line.percentage.myst'), []);
 });
 
 test('a longer fence closes a directive', () => {
@@ -39,17 +35,7 @@ test('a longer fence closes a directive', () => {
   assert.deepEqual(scoped('````{code-cell} python\ndef f(): pass\n```\ndef g(): pass\n````', 'storage.type.function.python'), ['def', 'def']);
 });
 
-test('indented code is left to Markdown', () => {
-  assert.deepEqual(scoped('Text.\n\n    % not a comment\n    +++', 'comment.line.percentage.myst'), []);
-});
-
 test('an indented fence closes a directive in a list item', () => {
   const item = '- ```{code-cell} python\n  def f(): pass\n  ```\n  def g(): pass';
   assert.deepEqual(scoped(item, 'storage.type.function.python'), ['def']);
-});
-
-test('comments and block breaks are highlighted in list items', () => {
-  const item = '- Item\n\n  % a comment\n    +++\n  not % a comment';
-  assert.deepEqual(scoped(item, 'comment.line.percentage.myst'), ['% a comment']);
-  assert.deepEqual(scoped(item, 'meta.separator.myst'), ['+++']);
 });

@@ -37,4 +37,8 @@ export const scopes = {
   label: 'entity.name.label.myst',
   math: 'markup.math.inline.myst',
   citation: 'constant.other.citation.myst',
+  comment: 'comment.line.percentage.myst',
+  'block-break': 'meta.separator.myst',
+  substitution: 'variable.other.substitution.myst',
+  footnote: 'constant.other.footnote.myst',
 };
