@@ -8,6 +8,8 @@ It has two parts:
   It injects MyST into the editor's Markdown grammar.
 - `myst-syntax/codemirror`: a [CodeMirror 6](https://codemirror.net) extension to use with `markdown()`.
 
+Both parts take the role and directive name pattern, the label pattern and the list of code directives from `myst-syntax/rules`, which other tools can import too.
+
 They highlight different syntax:
 
 | Syntax | TextMate | CodeMirror |

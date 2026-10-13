@@ -5,10 +5,12 @@
   "type": "module",
   "exports": {
     "./codemirror": "./src/codemirror.ts",
+    "./rules": "./src/rules.ts",
     "./myst.tmLanguage.json": "./myst.tmLanguage.json"
   },
   "files": [
     "src/codemirror.ts",
+    "src/rules.ts",
     "myst.tmLanguage.json"
   ],
   "scripts": {

@@ -7,13 +7,14 @@ import { EditorState } from '@codemirror/state';
 import { load } from 'js-yaml';
 import { mystParse } from 'myst-parser';
 import { inCode, patterns } from './src/codemirror.ts';
+import { codeDirectives } from './src/rules.ts';
 import { scoped, scopes } from './src/tokenize.ts';
 
 type Case = { id: string; src: string };
 const kinds = ['role', 'directive', 'label'] as const;
 
 // Syntax neither part highlights as MyST on purpose (see the README), so a difference in these names isn't a miss.
-const excluded = /^(?:(?:role|directive) (?:math|raw)|directive (?:mermaid|code|code-block|code-cell|sourcecode))$/;
+const excluded = new RegExp('^(?:(?:role|directive) (?:math|raw)|directive (?:mermaid|' + codeDirectives + '))$');
 
 /** Each myst-spec example with MyST source. */
 function specCases(): Case[] {

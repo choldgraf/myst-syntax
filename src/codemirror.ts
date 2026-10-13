@@ -2,24 +2,23 @@ import { LanguageDescription, ParseContext, syntaxTree } from '@codemirror/langu
 import type { EditorState } from '@codemirror/state';
 import { Decoration, EditorView, MatchDecorator, ViewPlugin, type ViewUpdate } from '@codemirror/view';
 import { parseCode } from '@lezer/markdown';
+import { codeDirectives, labelChars, nameChars } from './rules.ts';
 
 /** MyST syntax on top of Markdown. Each regex matches within one line; the whole match is highlighted. */
 export const patterns = {
-  // Role and directive names use `[\w:.+-]`, like the TextMate grammar. mystmd allows anything but `}`.
-  role: /\{([\w:.+-]+)\}`[^`\n]*`/g,
-  directive: /(?<=^\s*(?:`{3,}|:{3,})\s*)\{([\w:.+-]+)\}/g,
+  role: new RegExp('\\{(' + nameChars + '+)\\}`[^`\\n]*`', 'g'),
+  directive: new RegExp('(?<=^\\s*(?:`{3,}|:{3,})\\s*)\\{(' + nameChars + '+)\\}', 'g'),
   // Approximation of "option lines after a fence": decorators only see one line at a time.
   option: /(?<=^\s*):([\w-]+):(?=\s|$)/g,
-  // Label characters follow mystmd's TARGET_PATTERN (markdown-it-myst).
-  label: /(?<=^\s*)\(([a-zA-Z0-9|@<>*./_\-+:]+)\)=(?=\s*$)/g,
+  label: new RegExp('(?<=^\\s*)\\((' + labelChars + '+)\\)=(?=\\s*$)', 'g'),
   // Close to mystmd's dollarmath: spaces and digits are allowed inside. Skips `$$`, which is display math.
   math: /(?<![\\$])\$[^$\n]+\$(?!\$)/g,
   // Citation key characters follow mystmd's `inText` (markdown-it-myst's citations.js).
   citation: /(?<![\w@])@\w(?:[\w:.#$%&+?~/-]*\w)?/g,
 };
 
-// A code directive's info string, like `{code-cell} python`, and its language. Same list as `codeDirectives` in grammar.mjs.
-const codeDirective = /^\{(?:code|code-block|code-cell|sourcecode)\}\s*(\S*)/;
+// A code directive's info string, like `{code-cell} python`, and its language.
+const codeDirective = new RegExp('^\\{(?:' + codeDirectives + ')\\}\\s*(\\S*)');
 
 /**
  * Highlights code directives like ```{code-cell} python in their language, as `markdown({ codeLanguages })` does for ```python.

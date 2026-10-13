@@ -1,8 +1,6 @@
 // Writes myst.tmLanguage.json. Edit this file, not the JSON, then run `npm run grammar`.
 import { writeFileSync } from 'node:fs';
-
-// Same list as `codeDirective` in src/codemirror.ts.
-const codeDirectives = 'code|code-block|code-cell|sourcecode';
+import { codeDirectives, labelChars, nameChars } from './src/rules.ts';
 
 // Code directives like {code-cell} python. TextMate can only include a grammar by name, so each language has its own rule.
 const languages = [
@@ -63,7 +61,7 @@ const grammar = {
     ...code,
     directive: {
       comment: 'Backtick and colon fences. Code-like directives in backtick fences are left to the #code-* rules, or to Markdown, which shows their contents as plain code.',
-      begin: '^\\s*(`{3,}(?!\\s*\\{(?:' + codeDirectives + '|math|mermaid|raw)\\})|:{3,})\\s*(\\{)([\\w:.+-]+)(\\})(.*)$',
+      begin: '^\\s*(`{3,}(?!\\s*\\{(?:' + codeDirectives + '|math|mermaid|raw)\\})|:{3,})\\s*(\\{)(' + nameChars + '+)(\\})(.*)$',
       end: '^\\s*\\1[`:]*\\s*$',
       name: 'meta.directive.myst',
       ...directiveCaptures,
@@ -78,7 +76,7 @@ const grammar = {
       },
     },
     role: {
-      match: '(\\{)([\\w:.+-]+)(\\})(?=`)',
+      match: '(\\{)(' + nameChars + '+)(\\})(?=`)',
       captures: {
         1: { name: 'punctuation.definition.role.myst' },
         2: { name: 'entity.name.function.role.myst' },
@@ -87,7 +85,7 @@ const grammar = {
     },
     target: {
       comment: "Label characters follow mystmd's TARGET_PATTERN (markdown-it-myst).",
-      match: '^\\s*(\\()([a-zA-Z0-9|@<>*./_\\-+:]+)(\\))(=)\\s*$',
+      match: '^\\s*(\\()(' + labelChars + '+)(\\))(=)\\s*$',
       captures: {
         1: { name: 'punctuation.definition.target.myst' },
         2: { name: 'entity.name.label.myst' },
