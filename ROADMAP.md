@@ -2,6 +2,7 @@
 
 Next steps, most important first.
 Keep it small, editor-neutral and BSD-3, so it can move to [jupyter-book](https://github.com/jupyter-book) (step 5).
+[What we learned](docs/findings.md) has the conformance numbers and design notes.
 
 ## Where it fits
 

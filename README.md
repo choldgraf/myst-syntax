@@ -29,7 +29,7 @@ TextMate highlights code directives in common languages, such as Python, R and J
 In TextMate, code directives in other languages, or without one, stay plain, and so do `{math}`, `{mermaid}` and `{raw}`.
 
 For TextMate, it aims to replace the older, unmaintained [`vscode-myst-syntax`](https://github.com/chrisjsewell/vscode-myst-syntax) grammar.
-See the [roadmap](ROADMAP.md) for what's next.
+See the [roadmap](ROADMAP.md) for what's next, and [what we learned](docs/findings.md) for why it works the way it does.
 
 ## Install it
 
