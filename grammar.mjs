@@ -32,8 +32,8 @@ const directiveCaptures = {
 
 // The closing fence is at least as long as the opening one.
 const codeRule = (argument) => ({
-  begin: '^\\s*(`{3,}|:{3,})\\s*(\\{)(' + codeDirectives + ')(\\})\\s*' + argument,
-  end: '^\\s*\\1[`:]*\\s*$',
+  begin: '^\\s*(`{3,}|~{3,}|:{3,})\\s*(\\{)(' + codeDirectives + ')(\\})\\s*' + argument,
+  end: '^\\s*\\1[`~:]*\\s*$',
   ...directiveCaptures,
 });
 
@@ -60,9 +60,9 @@ const grammar = {
   repository: {
     ...code,
     directive: {
-      comment: 'Backtick and colon fences. Code directives are left to the #code-* rules, which come first; {math}, {mermaid} and {raw} in backtick fences are left to Markdown, which shows their contents as plain code.',
-      begin: '^\\s*(`{3,}(?!\\s*\\{(?:' + codeDirectives + '|math|mermaid|raw)\\})|:{3,})\\s*(\\{)(' + nameChars + '+)(\\})(.*)$',
-      end: '^\\s*\\1[`:]*\\s*$',
+      comment: 'Backtick, tilde and colon fences. Code directives are left to the #code-* rules, which come first; {math}, {mermaid} and {raw} in backtick and tilde fences are left to Markdown, which shows their contents as plain code.',
+      begin: '^\\s*((?:`{3,}|~{3,})(?!\\s*\\{(?:' + codeDirectives + '|math|mermaid|raw)\\})|:{3,})\\s*(\\{)(' + nameChars + '+)(\\})(.*)$',
+      end: '^\\s*\\1[`~:]*\\s*$',
       name: 'meta.directive.myst',
       ...directiveCaptures,
       patterns: [{ include: '#yaml-options' }, { include: '#option' }, { include: 'text.html.markdown' }],

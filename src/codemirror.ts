@@ -7,7 +7,7 @@ import { codeDirectives, labelChars, nameChars } from './rules.ts';
 /** MyST syntax on top of Markdown. Each regex matches within one line; the whole match is highlighted. */
 export const patterns = {
   role: new RegExp('\\{(' + nameChars + '+)\\}`[^`\\n]*`', 'g'),
-  directive: new RegExp('(?<=^\\s*(?:`{3,}|:{3,})\\s*)\\{(' + nameChars + '+)\\}', 'g'),
+  directive: new RegExp('(?<=^\\s*(?:`{3,}|~{3,}|:{3,})\\s*)\\{(' + nameChars + '+)\\}', 'g'),
   // Approximation of "option lines after a fence": decorators only see one line at a time.
   option: /(?<=^\s*):([\w-]+):(?=\s|$)/g,
   label: new RegExp('(?<=^\\s*)\\((' + labelChars + '+)\\)=(?=\\s*$)', 'g'),

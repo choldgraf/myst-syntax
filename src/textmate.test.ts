@@ -19,6 +19,7 @@ test('code directives are highlighted in their language', () => {
   assert.deepEqual(scoped(cell, 'storage.type.function.python'), ['def']);
   assert.deepEqual(scoped(cell + '\n{ref}`x`', 'entity.name.function.role.myst'), ['ref']);
   assert.deepEqual(scoped(':::{code-cell} python\ndef f(): pass\n:::\n{ref}`x`', 'storage.type.function.python'), ['def']);
+  assert.deepEqual(scoped('~~~{code} python\ndef f(): pass\n~~~\n{ref}`x`', 'storage.type.function.python'), ['def']);
 });
 
 test('code in other languages stays plain', () => {
