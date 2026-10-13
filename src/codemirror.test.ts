@@ -5,16 +5,16 @@ import { python } from '@codemirror/lang-python';
 import { LanguageDescription, syntaxTree } from '@codemirror/language';
 import { EditorState } from '@codemirror/state';
 import { cases } from './cases.ts';
-import { inCode, mystCode, patterns } from './codemirror.ts';
+import { highlighted, inCode, mystCode, patterns } from './codemirror.ts';
 
 const matches = (name: keyof typeof patterns, line: string) => [...line.matchAll(patterns[name])].map((m) => m[0]);
 
-// Line by line and skipping code, as `myst()` does.
+// Line by line, as `myst()` does.
 function names(name: keyof typeof patterns, doc: string) {
   const state = EditorState.create({ doc, extensions: [markdown({ extensions: [mystCode([])] })] });
   let from = 0;
   return doc.split('\n').flatMap((line) => {
-    const found = [...line.matchAll(patterns[name])].filter((m) => !inCode(state, from + m.index)).map((m) => m[1]);
+    const found = [...line.matchAll(patterns[name])].filter((m) => highlighted(state, name, from + m.index)).map((m) => m[1]);
     from += line.length + 1;
     return found;
   });
@@ -24,6 +24,11 @@ test('patterns match the shared cases', () => {
   for (const [kind, list] of Object.entries(cases)) {
     for (const [doc, expected] of list) assert.deepEqual(names(kind as keyof typeof cases, doc), expected);
   }
+});
+
+test('options only follow a directive fence', () => {
+  assert.deepEqual(names('option', ':::{note}\n\n:key: value\n:::'), []);
+  assert.deepEqual(names('option', ':::{note}\nText\n:key: value\n:::'), []);
 });
 
 test('patterns match math and citations', () => {

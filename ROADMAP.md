@@ -15,7 +15,6 @@ Keep it small, editor-neutral and BSD-3, so it can move to [jupyter-book](https:
 
 None of these need a parser:
 
-- CodeMirror's option pattern matches any `:name:` line, not only lines after a directive's opening fence.
 - A directive in a list item (`- ```{note}`) isn't highlighted by either part: both allow only spaces before the fence.
   Likewise, the TextMate grammar misses comments and block breaks indented four or more spaces in a list item.
 

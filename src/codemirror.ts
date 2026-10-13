@@ -8,7 +8,7 @@ import { codeDirectives, labelChars, nameChars } from './rules.ts';
 export const patterns = {
   role: new RegExp('\\{(' + nameChars + '+)\\}`[^`\\n]*`', 'g'),
   directive: new RegExp('(?<=^\\s*(?:`{3,}|~{3,}|:{3,})\\s*)\\{(' + nameChars + '+)\\}', 'g'),
-  // Approximation of "option lines after a fence": decorators only see one line at a time.
+  // Highlighted only right after a directive's opening fence; see `highlighted`.
   option: /(?<=^\s*):([\w-]+):(?=\s|$)/g,
   label: new RegExp('(?<=^\\s*)\\((' + labelChars + '+)\\)=(?=\\s*$)', 'g'),
   // Close to mystmd's dollarmath: spaces and digits are allowed inside. Skips `$$`, which is display math.
@@ -79,9 +79,24 @@ export function inCode(state: EditorState, pos: number) {
   return false;
 }
 
+/** Whether the line at `pos` follows a directive's opening fence, with only option lines between. */
+function afterFence(state: EditorState, pos: number) {
+  for (let n = state.doc.lineAt(pos).number - 1; n > 0; n--) {
+    const text = state.doc.line(n).text;
+    if (text.search(patterns.directive) >= 0) return true;
+    if (text.search(patterns.option) < 0) return false;
+  }
+  return false;
+}
+
+/** Whether to highlight a match of the pattern `name` at `pos`: not in code, and for options, only right after a directive's opening fence. */
+export function highlighted(state: EditorState, name: string, pos: number) {
+  return !inCode(state, pos) && (name !== 'option' || afterFence(state, pos));
+}
+
 const highlighters = Object.entries(patterns).map(([name, regexp]) => {
   const mark = Decoration.mark({ class: `cm-myst-${name}` });
-  const decorator = new MatchDecorator({ regexp, decoration: (_, view, pos) => (inCode(view.state, pos) ? null : mark) });
+  const decorator = new MatchDecorator({ regexp, decoration: (_, view, pos) => (highlighted(view.state, name, pos) ? mark : null) });
   return ViewPlugin.define(
     (view) => ({
       decorations: decorator.createDeco(view),

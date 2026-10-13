@@ -6,7 +6,7 @@ import { ensureSyntaxTree } from '@codemirror/language';
 import { EditorState } from '@codemirror/state';
 import { load } from 'js-yaml';
 import { mystParse } from 'myst-parser';
-import { inCode, patterns } from './src/codemirror.ts';
+import { highlighted, patterns } from './src/codemirror.ts';
 import { codeDirectives } from './src/rules.ts';
 import { scoped, scopes } from './src/tokenize.ts';
 
@@ -50,7 +50,7 @@ function mystmd(src: string) {
 
 const textmate = (src: string) => kinds.flatMap((kind) => scoped(src, scopes[kind]).map((name) => `${kind} ${name}`));
 
-// Line by line and skipping code, as `myst()` does.
+// Line by line, as `myst()` does.
 function codemirror(src: string) {
   const created = EditorState.create({ doc: src, extensions: [markdown()] });
   // Finish parsing the whole document, as an editor does in the background, then pick up the tree.
@@ -58,7 +58,7 @@ function codemirror(src: string) {
   const state = created.update({}).state;
   let from = 0;
   return src.split('\n').flatMap((line) => {
-    const found = kinds.flatMap((kind) => [...line.matchAll(patterns[kind])].filter((m) => !inCode(state, from + m.index)).map((m) => `${kind} ${m[1]}`));
+    const found = kinds.flatMap((kind) => [...line.matchAll(patterns[kind])].filter((m) => highlighted(state, kind, from + m.index)).map((m) => `${kind} ${m[1]}`));
     from += line.length + 1;
     return found;
   });
