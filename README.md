@@ -17,9 +17,9 @@ They highlight different syntax:
 | Roles, directives, options and labels | ✓ | ✓ |
 | Comments (`%`) and block breaks (`+++`) | ✓ | ✓ |
 | Substitutions (`{{ x }}`) and footnote references (`[^1]`) | ✓ | ✓ |
-| YAML options in a directive | ✓ | |
+| YAML options in a directive | ✓ | No: Markdown parses them as headings or code, so this needs a block parser, not just `@codemirror/lang-yaml` |
 | Inline math (`$x$`) | ✓ | ✓ |
-| Display math (`$$`) | ✓ | |
+| Display math (`$$`) | ✓ | No: it spans lines, so it needs a block parser too |
 | Citations (`@key`, `[@a; @b]`) | ✓ | ✓ |
 | Code in code directives, like `{code-cell} python` | ✓ | ✓ |
 

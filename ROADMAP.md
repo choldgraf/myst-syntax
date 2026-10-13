@@ -17,7 +17,9 @@ Done: both parts highlight directives inside list items, and TextMate also highl
 
 ## 2. Both parts highlight the same things
 
-The two parts highlight different syntax, as the [README](README.md) shows.
+Done: both parts highlight inline math, citations, comments, block breaks, substitutions and footnote references.
+Left: CodeMirror doesn't highlight display math or YAML options in a directive, as the [README](README.md) shows.
+Both span lines, and CodeMirror's Markdown parser has no node for either, so they need block parsers, which fit with step 4.
 Both parts are checked against the shared examples in `src/cases.ts`; add new syntax there first, then fill in the gaps.
 [myst-parser-unified](https://github.com/choldgraf/myst-parser-unified)'s syntax edge cases are a good source of tricky examples.
 
