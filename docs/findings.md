@@ -39,21 +39,21 @@ In myst-spec, TextMate's 4 exclusions are all `{math}`, and CodeMirror's 5 are `
 | --- | --- | --- | --- | --- |
 | myst-spec (63 with a name) | TextMate | 59 | 0 | 4 |
 | myst-spec | CodeMirror | 58 | 0 | 5 |
-| Corpus (398 with a name) | TextMate | 308 | 81 | 9 |
-| Corpus | CodeMirror | 263 | 83 | 52 |
+| Corpus (398 with a name) | TextMate | 355 | 33 | 10 |
+| Corpus | CodeMirror | 293 | 44 | 61 |
 
 The corpus is shallow clones of the mystmd, jupyter-book, 2i2c-docs and example-outputs repos: 1554 `.md` files and 9 notebooks.
 It isn't checked in; point `MYST_CORPUS` at your own folder to run the same check.
 
 Most corpus misses are noise from the comparison, not highlighting bugs:
 
-- `mystParse` runs without directive specs, so it leaves the bodies of extension directives like `{tab-set}`, `{grid}` and `{card}` unparsed.
-  The parts highlight the `{tab-item}` and `{grid-item-card}` directives inside them, which counts as a miss.
+- `{myst}` example directives keep their body as source, but both parts highlight the MyST inside them.
 - `{index}` adds targets with no label, which no highlighter can match.
-- Nested lists whose content is indented 4 spaces are mis-parsed by the Markdown TextMate grammar itself, before MyST sees them.
 
-A few misses are real.
-Directives and roles with inline options, like `:::{note .dropdown}` or ``{span .red}`x` ``, aren't highlighted, because the name pattern stops at the space.
+A few misses are real:
+
+- Directives and roles with inline options, like `:::{note .dropdown}` or ``{span .red}`x` ``, aren't highlighted, because the name pattern stops at the space.
+- CodeMirror doesn't see a code fence nested inside a backtick directive as code, so it highlights the MyST in it.
 
 ## Why TextMate and CodeMirror need different approaches
 

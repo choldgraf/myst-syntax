@@ -42,6 +42,8 @@ function mystmd(src: string) {
   const walk = (node: any) => {
     const field = fields[node.type];
     if (field) found.push(`${field[0]} ${node[field[1]]}`);
+    // Without directive specs, an unknown directive's body is left as text, so parse it too.
+    if (node.type === 'mystDirective' && !node.children?.length && node.value) walk(mystParse(node.value));
     node.children?.forEach(walk);
   };
   walk(mystParse(src));

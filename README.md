@@ -108,6 +108,7 @@ You need Node 24 or later, which runs the TypeScript files directly.
 `npm run conformance` checks that both parts find the same role names, directive names and target labels as mystmd's parser.
 It runs on the [myst-spec](https://github.com/jupyter-book/myst-spec) examples, prints each miss and a table of matched, missed and excluded examples, and fails if any example is missed.
 Differences in `{math}`, `{raw}`, `{mermaid}` and code directives count as excluded, not missed, since the parts deliberately treat them as math or code rather than MyST.
+mystmd leaves the body of a directive it doesn't know, like `{tab-set}`, as text, so the check parses those bodies again to find the names nested inside.
 CI runs it after `npm test`.
 
 To also check a folder of your own MyST projects, point `MYST_CORPUS` at it:
