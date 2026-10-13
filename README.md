@@ -20,7 +20,7 @@ They highlight different syntax:
 | YAML options in a directive | ✓ | |
 | Inline math (`$x$`) | ✓ | ✓ |
 | Display math (`$$`) | ✓ | |
-| Citations (`@key`) | | ✓ |
+| Citations (`@key`, `[@a; @b]`) | ✓ | ✓ |
 | Code in code directives, like `{code-cell} python` | ✓ | ✓ |
 
 Both parts highlight directives in backtick, tilde and colon fences, at the top level and inside list items.

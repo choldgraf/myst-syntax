@@ -1,6 +1,6 @@
 // Writes myst.tmLanguage.json. Edit this file, not the JSON, then run `npm run grammar`.
 import { writeFileSync } from 'node:fs';
-import { codeDirectives, labelChars, nameChars } from './src/rules.ts';
+import { citationChars, codeDirectives, labelChars, nameChars } from './src/rules.ts';
 
 // Code directives like {code-cell} python. TextMate can only include a grammar by name, so each language has its own rule.
 const languages = [
@@ -59,7 +59,7 @@ const grammar = {
   scopeName: 'text.myst.injection',
   injectTo: ['text.html.markdown'],
   injectionSelector: 'L:text.html.markdown -meta.embedded -markup.inline.raw -markup.fenced_code -markup.raw.block -markup.math',
-  patterns: [...Object.keys(code), 'directive', 'role', 'target', 'display-math', 'math', 'block-break', 'comment', 'substitution', 'footnote'].map((name) => ({ include: `#${name}` })),
+  patterns: [...Object.keys(code), 'directive', 'role', 'target', 'display-math', 'math', 'citation', 'block-break', 'comment', 'substitution', 'footnote'].map((name) => ({ include: `#${name}` })),
   repository: {
     ...code,
     directive: {
@@ -111,6 +111,14 @@ const grammar = {
         1: { name: 'punctuation.definition.math.myst' },
         2: { name: 'markup.math.inline.myst' },
         3: { name: 'punctuation.definition.math.myst' },
+      },
+    },
+    citation: {
+      comment: "Each key, alone or in brackets like [@a; @b]. Keys start and end with a word character, as in mystmd's inText.",
+      match: '(?<![\\w@])(@)(\\w(?:' + citationChars + '*\\w)?)',
+      captures: {
+        1: { name: 'punctuation.definition.citation.myst' },
+        2: { name: 'constant.other.citation.myst' },
       },
     },
     'block-break': {

@@ -58,6 +58,9 @@
       "include": "#math"
     },
     {
+      "include": "#citation"
+    },
+    {
       "include": "#block-break"
     },
     {
@@ -630,6 +633,18 @@
         },
         "3": {
           "name": "punctuation.definition.math.myst"
+        }
+      }
+    },
+    "citation": {
+      "comment": "Each key, alone or in brackets like [@a; @b]. Keys start and end with a word character, as in mystmd's inText.",
+      "match": "(?<![\\w@])(@)(\\w(?:[\\w:.#$%&\\-+?~/]*\\w)?)",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.citation.myst"
+        },
+        "2": {
+          "name": "constant.other.citation.myst"
         }
       }
     },

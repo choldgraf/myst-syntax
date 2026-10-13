@@ -36,4 +36,5 @@ export const scopes = {
   option: 'entity.other.attribute-name.myst',
   label: 'entity.name.label.myst',
   math: 'markup.math.inline.myst',
+  citation: 'constant.other.citation.myst',
 };

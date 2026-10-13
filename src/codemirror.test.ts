@@ -7,8 +7,6 @@ import { EditorState } from '@codemirror/state';
 import { cases } from './cases.ts';
 import { highlighted, inCode, mystCode, patterns } from './codemirror.ts';
 
-const matches = (name: keyof typeof patterns, line: string) => [...line.matchAll(patterns[name])].map((m) => m[0]);
-
 // Line by line, as `myst()` does.
 function names(name: keyof typeof patterns, doc: string) {
   const state = EditorState.create({ doc, extensions: [markdown({ extensions: [mystCode([])] })] });
@@ -29,11 +27,6 @@ test('patterns match the shared cases', () => {
 test('options only follow a directive fence', () => {
   assert.deepEqual(names('option', ':::{note}\n\n:key: value\n:::'), []);
   assert.deepEqual(names('option', ':::{note}\nText\n:key: value\n:::'), []);
-});
-
-test('patterns match citations', () => {
-  assert.deepEqual(matches('citation', 'As @smith2020 said; mail a@b.org'), ['@smith2020']);
-  assert.deepEqual(matches('citation', 'See @doi:10.1/x.'), ['@doi:10.1/x']);
 });
 
 test('code is skipped, but directive bodies are not', () => {

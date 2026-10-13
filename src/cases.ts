@@ -16,4 +16,5 @@ export const cases = {
   option: [['```{figure} x\n:width: 50%\n  :class: y\n```', ['width', 'class']], [':::{note}\n:::', []], ['Text\n:key: value', []], ['- :::{note}\n  :class: x\n  :::', ['class']]],
   label: [['(intro)=', ['intro']], ['  (fig.1|a)=', ['fig.1|a']], ['(a b)=', []], ['(café)=', []]],
   math: [['a $x^2$ and $ y $, not $$z$$', ['x^2', ' y ']], ['cost $5 or $10', ['5 or ']], ['`$x$`', []]],
+  citation: [['As @smith2020 said; mail a@b.org', ['smith2020']], ['See @doi:10.1/x.', ['doi:10.1/x']], ['[@a; @b, p. 3]', ['a', 'b']], ['`@x`', []]],
 } satisfies Record<string, [string, string[]][]>;

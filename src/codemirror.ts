@@ -2,7 +2,7 @@ import { LanguageDescription, ParseContext, syntaxTree } from '@codemirror/langu
 import type { EditorState } from '@codemirror/state';
 import { Decoration, EditorView, MatchDecorator, ViewPlugin, type ViewUpdate } from '@codemirror/view';
 import { type BlockParser, parseCode } from '@lezer/markdown';
-import { codeDirectives, labelChars, nameChars } from './rules.ts';
+import { citationChars, codeDirectives, labelChars, nameChars } from './rules.ts';
 
 /** MyST syntax on top of Markdown. Each regex matches within one line; the whole match is highlighted. */
 export const patterns = {
@@ -14,8 +14,8 @@ export const patterns = {
   label: new RegExp('(?<=^\\s*)\\((' + labelChars + '+)\\)=(?=\\s*$)', 'g'),
   // Close to mystmd's dollarmath: spaces and digits are allowed inside. Skips `$$`, which is display math.
   math: /(?<![\\$])\$([^$\n]+)\$(?!\$)/g,
-  // Citation key characters follow mystmd's `inText` (markdown-it-myst's citations.js).
-  citation: /(?<![\w@])@\w(?:[\w:.#$%&+?~/-]*\w)?/g,
+  // Each key, alone or in brackets like [@a; @b]. Keys start and end with a word character, as in mystmd's `inText`.
+  citation: new RegExp('(?<![\\w@])@(\\w(?:' + citationChars + '*\\w)?)', 'g'),
 };
 
 // A code directive's info string, like `{code-cell} python`, and its language.
