@@ -79,6 +79,7 @@ You need Node 24 or later, which runs the TypeScript files directly.
 - `npm test`: check both parts against MyST examples. The grammar is tested with `vscode-textmate`, the library VS Code uses.
 - `npm run grammar`: regenerate `myst.tmLanguage.json`. Edit `grammar.mjs`, not the JSON.
 - `npm run conformance`: compare both parts with mystmd, below.
+- `npm run build`: compile to `dist/`, which is what other packages import. Installing from GitHub runs this automatically.
 
 ### Conformance
 

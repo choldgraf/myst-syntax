@@ -41,7 +41,7 @@ const colonCode: BlockParser = {
     const from = cx.lineStart + line.pos;
     const info = from + open[0].indexOf(open[2]);
     const children = [cx.elt('CodeMark', from, from + open[1].length), cx.elt('CodeInfo', info, info + open[2].length)];
-    for (let first = true; cx.nextLine() && line.depth >= cx.stack.length; first = false) {
+    for (let first = true; cx.nextLine() && (line as any).depth >= (cx as any).stack.length; first = false) {
       const close = line.text.slice(line.pos).match(/^:+(?=\s*$)/);
       if (close && close[0].length >= open[1].length) {
         children.push(...line.markers, cx.elt('CodeMark', cx.lineStart + line.pos, cx.lineStart + line.pos + close[0].length));
