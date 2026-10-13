@@ -58,8 +58,8 @@ const grammar = {
   name: 'myst',
   scopeName: 'text.myst.injection',
   injectTo: ['text.html.markdown'],
-  injectionSelector: 'L:text.html.markdown -meta.embedded -markup.inline.raw -markup.fenced_code -markup.raw.block',
-  patterns: [...Object.keys(code), 'directive', 'role', 'target', 'block-break', 'comment', 'substitution', 'footnote'].map((name) => ({ include: `#${name}` })),
+  injectionSelector: 'L:text.html.markdown -meta.embedded -markup.inline.raw -markup.fenced_code -markup.raw.block -markup.math',
+  patterns: [...Object.keys(code), 'directive', 'role', 'target', 'display-math', 'math', 'block-break', 'comment', 'substitution', 'footnote'].map((name) => ({ include: `#${name}` })),
   repository: {
     ...code,
     directive: {
@@ -94,6 +94,23 @@ const grammar = {
         2: { name: 'entity.name.label.myst' },
         3: { name: 'punctuation.definition.target.myst' },
         4: { name: 'punctuation.definition.target.myst' },
+      },
+    },
+    'display-math': {
+      comment: "Like mystmd's dollarmath: from a line starting with $$ to a line ending with $$, or $$ (label). A blank line ends it, as it does in mystmd.",
+      begin: lineStart + ' {0,3}(\\$\\$)',
+      end: '(\\$\\$)(?:\\s*\\([^)$]+\\))?\\s*$|^(?=\\s*$)',
+      contentName: 'markup.math.block.myst',
+      beginCaptures: { 1: { name: 'punctuation.definition.math.myst' } },
+      endCaptures: { 1: { name: 'punctuation.definition.math.myst' } },
+    },
+    math: {
+      comment: "Close to mystmd's dollarmath: spaces and digits are allowed inside. Skips $$, which is display math.",
+      match: '(?<![\\\\$])(\\$)([^$]+)(\\$)(?!\\$)',
+      captures: {
+        1: { name: 'punctuation.definition.math.myst' },
+        2: { name: 'markup.math.inline.myst' },
+        3: { name: 'punctuation.definition.math.myst' },
       },
     },
     'block-break': {

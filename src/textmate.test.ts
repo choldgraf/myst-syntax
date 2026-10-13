@@ -12,6 +12,11 @@ test('the grammar scopes MyST syntax', () => {
   assert.deepEqual(scoped('Hi {{ name }}', 'variable.other.substitution.myst'), [' name ']);
 });
 
+test('display math is highlighted', () => {
+  assert.deepEqual(scoped('$$\nx^2\n$$ (eq1)\n\n$$y$$\n\nText', 'markup.math.block.myst'), ['x^2', 'y']);
+  assert.deepEqual(scoped('$$\nx\n\nText', 'markup.math.block.myst'), ['x']);
+});
+
 test('code directives are highlighted in their language', () => {
   const cell = '```{code-cell} ipython3\n:tags: [hide-input]\ndef f(): pass\n```';
   assert.deepEqual(scoped(cell, 'entity.name.function.directive.myst'), ['code-cell']);

@@ -18,7 +18,8 @@ They highlight different syntax:
 | Comments (`%`) and block breaks (`+++`) | ✓ | |
 | Substitutions (`{{ x }}`) and footnote references | ✓ | |
 | YAML options in a directive | ✓ | |
-| Inline math (`$x$`) | | ✓ |
+| Inline math (`$x$`) | ✓ | ✓ |
+| Display math (`$$`) | ✓ | |
 | Citations (`@key`) | | ✓ |
 | Code in code directives, like `{code-cell} python` | ✓ | ✓ |
 

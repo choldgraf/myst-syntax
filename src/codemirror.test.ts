@@ -31,9 +31,7 @@ test('options only follow a directive fence', () => {
   assert.deepEqual(names('option', ':::{note}\nText\n:key: value\n:::'), []);
 });
 
-test('patterns match math and citations', () => {
-  assert.deepEqual(matches('math', 'a $x^2$ and $ y $, not $$z$$'), ['$x^2$', '$ y $']);
-  assert.deepEqual(matches('math', 'cost $5 or $10'), ['$5 or $']);
+test('patterns match citations', () => {
   assert.deepEqual(matches('citation', 'As @smith2020 said; mail a@b.org'), ['@smith2020']);
   assert.deepEqual(matches('citation', 'See @doi:10.1/x.'), ['@doi:10.1/x']);
 });

@@ -13,7 +13,7 @@ export const patterns = {
   option: /(?<=^\s*):([\w-]+):(?=\s|$)/g,
   label: new RegExp('(?<=^\\s*)\\((' + labelChars + '+)\\)=(?=\\s*$)', 'g'),
   // Close to mystmd's dollarmath: spaces and digits are allowed inside. Skips `$$`, which is display math.
-  math: /(?<![\\$])\$[^$\n]+\$(?!\$)/g,
+  math: /(?<![\\$])\$([^$\n]+)\$(?!\$)/g,
   // Citation key characters follow mystmd's `inText` (markdown-it-myst's citations.js).
   citation: /(?<![\w@])@\w(?:[\w:.#$%&+?~/-]*\w)?/g,
 };

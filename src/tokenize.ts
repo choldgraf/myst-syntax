@@ -35,4 +35,5 @@ export const scopes = {
   directive: 'entity.name.function.directive.myst',
   option: 'entity.other.attribute-name.myst',
   label: 'entity.name.label.myst',
+  math: 'markup.math.inline.myst',
 };
