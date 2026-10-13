@@ -73,3 +73,20 @@ You need Node 24 or later, which runs the TypeScript files directly.
 - `npm install`: install the dependencies.
 - `npm test`: check both parts against MyST examples. The grammar is tested with `vscode-textmate`, the library VS Code uses.
 - `npm run grammar`: regenerate `myst.tmLanguage.json`. Edit `grammar.mjs`, not the JSON.
+- `npm run conformance`: compare both parts with mystmd, below.
+
+### Conformance
+
+`npm run conformance` checks that both parts find the same role names, directive names and target labels as mystmd's parser.
+It runs on the [myst-spec](https://github.com/jupyter-book/myst-spec) examples, prints each miss and a table of matched, missed and excluded examples, and fails if any example is missed.
+Differences in `{math}`, `{raw}`, `{mermaid}` and code directives count as excluded, not missed, since the parts deliberately treat them as math or code rather than MyST.
+CI runs it after `npm test`.
+
+To also check a folder of your own MyST projects, point `MYST_CORPUS` at it:
+
+```sh
+MYST_CORPUS=path/to/projects npm run conformance
+```
+
+This reads every `.md` file and the Markdown cells of every `.ipynb` file, skipping `node_modules` and `_build`.
+Corpus misses are printed, but don't make the command fail.

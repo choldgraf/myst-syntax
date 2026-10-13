@@ -13,7 +13,8 @@
   ],
   "scripts": {
     "test": "node --test 'src/**/*.test.ts'",
-    "grammar": "node grammar.mjs"
+    "grammar": "node grammar.mjs",
+    "conformance": "node conformance.ts"
   },
   "peerDependencies": {
     "@codemirror/language": "^6.0.0",
@@ -26,6 +27,9 @@
     "@codemirror/language": "^6.13.1",
     "@codemirror/view": "^6.38.0",
     "@shikijs/langs": "^4.5.0",
+    "js-yaml": "^4.3.2",
+    "myst-parser": "^1.7.4",
+    "myst-spec": "^0.0.6",
     "vscode-oniguruma": "^2.0.1",
     "vscode-textmate": "^9.3.2"
   },
