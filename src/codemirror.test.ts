@@ -9,8 +9,16 @@ import { inCode, mystCode, patterns } from './codemirror.ts';
 
 const matches = (name: keyof typeof patterns, line: string) => [...line.matchAll(patterns[name])].map((m) => m[0]);
 
-// Line by line, as MatchDecorator does.
-const names = (name: keyof typeof patterns, doc: string) => doc.split('\n').flatMap((l) => [...l.matchAll(patterns[name])].map((m) => m[1]));
+// Line by line and skipping code, as `myst()` does.
+function names(name: keyof typeof patterns, doc: string) {
+  const state = EditorState.create({ doc, extensions: [markdown({ extensions: [mystCode([])] })] });
+  let from = 0;
+  return doc.split('\n').flatMap((line) => {
+    const found = [...line.matchAll(patterns[name])].filter((m) => !inCode(state, from + m.index)).map((m) => m[1]);
+    from += line.length + 1;
+    return found;
+  });
+}
 
 test('patterns match the shared cases', () => {
   for (const [kind, list] of Object.entries(cases)) {
@@ -34,10 +42,11 @@ test('code is skipped, but directive bodies are not', () => {
 
 test('mystCode parses code directives in their language', () => {
   const languages = [LanguageDescription.of({ name: 'Python', support: python() })];
-  const doc = '```{code-cell} ipython3\ndef f(): pass\n```\n\n```{note}\ndef\n```\n\n```python\nclass\n```';
+  const doc = '```{code-cell} ipython3\ndef f(): pass\n```\n\n```{note}\ndef\n```\n\n```python\nclass\n```\n\n:::{code-block} python\nwith\n:::';
   const tree = syntaxTree(EditorState.create({ doc, extensions: [markdown({ codeLanguages: languages, extensions: [mystCode(languages)] })] }));
   const at = (i: number) => tree.resolveInner(i, 1).name;
   assert.equal(at(doc.indexOf('def')), 'def');
   assert.notEqual(at(doc.lastIndexOf('def')), 'def');
   assert.equal(at(doc.indexOf('class')), 'class');
+  assert.equal(at(doc.indexOf('with')), 'with');
 });

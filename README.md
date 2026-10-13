@@ -20,11 +20,10 @@ They highlight different syntax:
 | YAML options in a directive | ✓ | |
 | Inline math (`$x$`) | | ✓ |
 | Citations (`@key`) | | ✓ |
-| Code in code directives, like `{code-cell} python` | ✓ | ✓ |
+| Code in code directives, like `{code-cell} python`, in backtick or colon fences | ✓ | ✓ |
 
 TextMate highlights code directives in common languages, such as Python, R and JavaScript.
 In TextMate, code directives in other languages, or without one, stay plain, and so do `{math}`, `{mermaid}` and `{raw}`.
-Neither part treats colon-fenced code directives as code yet; see the [roadmap](ROADMAP.md).
 
 For TextMate, it aims to replace the older, unmaintained [`vscode-myst-syntax`](https://github.com/chrisjsewell/vscode-myst-syntax) grammar.
 See the [roadmap](ROADMAP.md) for what's next.
@@ -64,6 +63,7 @@ new EditorView({ extensions: [markdown({ codeLanguages: languages, extensions: [
 `myst()` adds a `cm-myst-<name>` class to each match, such as `cm-myst-role`, with colours for light and dark themes.
 It skips code, so `@property` in a Python block isn't a citation.
 `mystCode` highlights code directives in their language, as `codeLanguages` does for plain ```` ```python ```` blocks.
+It also parses colon-fenced code directives, like `:::{code-cell} python`, as code, which Markdown doesn't.
 Leave out `codeLanguages` and `mystCode` if you don't want code highlighted.
 
 The CodeMirror extension is TypeScript, so use it from a bundler that compiles TypeScript in `node_modules`, such as Vite or esbuild.

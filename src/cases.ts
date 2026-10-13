@@ -2,7 +2,7 @@
 const names = ['note', 'a.b', 'a+b', 'a:b', 'a-b', 'a_b'];
 
 export const cases = {
-  role: [['See {numref}`fig-1` and {ref}`intro`.', ['numref', 'ref']], ...names.map((n) => [`{${n}}\`x\``, [n]])],
+  role: [['See {numref}`fig-1` and {ref}`intro`.', ['numref', 'ref']], ...names.map((n) => [`{${n}}\`x\``, [n]]), [':::{code-block} python\n{ref}`x`\n:::', []]],
   directive: [
     ['```{figure} logo.svg\n```', ['figure']],
     [':::{tab-item} First\n:::', ['tab-item']],

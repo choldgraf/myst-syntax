@@ -1,7 +1,7 @@
 import { LanguageDescription, ParseContext, syntaxTree } from '@codemirror/language';
 import type { EditorState } from '@codemirror/state';
 import { Decoration, EditorView, MatchDecorator, ViewPlugin, type ViewUpdate } from '@codemirror/view';
-import { parseCode } from '@lezer/markdown';
+import { type BlockParser, parseCode } from '@lezer/markdown';
 import { codeDirectives, labelChars, nameChars } from './rules.ts';
 
 /** MyST syntax on top of Markdown. Each regex matches within one line; the whole match is highlighted. */
@@ -20,12 +20,42 @@ export const patterns = {
 // A code directive's info string, like `{code-cell} python`, and its language.
 const codeDirective = new RegExp('^\\{(?:' + codeDirectives + ')\\}\\s*(\\S*)');
 
+// A colon-fenced code directive's opening line, like `:::{code-cell} python`: its fence and info string.
+const colonFence = new RegExp('^(:{3,})\\s*(\\{(?:' + codeDirectives + ')\\}.*?)\\s*$');
+
+/** Parses colon-fenced code directives into the same nodes as backtick ones, which Markdown parses as `FencedCode`. */
+const colonCode: BlockParser = {
+  name: 'ColonCode',
+  parse(cx, line) {
+    const open = line.text.slice(line.pos).match(colonFence);
+    if (!open) return false;
+    const from = cx.lineStart + line.pos;
+    const info = from + open[0].indexOf(open[2]);
+    const children = [cx.elt('CodeMark', from, from + open[1].length), cx.elt('CodeInfo', info, info + open[2].length)];
+    for (let first = true; cx.nextLine() && line.depth >= cx.stack.length; first = false) {
+      const close = line.text.slice(line.pos).match(/^:+(?=\s*$)/);
+      if (close && close[0].length >= open[1].length) {
+        children.push(...line.markers, cx.elt('CodeMark', cx.lineStart + line.pos, cx.lineStart + line.pos + close[0].length));
+        cx.nextLine();
+        break;
+      }
+      // The newline joins the lines, so the code parser sees them as one text.
+      if (!first) children.push(cx.elt('CodeText', cx.lineStart - 1, cx.lineStart));
+      children.push(...line.markers, cx.elt('CodeText', cx.lineStart + line.basePos, cx.lineStart + line.text.length));
+    }
+    cx.addElement(cx.elt('FencedCode', from, cx.prevLineEnd(), children));
+    return true;
+  },
+  endLeaf: (_, line) => colonFence.test(line.text.slice(line.pos)),
+};
+
 /**
  * Highlights code directives like ```{code-cell} python in their language, as `markdown({ codeLanguages })` does for ```python.
+ * It also parses colon-fenced ones, like :::{code-cell} python, as code.
  * Use as `markdown({ codeLanguages: languages, extensions: [mystCode(languages)] })`, with `languages` from `@codemirror/language-data`.
  */
 export function mystCode(languages: readonly LanguageDescription[]) {
-  return parseCode({
+  const code = parseCode({
     codeParser(info) {
       const name = info.match(codeDirective)?.[1];
       const found = name ? LanguageDescription.matchLanguageName(languages, name) : null;
@@ -33,6 +63,7 @@ export function mystCode(languages: readonly LanguageDescription[]) {
       return found.support ? found.support.language.parser : ParseContext.getSkippingParser(found.load());
     },
   });
+  return [code, { parseBlock: [colonCode] }];
 }
 
 /** Whether `pos` is in Markdown code, such as `x`, ```python or ```{code-cell}, but not in another directive, whose fence also parses as code. */
