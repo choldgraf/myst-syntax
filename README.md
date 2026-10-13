@@ -69,7 +69,7 @@ It skips code, so `@property` in a Python block isn't a citation.
 It also parses colon-fenced code directives, like `:::{code-cell} python`, as code, which Markdown doesn't.
 Leave out `codeLanguages` and `mystCode` if you don't want code highlighted.
 
-The CodeMirror extension is TypeScript, so use it from a bundler that compiles TypeScript in `node_modules`, such as Vite or esbuild.
+The CodeMirror extension ships as JavaScript with type declarations, so it needs no TypeScript setup.
 
 ### Using with Shiki
 
