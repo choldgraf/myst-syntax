@@ -113,13 +113,11 @@ The TextMate half is an injection grammar, so it has no Markdown rules of its ow
 The editor tokenizes the file with its Markdown grammar, and `injectTo` tells it to try MyST's rules too.
 The `injectionSelector` limits where: `L:` puts MyST's rules ahead of Markdown's, and the `-` scopes keep them out of code and math.
 MyST's rules see a line only after Markdown's list and block quote rules have taken its markers, which is why every line-anchored rule starts with `(?:^|\G)`.
-It is also why `{math}`, `{mermaid}` and `{raw}` in backtick and tilde fences are left to the host grammar, which shows them as plain code.
 [What we learned](docs/findings.md#why-textmate-and-codemirror-need-different-approaches) has the detail.
 
 The CodeMirror half works on top of `@lezer/markdown`, the parser in `@codemirror/lang-markdown`.
 `myst()` matches each regex in `patterns` line by line and marks the matches, skipping anything Markdown's syntax tree calls code.
 `mystCode` is a Markdown extension: it tells the parser which language a `{code-cell}` fence holds, and adds a block parser that reads colon fences as code.
-YAML options and `$$` would need a block parser of their own, as [what we learned](docs/findings.md#why-textmate-and-codemirror-need-different-approaches) explains.
 
 `src/tokenize.ts` runs both halves outside an editor.
 It loads the JSON into `vscode-textmate` the way VS Code does, and matches the CodeMirror patterns against a real syntax tree.
