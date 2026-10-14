@@ -44,12 +44,11 @@ In myst-spec, TextMate's 4 exclusions are all `{math}`, and CodeMirror's 5 are `
 | Corpus | CodeMirror | 294 | 43 | 61 |
 
 The corpus rows come from `MYST_CORPUS=<path> npm run conformance`.
-The corpus is a local folder, not checked in, with 1554 `.md` files and 9 notebooks.
 To rebuild it, put these in one folder:
 
 - [jupyter-book/mystmd](https://github.com/jupyter-book/mystmd) at `3b00993`, its `docs/`.
 - [jupyter-book/jupyter-book](https://github.com/jupyter-book/jupyter-book) at `11acb1b`, its `docs/`.
-- [2i2c-org/docs](https://github.com/2i2c-org/docs) at `c1ca3ba`, its `docs/`.
+- [2i2c-org/docs](https://github.com/2i2c-org/docs) at `c1ca3ba`.
 - [jupyter-book/example-outputs](https://github.com/jupyter-book/example-outputs) at `d7ee89e`, the whole repo, for its notebooks.
 - Copies of the docs of myst-parser-unified, the docs and demo of mystmd-lsp, and this repo's README and ROADMAP, as they were when the corpus was built.
 
@@ -82,6 +81,7 @@ Highlighting them needs a block parser that claims those lines first, so both ar
 Shiki loses an injected grammar once a second language that Markdown embeds lazily, like `yaml` or `python`, is loaded.
 `Registry.loadLanguage` in `@shikijs/primitive` rebuilds Markdown to pick up the new language, but vscode-textmate's grammar cache skips the rebuild, so the injections are never registered again.
 Nothing is thrown; MyST just isn't highlighted.
+It isn't reported to Shiki yet, so there's no issue to link.
 
 [Using with Shiki](../README.md#using-with-shiki) has two recipes that avoid it, and `src/shiki.test.ts` pins both.
 
