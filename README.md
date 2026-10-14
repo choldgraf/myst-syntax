@@ -29,7 +29,7 @@ Directives, labels, comments and block breaks are highlighted at the top level, 
 TextMate highlights code directives in common languages, such as Python, R and JavaScript.
 In TextMate, code directives in other languages, or without one, stay plain, and so do `{math}`, `{mermaid}` and `{raw}`.
 
-For TextMate, it aims to replace the older, unmaintained [`vscode-myst-syntax`](https://github.com/chrisjsewell/vscode-myst-syntax) grammar.
+The TextMate grammar takes inspiration from chrisjsewell's [`vscode-myst-syntax`](https://github.com/chrisjsewell/vscode-myst-syntax).
 See the [roadmap](ROADMAP.md) for what's next, and [what we learned](docs/findings.md) for why it works the way it does.
 
 ## Install it
