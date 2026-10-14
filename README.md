@@ -94,6 +94,48 @@ import markdown from '@shikijs/langs/markdown';
 langs: ['yaml', 'python', { ...markdown[0], embeddedLangsLazy: [] }, myst]
 ```
 
+## How it works
+
+```mermaid
+flowchart LR
+  rules["src/rules.ts"] --> grammar["grammar.mjs"] -->|npm run grammar| json["myst.tmLanguage.json"] -->|injected into| host["Markdown grammar in VS Code or Shiki"]
+  rules --> cm["src/codemirror.ts"] -->|extends| lang["@codemirror/lang-markdown"]
+  cases["src/cases.ts"] --> tests["textmate.test.ts and codemirror.test.ts"]
+  json --> conformance["conformance.ts"]
+  cm --> conformance
+  mystmd["mystmd's parse"] --> conformance
+```
+
+`src/rules.ts` holds the regex fragments both halves share.
+`grammar.mjs` imports them when it writes the JSON, so they are baked into the grammar, and `src/codemirror.ts` imports them at run time.
+
+The TextMate half is an injection grammar, so it has no Markdown rules of its own.
+The editor tokenizes the file with its Markdown grammar, and `injectTo` tells it to try MyST's rules too.
+The `injectionSelector` limits where: `L:` puts MyST's rules ahead of Markdown's, and the `-` scopes keep them out of code and math.
+MyST's rules see a line only after Markdown's list and block quote rules have taken its markers, which is why every line-anchored rule starts with `(?:^|\G)`.
+It is also why `{math}`, `{mermaid}` and `{raw}` in backtick and tilde fences are left to the host grammar, which shows them as plain code.
+[What we learned](docs/findings.md#why-textmate-and-codemirror-need-different-approaches) has the detail.
+
+The CodeMirror half works on top of `@lezer/markdown`, the parser in `@codemirror/lang-markdown`.
+`myst()` matches each regex in `patterns` line by line and marks the matches, skipping anything Markdown's syntax tree calls code.
+`mystCode` is a Markdown extension: it tells the parser which language a `{code-cell}` fence holds, and adds a block parser that reads colon fences as code.
+YAML options and `$$` would need a block parser of their own, as [what we learned](docs/findings.md#why-textmate-and-codemirror-need-different-approaches) explains.
+
+`src/tokenize.ts` runs both halves outside an editor.
+It loads the JSON into `vscode-textmate` the way VS Code does, and matches the CodeMirror patterns against a real syntax tree.
+The two test files use it to check every example in `src/cases.ts`, and `conformance.ts` uses it to compare both halves with mystmd.
+
+### To add a syntax
+
+1. Add examples to `cases` in `src/cases.ts`, under a new key, with the names each one should highlight.
+2. Add a rule to `grammar.mjs` and its scope to `scopes` in `src/tokenize.ts`, then run `npm run grammar` and commit `myst.tmLanguage.json`.
+3. Add a pattern with the same key to `patterns` in `src/codemirror.ts`, and its colours to the theme there.
+4. Add a row to the syntax table at the top of this README.
+5. Run `npm test`.
+6. Run `npm run conformance`.
+
+Then check [what must stay in sync by hand](#what-must-stay-in-sync-by-hand).
+
 ## Develop
 
 You need Node 24 or later, which runs the TypeScript files directly.
