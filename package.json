@@ -45,7 +45,7 @@
     "vscode-oniguruma": "^2.0.1",
     "vscode-textmate": "^9.3.2"
   },
-  "license": "BSD-3-Clause",
+  "license": "CC0-1.0",
   "keywords": [
     "myst",
     "markdown",
