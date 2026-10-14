@@ -16,12 +16,13 @@ It works badly for syntax whose meaning depends on what came before.
 `---` starts YAML options only right after the fence, and is a heading underline or a thematic break elsewhere.
 A directive's body is MyST again, so it can hold more directives with their own options, nested to any depth.
 A regex can't count fences or know which directive it's inside, so directive bodies and options are the hard part.
-TextMate gets a little state from begin and end rules, and CodeMirror gets some from Markdown's syntax tree and by looking back to a directive's opening fence.
+TextMate gets a little state from begin and end rules.
+CodeMirror gets some from Markdown's syntax tree, and by looking back to a directive's opening fence.
 Neither gets a real tree of directives.
 
 Some directives are left alone on purpose.
 The body of `{math}` is LaTeX, `{mermaid}` is Mermaid, `{raw}` is whatever format it targets, and code directives hold code in another language.
-Highlighting MyST inside them would be wrong: `@property` in a Python cell isn't a citation.
+Highlighting MyST inside them would be wrong.
 The [README](../README.md) says how each part treats them.
 
 ## Conformance results
@@ -32,7 +33,7 @@ An example matches if both lists are the same, counting repeats.
 Examples where neither side finds a name are skipped.
 
 An example is excluded, not missed, when every difference is in `{math}`, `{raw}`, `{mermaid}` or a code directive.
-Not reporting their names is the intended behaviour, not a bug.
+`grammar.mjs` and `conformance.ts` each type out `{math}`, `{mermaid}` and `{raw}`, so they are kept [in sync by hand](../README.md#what-must-stay-in-sync-by-hand).
 In myst-spec, TextMate's 4 exclusions are all `{math}`, and CodeMirror's 5 are `{code}` and `{code-block}`, whose fences Markdown parses as code.
 
 | Examples | Part | Matched | Missed | Excluded |
@@ -42,8 +43,15 @@ In myst-spec, TextMate's 4 exclusions are all `{math}`, and CodeMirror's 5 are `
 | Corpus (398 with a name) | TextMate | 355 | 33 | 10 |
 | Corpus | CodeMirror | 294 | 43 | 61 |
 
-The corpus is shallow clones of the mystmd, jupyter-book, 2i2c-docs and example-outputs repos: 1554 `.md` files and 9 notebooks.
-It isn't checked in; point `MYST_CORPUS` at your own folder to run the same check.
+The corpus rows come from `MYST_CORPUS=<path> npm run conformance`.
+The corpus is a local folder, not checked in, with 1554 `.md` files and 9 notebooks.
+To rebuild it, put these in one folder:
+
+- [jupyter-book/mystmd](https://github.com/jupyter-book/mystmd) at `3b00993`, its `docs/`.
+- [jupyter-book/jupyter-book](https://github.com/jupyter-book/jupyter-book) at `11acb1b`, its `docs/`.
+- [2i2c-org/docs](https://github.com/2i2c-org/docs) at `c1ca3ba`, its `docs/`.
+- [jupyter-book/example-outputs](https://github.com/jupyter-book/example-outputs) at `d7ee89e`, the whole repo, for its notebooks.
+- Copies of the docs of myst-parser-unified, the docs and demo of mystmd-lsp, and this repo's README and ROADMAP, as they were when the corpus was built.
 
 Most corpus misses are noise from the comparison, not highlighting bugs:
 
@@ -75,9 +83,7 @@ Shiki loses an injected grammar once a second language that Markdown embeds lazi
 `Registry.loadLanguage` in `@shikijs/primitive` rebuilds Markdown to pick up the new language, but vscode-textmate's grammar cache skips the rebuild, so the injections are never registered again.
 Nothing is thrown; MyST just isn't highlighted.
 
-The recipe is to load `yaml`, then `markdown`, then the grammar, and nothing else.
-To load more languages, pass Markdown with its lazy list emptied, so it is never rebuilt.
-Both are in [Using with Shiki](../README.md#using-with-shiki), and `src/shiki.test.ts` pins the recipe.
+[Using with Shiki](../README.md#using-with-shiki) has two recipes that avoid it, and `src/shiki.test.ts` pins both.
 
 ## When a Lezer or tree-sitter grammar would be worth it
 

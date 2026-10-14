@@ -8,7 +8,8 @@ It has two parts:
   It injects MyST into the editor's Markdown grammar.
 - `myst-syntax/codemirror`: a [CodeMirror 6](https://codemirror.net) extension to use with `markdown()`.
 
-Both parts take the role and directive name pattern, the label pattern and the list of code directives from `myst-syntax/rules`, which other tools can import too.
+Both parts take the role and directive name pattern, the label pattern, the citation key characters and the list of code directives from `myst-syntax/rules`, which other tools can import too.
+The rest is kept [in sync by hand](#what-must-stay-in-sync-by-hand).
 
 They highlight different syntax:
 
@@ -17,9 +18,9 @@ They highlight different syntax:
 | Roles, directives, options and labels | ✓ | ✓ |
 | Comments (`%`) and block breaks (`+++`) | ✓ | ✓ |
 | Substitutions (`{{ x }}`) and footnote references (`[^1]`) | ✓ | ✓ |
-| YAML options in a directive | ✓ | No: Markdown parses them as headings or code, so this needs a block parser, not just `@codemirror/lang-yaml` |
+| YAML options in a directive | ✓ | No, see [what we learned](docs/findings.md#why-textmate-and-codemirror-need-different-approaches) |
 | Inline math (`$x$`) | ✓ | ✓ |
-| Display math (`$$`) | ✓ | No: it spans lines, so it needs a block parser too |
+| Display math (`$$`) | ✓ | No, see [what we learned](docs/findings.md#why-textmate-and-codemirror-need-different-approaches) |
 | Citations (`@key`, `[@a; @b]`) | ✓ | ✓ |
 | Code in code directives, like `{code-cell} python` | ✓ | ✓ |
 
@@ -69,7 +70,7 @@ It skips code, so `@property` in a Python block isn't a citation.
 It also parses colon-fenced code directives, like `:::{code-cell} python`, as code, which Markdown doesn't.
 Leave out `codeLanguages` and `mystCode` if you don't want code highlighted.
 
-The CodeMirror extension ships as JavaScript with type declarations, so it needs no TypeScript setup.
+The CodeMirror extension ships as JavaScript with type declarations.
 
 ### Using with Shiki
 
@@ -84,7 +85,7 @@ highlighter.codeToHtml(src, { lang: 'markdown', theme: 'github-light' });
 ```
 
 Load `yaml` first, then `markdown`, then the grammar, and nothing else.
-This is a Shiki bug: once a second language that Markdown embeds lazily, like `yaml` or `python`, is loaded, Shiki rebuilds Markdown without its injections.
+The order works around a Shiki bug, described in [what we learned](docs/findings.md#shiki-drops-markdowns-injections).
 To load more languages, pass Markdown with its lazy list emptied, and then the order doesn't matter:
 
 ```ts
@@ -98,16 +99,19 @@ langs: ['yaml', 'python', { ...markdown[0], embeddedLangsLazy: [] }, myst]
 You need Node 24 or later, which runs the TypeScript files directly.
 
 - `npm install`: install the dependencies.
-- `npm test`: check both parts against MyST examples. The grammar is tested with `vscode-textmate`, the library VS Code uses.
-- `npm run grammar`: regenerate `myst.tmLanguage.json`. Edit `grammar.mjs`, not the JSON.
+- `npm test`: check both parts against the MyST examples in `src/cases.ts`.
+  The grammar runs under `vscode-textmate`, the library VS Code uses.
+- `npm run grammar`: regenerate `myst.tmLanguage.json` from `grammar.mjs`, which is the file to edit.
 - `npm run conformance`: compare both parts with mystmd, below.
-- `npm run build`: compile to `dist/`, which is what other packages import. Installing from GitHub runs this automatically.
+- `npm run build`: compile to `dist/`, which other packages import.
+  `npm install` runs it through the `prepare` script.
 
 ### Conformance
 
 `npm run conformance` checks that both parts find the same role names, directive names and target labels as mystmd's parser.
-It runs on the [myst-spec](https://github.com/jupyter-book/myst-spec) examples, prints each miss and a table of matched, missed and excluded examples, and fails if any example is missed.
-Differences in `{math}`, `{raw}`, `{mermaid}` and code directives count as excluded, not missed, since the parts deliberately treat them as math or code rather than MyST.
+It runs on the [myst-spec](https://github.com/jupyter-book/myst-spec) examples.
+It prints each miss and a table of matched, missed and excluded examples, and fails if any example is missed.
+[What we learned](docs/findings.md#conformance-results) says which differences count as excluded.
 mystmd leaves the body of a directive it doesn't know, like `{tab-set}`, as text, so the check parses those bodies again to find the names nested inside.
 CI runs it after `npm test`.
 
@@ -119,3 +123,13 @@ MYST_CORPUS=path/to/projects npm run conformance
 
 This reads every `.md` file and the Markdown cells of every `.ipynb` file, skipping `node_modules` and `_build`.
 Corpus misses are printed, but don't make the command fail.
+
+### What must stay in sync by hand
+
+- The `math|mermaid|raw` lookahead in `grammar.mjs` and the `excluded` pattern in `conformance.ts`.
+- The math and citation patterns in `grammar.mjs` and `patterns` in `src/codemirror.ts`.
+- The scope names in `grammar.mjs` and the `scopes` map in `src/tokenize.ts`.
+- The keys of `cases` in `src/cases.ts` and of `patterns` in `src/codemirror.ts`.
+- The syntax table at the top of this README and what the two parts highlight.
+- `src/rules.ts` and mystmd's rules in `markdown-it-myst`: `TARGET_PATTERN` in `dist/block.js`, and `dist/citations.js`.
+- The second Shiki recipe and the shape of `markdown[0]` in `@shikijs/langs/markdown`.
