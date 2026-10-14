@@ -94,5 +94,5 @@ A real grammar would reach what the regexes can't:
 - Exact spans for each directive, its argument, options and body, which tools need for folding, outlines or diagnostics.
 
 Highlighting alone doesn't need any of this.
-The signal to switch is a tool that needs the structure: folding directives in an editor, a JupyterLab extension reading the document, or a request for Neovim, Helix or Zed, which use tree-sitter.
+The signal to switch is a tool that needs the structure: folding directives in an editor, [jupyterlab-myst](https://github.com/jupyter-book/jupyterlab-myst) reading the document, or a request for Neovim, Helix or Zed, which use tree-sitter.
 Until then, the conformance check shows where the regexes fall short.
