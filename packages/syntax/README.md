@@ -54,7 +54,7 @@ Then add the copy to the extension's `package.json`:
 }
 ```
 
-The repo's own [VS Code extension](https://github.com/choldgraf/myst-syntax/blob/main/packages/vscode/README.md) does exactly this.
+The repo's own [VS Code extension](https://github.com/choldgraf/myst-syntax/blob/main/packages/vscode/README.md) does this, copying the grammar from `packages/syntax`.
 
 In CodeMirror:
 
@@ -109,22 +109,22 @@ flowchart LR
   mystmd["mystmd's parse"] --> conformance
 ```
 
-`src/rules.ts` holds the regex fragments both halves share.
+`src/rules.ts` holds the regex fragments both parts share.
 `grammar.mjs` imports them when it writes the JSON, so they are baked into the grammar, and `src/codemirror.ts` imports them at run time.
 
-The TextMate half is an injection grammar, so it has no Markdown rules of its own.
+The TextMate part is an injection grammar, so it has no Markdown rules of its own.
 The editor tokenizes the file with its Markdown grammar, and `injectTo` tells it to try MyST's rules too.
 The `injectionSelector` limits where: `L:` puts MyST's rules ahead of Markdown's, and the `-` scopes keep them out of code and math.
 MyST's rules see a line only after Markdown's list and block quote rules have taken its markers, which is why every line-anchored rule starts with `(?:^|\G)`.
 [What we learned](https://github.com/choldgraf/myst-syntax/blob/main/docs/findings.md#why-textmate-and-codemirror-need-different-approaches) has the detail.
 
-The CodeMirror half works on top of `@lezer/markdown`, the parser in `@codemirror/lang-markdown`.
+The CodeMirror part works on top of `@lezer/markdown`, the parser in `@codemirror/lang-markdown`.
 `myst()` matches each regex in `patterns` line by line and marks the matches, skipping anything Markdown's syntax tree calls code.
 `mystCode` is a Markdown extension: it tells the parser which language a `{code-cell}` fence holds, and adds a block parser that reads colon fences as code.
 
-`src/tokenize.ts` runs both halves outside an editor.
+`src/tokenize.ts` runs both parts outside an editor.
 It loads the JSON into `vscode-textmate` the way VS Code does, and matches the CodeMirror patterns against a real syntax tree.
-The two test files use it to check every example in `src/cases.ts`, and `conformance.ts` uses it to compare both halves with mystmd.
+The two test files use it to check every example in `src/cases.ts`, and `conformance.ts` uses it to compare both parts with mystmd.
 
 ### To add a syntax
 
@@ -143,7 +143,6 @@ The [repository README](https://github.com/choldgraf/myst-syntax/blob/main/READM
 This package adds:
 
 - `npm run grammar`: regenerate `myst.tmLanguage.json` from `grammar.mjs`, which is the file to edit.
-- `npm test`: the grammar runs under `vscode-textmate`, the library VS Code uses.
 - `npm run build`: compile to `dist/`, which the other packages import.
   `npm install` runs it through the `prepare` script.
 
@@ -167,7 +166,7 @@ Corpus misses are printed, but don't make the command fail.
 ### What must stay in sync by hand
 
 - The `math|mermaid|raw` lookahead in `grammar.mjs` and the `excluded` pattern in `conformance.ts`.
-- The math and citation patterns in `grammar.mjs` and `patterns` in `src/codemirror.ts`.
+- The math, citation, option body, substitution and footnote patterns in `grammar.mjs` and `patterns` in `src/codemirror.ts`.
 - The scope names in `grammar.mjs` and the `scopes` map in `src/tokenize.ts`.
 - The keys of `cases` in `src/cases.ts` and of `patterns` in `src/codemirror.ts`.
 - The syntax table at the top of this README and what the two parts highlight.

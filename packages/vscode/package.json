@@ -33,7 +33,6 @@
     "package": "npm run build && vsce package --no-dependencies -o myst-syntax.vsix"
   },
   "devDependencies": {
-    "@vscode/vsce": "^4.0.0",
-    "myst-syntax": "*"
+    "@vscode/vsce": "^4.0.0"
   }
 }

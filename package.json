@@ -8,6 +8,6 @@
     "test": "npm test --workspaces --if-present",
     "conformance": "npm run conformance -w packages/syntax",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "build": "npm run build --workspaces --if-present"
+    "build": "npm run build -w packages/syntax && npm run build -w packages/jupyterlab -w packages/vscode"
   }
 }
