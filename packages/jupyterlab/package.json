@@ -1,0 +1,28 @@
+{
+  "name": "jupyterlab-myst-syntax",
+  "version": "0.0.1",
+  "description": "MyST Markdown syntax highlighting in JupyterLab's notebook cells and Markdown editors.",
+  "private": true,
+  "license": "CC0-1.0",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "node build.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "jupyterlab": {
+    "extension": true,
+    "outputDir": "jupyterlab_myst_syntax/labextension"
+  },
+  "dependencies": {
+    "@codemirror/lang-markdown": "^6.5.2",
+    "@codemirror/language": "^6.13.1",
+    "@jupyterlab/application": "^4.5.0",
+    "@jupyterlab/codemirror": "^4.5.0",
+    "myst-syntax": "*"
+  },
+  "devDependencies": {
+    "@jupyterlab/builder": "^4.5.11",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2"
+  }
+}

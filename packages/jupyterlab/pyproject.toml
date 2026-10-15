@@ -1,0 +1,38 @@
+[build-system]
+# JupyterLab is here so build.mjs can find Lab's staging dir when the Python build has to build the labextension itself.
+requires = ["hatchling>=1.5.0", "hatch-nodejs-version>=0.3.2", "hatch-jupyter-builder>=0.5", "jupyterlab>=4.0.0,<5"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jupyterlab-myst-syntax"
+description = "MyST Markdown syntax highlighting in JupyterLab's notebook cells and Markdown editors."
+readme = "README.md"
+license = "CC0-1.0"
+requires-python = ">=3.9"
+classifiers = ["Framework :: Jupyter", "Framework :: Jupyter :: JupyterLab", "Framework :: Jupyter :: JupyterLab :: 4", "Framework :: Jupyter :: JupyterLab :: Extensions", "Framework :: Jupyter :: JupyterLab :: Extensions :: Prebuilt"]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/choldgraf/myst-syntax"
+
+# The version comes from package.json, so it lives in one place.
+[tool.hatch.version]
+source = "nodejs"
+
+# The labextension is gitignored, so the sdist must list it explicitly; pip then installs from the sdist without Node.
+[tool.hatch.build.targets.sdist]
+artifacts = ["jupyterlab_myst_syntax/labextension"]
+
+[tool.hatch.build.targets.wheel.shared-data]
+"jupyterlab_myst_syntax/labextension" = "share/jupyter/labextensions/jupyterlab-myst-syntax"
+"install.json" = "share/jupyter/labextensions/jupyterlab-myst-syntax/install.json"
+
+# Builds the labextension only when it's missing; normally `npm run build` has already made it (see README).
+[tool.hatch.build.hooks.jupyter-builder]
+build-function = "hatch_jupyter_builder.npm_builder"
+ensured-targets = ["jupyterlab_myst_syntax/labextension/package.json"]
+skip-if-exists = ["jupyterlab_myst_syntax/labextension/package.json"]
+
+[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
+npm = ["npm"]
+build_cmd = "build"

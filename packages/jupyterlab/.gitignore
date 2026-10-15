@@ -1,0 +1,6 @@
+jupyterlab_myst_syntax/labextension/
+dist/
+lib/
+*.whl
+__pycache__/
+node_modules/
