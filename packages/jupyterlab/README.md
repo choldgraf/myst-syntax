@@ -17,7 +17,7 @@ pip install jupyterlab-myst-syntax
 ## How it works
 
 Lab's notebook Markdown cells and `.md` files both use its `ipythongfm` language.
-Lab registers it itself, and the language registry can't replace it.
+Lab registers it itself, and the language registry can't replace it (U12 in MyST Author's [upstream proposals](https://github.com/choldgraf/myst-author/blob/main/upstream/README.md) asks for a supported way).
 Editors load that language from the registration's `support` field when they open, so the extension rebuilds Lab's Markdown parser with [`myst-syntax/codemirror`](https://github.com/choldgraf/myst-syntax/tree/main/packages/syntax#readme) added and sets `support` to it.
 
 ## Build

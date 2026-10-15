@@ -81,7 +81,7 @@ Highlighting them needs a block parser that claims those lines first, so both ar
 Shiki loses an injected grammar once a second language that Markdown embeds lazily, like `yaml` or `python`, is loaded.
 `Registry.loadLanguage` in `@shikijs/primitive` rebuilds Markdown to pick up the new language, but vscode-textmate's grammar cache skips the rebuild, so the injections are never registered again.
 Nothing is thrown; MyST just isn't highlighted.
-It isn't reported to Shiki yet, so there's no issue to link.
+It isn't reported to Shiki yet; it is U13 in MyST Author's [upstream proposals](https://github.com/choldgraf/myst-author/blob/main/upstream/README.md).
 
 [Using with Shiki](../packages/syntax/README.md#using-with-shiki) has two recipes that avoid it, and `packages/syntax/src/shiki.test.ts` pins both.
 
