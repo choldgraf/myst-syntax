@@ -10,6 +10,11 @@ project:
     - https://github.com/myst-contrib/myst-include-link-rewrites/releases/latest/download/index.mjs
   toc:
     - file: index.md
+    - title: Packages
+      children:
+        - file: syntax.md
+        - file: vscode.md
+        - file: jupyterlab.md
     - file: findings.md
     - file: roadmap.md
 site:
