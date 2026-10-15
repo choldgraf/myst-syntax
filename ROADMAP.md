@@ -7,26 +7,26 @@ Keep it small, editor-neutral and BSD-3, so it can move to [jupyter-book](https:
 ## Where it fits
 
 - The CodeMirror part is for JupyterLab and the many web editors that use CodeMirror.
-  No JupyterLab extension uses it yet.
-- The TextMate grammar is for VS Code.
-  Docs sites that highlight with Shiki can use it too, as the [README](README.md) shows.
+  [`jupyterlab-myst-syntax`](packages/jupyterlab/README.md) adds it to JupyterLab.
+- The TextMate grammar is for VS Code, where the [VS Code extension](packages/vscode/README.md) ships it.
+  Docs sites that highlight with Shiki can use it too, as the [package README](packages/syntax/README.md#using-with-shiki) shows.
   Sphinx and mystmd sites don't use it: MyST-Parser's Sphinx docs use a Pygments lexer, and myst-theme uses highlight.js.
 
 ## 1. Cheap fixes
 
-Done: both parts highlight MyST inside list items and blockquotes, as the [README](README.md) says.
+Done: both parts highlight MyST inside list items and blockquotes, as the [package README](packages/syntax/README.md) says.
 
 ## 2. Both parts highlight the same things
 
 Done: both parts highlight inline math, citations, comments, block breaks, substitutions and footnote references.
-Left: CodeMirror doesn't highlight display math or YAML options in a directive, as the [README](README.md) shows.
+Left: CodeMirror doesn't highlight display math or YAML options in a directive, as the [package README](packages/syntax/README.md) shows.
 Both need a [block parser](docs/findings.md#why-textmate-and-codemirror-need-different-approaches), which is step 4.
-Both parts are checked against the shared examples in `src/cases.ts`; add new syntax there first, then fill in the gaps.
+Both parts are checked against the shared examples in `packages/syntax/src/cases.ts`; add new syntax there first, then fill in the gaps.
 [myst-parser-unified](https://github.com/choldgraf/myst-parser-unified)'s syntax edge cases are a good source of tricky examples.
 
 ## 3. A working Shiki recipe
 
-Done: the [README](README.md) has the recipe, and `src/shiki.test.ts` pins it.
+Done: the [package README](packages/syntax/README.md#using-with-shiki) has the recipe, and `packages/syntax/src/shiki.test.ts` pins it.
 The load order works around [a Shiki bug](docs/findings.md#shiki-drops-markdowns-injections).
 Left: report it to [Shiki](https://github.com/shikijs/shiki).
 
@@ -40,9 +40,10 @@ A grammar that includes the Markdown grammar and adds MyST patterns doesn't work
 Rewrite the CodeMirror part as [`@lezer/markdown`](https://github.com/lezer-parser/markdown) extensions when a tool needs a syntax tree.
 [What we learned](docs/findings.md#when-a-lezer-or-tree-sitter-grammar-would-be-worth-it) says what that would unlock.
 
-## 5. Move to jupyter-book and publish
+## 5. Move to jupyter-book
 
-Once step 2 is done, propose moving the repo to the jupyter-book organization, and publish it to npm from there.
+Once step 2 is done, propose moving the repo to the jupyter-book organization.
+The three packages [release from this repo](README.md#releasing), so the npm and PyPI trusted publishers would need to point at the new one.
 
 ## Later, if asked
 

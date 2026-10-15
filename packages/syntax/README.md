@@ -7,6 +7,7 @@ It has two parts:
 - `myst.tmLanguage.json`: a [TextMate grammar](https://macromates.com/manual/en/language_grammars) for editors like VS Code.
   It injects MyST into the editor's Markdown grammar.
 - `myst-syntax/codemirror`: a [CodeMirror 6](https://codemirror.net) extension to use with `markdown()`.
+  [`jupyterlab-myst-syntax`](https://github.com/choldgraf/myst-syntax/blob/main/packages/jupyterlab/README.md) adds it to JupyterLab.
 
 Both parts take the role and directive name pattern, the label pattern, the citation key characters and the list of code directives from `myst-syntax/rules`, which other tools can import too.
 The rest is kept [in sync by hand](#what-must-stay-in-sync-by-hand).
@@ -18,9 +19,9 @@ They highlight different syntax:
 | Roles, directives, options and labels | ✓ | ✓ |
 | Comments (`%`) and block breaks (`+++`) | ✓ | ✓ |
 | Substitutions (`{{ x }}`) and footnote references (`[^1]`) | ✓ | ✓ |
-| YAML options in a directive | ✓ | No, see [what we learned](docs/findings.md#why-textmate-and-codemirror-need-different-approaches) |
+| YAML options in a directive | ✓ | No, see [what we learned](https://github.com/choldgraf/myst-syntax/blob/main/docs/findings.md#why-textmate-and-codemirror-need-different-approaches) |
 | Inline math (`$x$`) | ✓ | ✓ |
-| Display math (`$$`) | ✓ | No, see [what we learned](docs/findings.md#why-textmate-and-codemirror-need-different-approaches) |
+| Display math (`$$`) | ✓ | No, see [what we learned](https://github.com/choldgraf/myst-syntax/blob/main/docs/findings.md#why-textmate-and-codemirror-need-different-approaches) |
 | Citations (`@key`, `[@a; @b]`) | ✓ | ✓ |
 | Code in code directives, like `{code-cell} python` | ✓ | ✓ |
 
@@ -30,7 +31,7 @@ TextMate highlights code directives in common languages, such as Python, R and J
 In TextMate, code directives in other languages, or without one, stay plain, and so do `{math}`, `{mermaid}` and `{raw}`.
 
 The TextMate grammar takes inspiration from chrisjsewell's [`vscode-myst-syntax`](https://github.com/chrisjsewell/vscode-myst-syntax).
-See the [roadmap](ROADMAP.md) for what's next, and [what we learned](docs/findings.md) for why it works the way it does.
+See the [roadmap](https://github.com/choldgraf/myst-syntax/blob/main/ROADMAP.md) for what's next, and [what we learned](https://github.com/choldgraf/myst-syntax/blob/main/docs/findings.md) for why it works the way it does.
 
 ## Install it
 
@@ -52,6 +53,8 @@ Then add the copy to the extension's `package.json`:
   ]
 }
 ```
+
+The repo's own [VS Code extension](https://github.com/choldgraf/myst-syntax/blob/main/packages/vscode/README.md) does exactly this.
 
 In CodeMirror:
 
@@ -85,7 +88,7 @@ highlighter.codeToHtml(src, { lang: 'markdown', theme: 'github-light' });
 ```
 
 Load `yaml` first, then `markdown`, then the grammar, and nothing else.
-The order works around a Shiki bug, described in [what we learned](docs/findings.md#shiki-drops-markdowns-injections).
+The order works around a Shiki bug, described in [what we learned](https://github.com/choldgraf/myst-syntax/blob/main/docs/findings.md#shiki-drops-markdowns-injections).
 To load more languages, pass Markdown with its lazy list emptied, and then the order doesn't matter:
 
 ```ts
@@ -113,7 +116,7 @@ The TextMate half is an injection grammar, so it has no Markdown rules of its ow
 The editor tokenizes the file with its Markdown grammar, and `injectTo` tells it to try MyST's rules too.
 The `injectionSelector` limits where: `L:` puts MyST's rules ahead of Markdown's, and the `-` scopes keep them out of code and math.
 MyST's rules see a line only after Markdown's list and block quote rules have taken its markers, which is why every line-anchored rule starts with `(?:^|\G)`.
-[What we learned](docs/findings.md#why-textmate-and-codemirror-need-different-approaches) has the detail.
+[What we learned](https://github.com/choldgraf/myst-syntax/blob/main/docs/findings.md#why-textmate-and-codemirror-need-different-approaches) has the detail.
 
 The CodeMirror half works on top of `@lezer/markdown`, the parser in `@codemirror/lang-markdown`.
 `myst()` matches each regex in `patterns` line by line and marks the matches, skipping anything Markdown's syntax tree calls code.
@@ -136,14 +139,12 @@ Then check [what must stay in sync by hand](#what-must-stay-in-sync-by-hand).
 
 ## Develop
 
-You need Node 24 or later, which runs the TypeScript files directly.
+The [repository README](https://github.com/choldgraf/myst-syntax/blob/main/README.md#develop) says how to set up and run the test, conformance, typecheck and build scripts.
+This package adds:
 
-- `npm install`: install the dependencies.
-- `npm test`: check both parts against the MyST examples in `src/cases.ts`.
-  The grammar runs under `vscode-textmate`, the library VS Code uses.
 - `npm run grammar`: regenerate `myst.tmLanguage.json` from `grammar.mjs`, which is the file to edit.
-- `npm run conformance`: compare both parts with mystmd, below.
-- `npm run build`: compile to `dist/`, which other packages import.
+- `npm test`: the grammar runs under `vscode-textmate`, the library VS Code uses.
+- `npm run build`: compile to `dist/`, which the other packages import.
   `npm install` runs it through the `prepare` script.
 
 ### Conformance
@@ -151,9 +152,8 @@ You need Node 24 or later, which runs the TypeScript files directly.
 `npm run conformance` checks that both parts find the same role names, directive names and target labels as mystmd's parser.
 It runs on the [myst-spec](https://github.com/jupyter-book/myst-spec) examples.
 It prints each miss and a table of matched, missed and excluded examples, and fails if any example is missed.
-[What we learned](docs/findings.md#conformance-results) says which differences count as excluded.
+[What we learned](https://github.com/choldgraf/myst-syntax/blob/main/docs/findings.md#conformance-results) says which differences count as excluded.
 mystmd leaves the body of a directive it doesn't know, like `{tab-set}`, as text, so the check parses those bodies again to find the names nested inside.
-CI runs it after `npm test`.
 
 To also check a folder of your own MyST projects, point `MYST_CORPUS` at it:
 
