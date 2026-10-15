@@ -29,7 +29,7 @@
     ]
   },
   "scripts": {
-    "build": "node -e \"fs.copyFileSync(require.resolve('myst-syntax/myst.tmLanguage.json'), 'myst.tmLanguage.json'); fs.copyFileSync('../../LICENSE', 'LICENSE')\"",
+    "build": "cp ../syntax/myst.tmLanguage.json ../../LICENSE .",
     "package": "npm run build && vsce package --no-dependencies -o myst-syntax.vsix"
   },
   "devDependencies": {

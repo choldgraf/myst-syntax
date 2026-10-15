@@ -1,7 +1,7 @@
 # Roadmap
 
 Next steps, most important first.
-Keep it small, editor-neutral and BSD-3, so it can move to [jupyter-book](https://github.com/jupyter-book) (step 5).
+Keep it small, editor-neutral and CC0, so it can move to [jupyter-book](https://github.com/jupyter-book) (step 5).
 [What we learned](docs/findings.md) has the conformance numbers and design notes.
 
 ## Where it fits
@@ -43,7 +43,7 @@ Rewrite the CodeMirror part as [`@lezer/markdown`](https://github.com/lezer-pars
 ## 5. Move to jupyter-book
 
 Once step 2 is done, propose moving the repo to the jupyter-book organization.
-The three packages [release from this repo](README.md#releasing), so the npm and PyPI trusted publishers would need to point at the new one, and the Marketplace publisher `myst-author` would need a decision, since the MyST Language Server extension depends on the extension id it is part of.
+The three packages [release from this repo](README.md#releasing), so the npm and PyPI trusted publishers would need to point at the new one, and the Marketplace publisher `myst-author` would need a decision, since the MyST Language Server extension depends on the extension id `myst-author.myst-syntax-vscode`.
 
 ## Later, if asked
 

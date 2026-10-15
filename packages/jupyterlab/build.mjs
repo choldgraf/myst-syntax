@@ -1,5 +1,5 @@
 // JupyterLab loads extensions as webpack module-federation bundles, built by @jupyterlab/builder.
-// That bundler only takes JavaScript, so esbuild first compiles our TypeScript (and myst-syntax) to lib/index.js (dist/ is for the Python distributions).
+// That bundler only takes JavaScript, so esbuild first compiles our TypeScript (and myst-syntax, reached through the workspace symlink) to lib/index.js.
 // JupyterLab and the CodeMirror packages Lab shares stay external, so the extension uses Lab's copies (CodeMirror breaks with two).
 // @codemirror/lang-markdown and @lezer/markdown aren't shared by Lab, so they're bundled.
 import { build } from 'esbuild';

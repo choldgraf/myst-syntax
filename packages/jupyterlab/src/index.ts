@@ -5,12 +5,8 @@ import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { myst, mystCode } from 'myst-syntax/codemirror';
 
 /**
- * Adds MyST highlighting to `ipythongfm`, the language Lab uses for notebook Markdown cells and .md files.
- *
- * Lab registers that language itself and the registry can't replace or remove a language, but editors read
- * `support` from the registered entry when they open, so overwriting it here is enough.
- * That field being writable is undocumented behaviour, checked against @jupyterlab/codemirror 4.5.11.
- * The Markdown parser is rebuilt the way Lab's `languages` plugin builds it, plus MyST.
+ * Adds MyST highlighting to `ipythongfm`, the language Lab uses for notebook Markdown cells and .md files (see the README).
+ * `support` being writable is undocumented behaviour, checked against @jupyterlab/codemirror 4.5.11.
  */
 const plugin: JupyterFrontEndPlugin<void> = {
   id: 'jupyterlab-myst-syntax:plugin',

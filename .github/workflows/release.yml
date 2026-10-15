@@ -26,7 +26,7 @@ jobs:
         with:
           python-version: "3.13"
       - if: inputs.package == 'jupyterlab'
-        run: pip install jupyterlab
+        run: pip install jupyterlab build
       - run: npm install -g npm@latest # trusted publishing needs npm 11.5.1 or newer
       - run: npm ci
       - run: npm test
@@ -41,7 +41,7 @@ jobs:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
       - if: inputs.package == 'jupyterlab'
-        run: npm run build -w packages/jupyterlab && pip install build && python -m build packages/jupyterlab --outdir dist
+        run: npm run build -w packages/jupyterlab && python -m build packages/jupyterlab --outdir dist
       - if: inputs.package == 'jupyterlab'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:

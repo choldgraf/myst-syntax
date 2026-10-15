@@ -1,7 +1,7 @@
 # myst-syntax
 
 Syntax highlighting for [MyST Markdown](https://mystmd.org), on top of an editor's Markdown highlighting.
-One grammar, kept in `packages/syntax`, and three ways to get it: the npm package, a VS Code extension and a JupyterLab extension.
+The highlighting lives in `packages/syntax`, and there are three ways to get it: the npm package, a VS Code extension and a JupyterLab extension.
 
 | Package | Install | Use it for |
 | --- | --- | --- |
@@ -9,7 +9,7 @@ One grammar, kept in `packages/syntax`, and three ways to get it: the npm packag
 | [MyST Syntax for VS Code](packages/vscode/README.md) | Search "MyST Syntax" in the Extensions view | Highlighting in VS Code |
 | [`jupyterlab-myst-syntax`](packages/jupyterlab/README.md) | `pip install jupyterlab-myst-syntax` | Highlighting in JupyterLab's notebook cells and Markdown editors |
 
-Until they are published, build each from this repo as its README says.
+The npm package is published; until the two extensions are, build them from this repo as their READMEs say.
 The [MyST Language Server](https://github.com/choldgraf/mystmd-lsp) extension depends on the VS Code extension, and MyST Author's extension on that; MyST Author's JupyterLab extension leaves highlighting to `jupyterlab-myst-syntax`.
 
 See the [roadmap](ROADMAP.md) for what's next, and [what we learned](docs/findings.md) for why it works the way it does.
