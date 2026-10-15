@@ -40,6 +40,7 @@ Each package README says how to build that package.
 ## Releasing
 
 Each package is released on its own, with its own version.
+The extensions build from the grammar in the working tree, so a grammar change usually means releasing all three.
 
 1. Bump the version: `npm version <version> --no-git-tag-version -w packages/<name>`.
 2. Commit the changes to `package.json` and `package-lock.json`, and push to main.

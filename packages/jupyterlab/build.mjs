@@ -15,7 +15,6 @@ await build({
   logLevel: 'warning',
 });
 // Same as `jupyter labextension build .`, minus its `jlpm install`, which doesn't work inside an npm workspace.
-// myst-author/packages/jupyterlab/build.mjs does the same; change both when Lab's build changes.
 // The builder needs the installed JupyterLab's core package metadata (which packages Lab shares).
 const core = execFileSync('python', ['-c', 'import jupyterlab, os; print(os.path.join(os.path.dirname(jupyterlab.__file__), "staging"))']);
 execFileSync('npx', ['build-labextension', '--core-path', String(core).trim(), '.'], { stdio: 'inherit' });

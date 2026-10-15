@@ -22,6 +22,7 @@ source = "nodejs"
 [tool.hatch.build.targets.sdist]
 artifacts = ["jupyterlab_myst_syntax/labextension"]
 
+# jupyterlab-myst-syntax is the labextension name, also in install.json and __init__.py.
 [tool.hatch.build.targets.wheel.shared-data]
 "jupyterlab_myst_syntax/labextension" = "share/jupyter/labextensions/jupyterlab-myst-syntax"
 "install.json" = "share/jupyter/labextensions/jupyterlab-myst-syntax/install.json"

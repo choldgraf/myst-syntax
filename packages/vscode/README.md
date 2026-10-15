@@ -4,7 +4,7 @@ Highlights MyST Markdown on top of VS Code's built-in Markdown highlighting.
 Roles, directives, directive options, labels, math, citations and comments get their own colours.
 
 It is the TextMate grammar from the [`myst-syntax`](../syntax/README.md) package, with nothing else: no activation code, no settings.
-If you use the MyST Author extension you don't need to install this one, since MyST Author depends on it.
+Its id is `myst-author.myst-syntax-vscode`, the publisher and name in `package.json`; MyST Author's extension depends on that id, so VS Code installs this one with it.
 
 ## Install
 

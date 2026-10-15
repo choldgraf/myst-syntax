@@ -43,7 +43,7 @@ Rewrite the CodeMirror part as [`@lezer/markdown`](https://github.com/lezer-pars
 ## 5. Move to jupyter-book
 
 Once step 2 is done, propose moving the repo to the jupyter-book organization.
-The three packages [release from this repo](README.md#releasing), so the npm and PyPI trusted publishers would need to point at the new one.
+The three packages [release from this repo](README.md#releasing), so the npm and PyPI trusted publishers would need to point at the new one, and the Marketplace publisher `myst-author` would need a decision, since MyST Author depends on the extension id it is part of.
 
 ## Later, if asked
 

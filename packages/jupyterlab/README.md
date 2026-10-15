@@ -8,6 +8,8 @@ It only highlights.
 
 ## Install
 
+Once it is on PyPI:
+
 ```sh
 pip install jupyterlab-myst-syntax
 ```
