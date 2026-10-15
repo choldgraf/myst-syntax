@@ -83,7 +83,7 @@ Shiki loses an injected grammar once a second language that Markdown embeds lazi
 Nothing is thrown; MyST just isn't highlighted.
 It isn't reported to Shiki yet, so there's no issue to link.
 
-[Using with Shiki](../README.md#using-with-shiki) has two recipes that avoid it, and `src/shiki.test.ts` pins both.
+[Using with Shiki](../packages/syntax/README.md#using-with-shiki) has two recipes that avoid it, and `src/shiki.test.ts` pins both.
 
 ## When a Lezer or tree-sitter grammar would be worth it
 

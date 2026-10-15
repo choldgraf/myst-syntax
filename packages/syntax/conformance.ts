@@ -17,7 +17,7 @@ const excluded = new RegExp('^(?:(?:role|directive) (?:math|raw)|directive (?:me
 
 /** Each myst-spec example with MyST source. */
 function specCases(): Case[] {
-  const dir = new URL('node_modules/myst-spec/dist/examples/', import.meta.url);
+  const dir = new URL('dist/examples/', import.meta.resolve('myst-spec/package.json')); // hoisted by the workspace, so resolve it rather than assume node_modules here
   return readdirSync(dir)
     .flatMap((file) => (load(readFileSync(new URL(file, dir), 'utf8')) as { cases: { title: string; myst?: string }[] }).cases.filter((c) => c.myst).map((c) => ({ id: `${file}: ${c.title}`, src: c.myst! })));
 }

@@ -1,0 +1,61 @@
+{
+  "name": "myst-syntax",
+  "version": "0.0.1",
+  "description": "Syntax highlighting for MyST Markdown: a TextMate grammar and a CodeMirror extension",
+  "type": "module",
+  "exports": {
+    "./codemirror": {
+      "types": "./dist/codemirror.d.ts",
+      "default": "./dist/codemirror.js"
+    },
+    "./rules": {
+      "types": "./dist/rules.d.ts",
+      "default": "./dist/rules.js"
+    },
+    "./myst.tmLanguage.json": "./myst.tmLanguage.json"
+  },
+  "files": [
+    "dist",
+    "myst.tmLanguage.json"
+  ],
+  "scripts": {
+    "test": "node --test 'src/**/*.test.ts'",
+    "grammar": "node grammar.mjs",
+    "conformance": "node conformance.ts",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "prepare": "npm run build"
+  },
+  "peerDependencies": {
+    "@codemirror/language": "^6.0.0",
+    "@codemirror/view": "^6.0.0",
+    "@lezer/markdown": "^1.0.0"
+  },
+  "devDependencies": {
+    "@codemirror/lang-markdown": "^6.5.2",
+    "@codemirror/lang-python": "^6.2.1",
+    "@codemirror/language": "^6.13.1",
+    "@codemirror/view": "^6.38.0",
+    "@shikijs/langs": "^4.5.0",
+    "js-yaml": "^4.3.2",
+    "myst-parser": "^1.7.4",
+    "myst-spec": "^0.0.6",
+    "shiki": "^4.5.0",
+    "typescript": "^7.0.2",
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.3.2"
+  },
+  "license": "CC0-1.0",
+  "keywords": [
+    "myst",
+    "markdown",
+    "syntax-highlighting",
+    "textmate",
+    "codemirror"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/choldgraf/myst-syntax.git",
+    "directory": "packages/syntax"
+  }
+}
