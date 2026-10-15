@@ -34,7 +34,7 @@ See the [roadmap](ROADMAP.md) for what's next, and [what we learned](docs/findin
 
 ## Install it
 
-It isn't on npm, so install it from GitHub:
+Install it from npm:
 
 ```sh
 npm install myst-syntax
