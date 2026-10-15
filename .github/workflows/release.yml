@@ -25,7 +25,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - run: pip install jupyterlab
+      - if: inputs.package == 'jupyterlab'
+        run: pip install jupyterlab
       - run: npm install -g npm@latest # trusted publishing needs npm 11.5.1 or newer
       - run: npm ci
       - run: npm test
@@ -35,7 +36,7 @@ jobs:
       - if: inputs.package == 'syntax'
         run: npm publish -w packages/syntax
       - if: inputs.package == 'vscode'
-        run: npm run package -w packages/vscode && npx -w packages/vscode @vscode/vsce publish --no-dependencies --packagePath packages/vscode/myst-syntax.vsix
+        run: npm run package -w packages/vscode && npx -w packages/vscode @vscode/vsce publish --no-dependencies --packagePath myst-syntax.vsix
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
       - if: inputs.package == 'jupyterlab'
