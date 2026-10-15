@@ -63,7 +63,7 @@ const grammar = {
   repository: {
     ...code,
     directive: {
-      comment: 'Backtick, tilde and colon fences. Code directives are left to the #code-* rules, which come first; {math}, {mermaid} and {raw} in backtick and tilde fences are left to Markdown, which shows their contents as plain code.',
+      comment: 'Backtick, tilde and colon fences. Code directives are left to the #code-* rules, which come first. {math}, {mermaid} and {raw} in backtick and tilde fences are left to Markdown, which shows their contents as plain code.',
       begin: lineStart + '\\s*((?:`{3,}|~{3,})(?!\\s*\\{(?:' + codeDirectives + '|math|mermaid|raw)\\})|:{3,})\\s*(\\{)(' + nameChars + '+)(\\})(.*)$',
       end: lineStart + '\\s*\\1[`~:]*\\s*$',
       name: 'meta.directive.myst',

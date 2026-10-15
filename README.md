@@ -12,8 +12,11 @@ The highlighting lives in `packages/syntax`, and there are three ways to get it:
 | [MyST Syntax for VS Code](packages/vscode/README.md) | Search "MyST Syntax" in the Extensions view | Highlighting in VS Code |
 | [`jupyterlab-myst-syntax`](packages/jupyterlab/README.md) | `pip install jupyterlab-myst-syntax` | Highlighting in JupyterLab's notebook cells and Markdown editors |
 
-The npm package is published; until the two extensions are, build them from this repo as their READMEs say, or try them on `demo/index.md` with the badges above: Codespaces for VS Code, Binder for JupyterLab.
-The [MyST Language Server](https://github.com/choldgraf/mystmd-lsp) extension depends on the VS Code extension, and MyST Author's extension on that; MyST Author's JupyterLab extension leaves highlighting to `jupyterlab-myst-syntax`.
+The npm package is published.
+The two extensions aren't yet, so build them from this repo as their READMEs say.
+Or try them on `demo/index.md` without installing anything: the Codespaces badge above opens it in VS Code, and the Binder badge in JupyterLab.
+The [MyST Language Server](https://github.com/choldgraf/mystmd-lsp) extension depends on the VS Code extension, and [MyST Author](https://github.com/choldgraf/myst-author)'s extension depends on that.
+MyST Author's JupyterLab extension leaves highlighting to `jupyterlab-myst-syntax`.
 
 See the [roadmap](ROADMAP.md) for what's next, and [what we learned](docs/findings.md) for why it works the way it does.
 
@@ -37,7 +40,8 @@ Where things live:
 - `packages/vscode`: the VS Code extension, which copies the grammar in at build time.
 - `packages/jupyterlab`: the JupyterLab extension and its Python package.
 - `demo/`: one file with each kind of syntax, which Codespaces and Binder (`.devcontainer/`, `binder/`) open.
-- `docs/`: the [docs site](https://chrisholdgraf.com/myst-syntax/), which includes this README, the roadmap and `findings.md`, the design notes and conformance numbers. `npm run docs:live` previews it and `npm run docs` builds it.
+- `docs/`: the [docs site](https://chrisholdgraf.com/myst-syntax/), which includes this README, the roadmap, and the design notes and conformance numbers in `findings.md`.
+  `npm run docs:live` previews it and `npm run docs` builds it.
 
 Each package README says how to build that package.
 

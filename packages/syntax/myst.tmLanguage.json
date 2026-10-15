@@ -521,7 +521,7 @@
       "contentName": "markup.fenced_code.block.myst"
     },
     "directive": {
-      "comment": "Backtick, tilde and colon fences. Code directives are left to the #code-* rules, which come first; {math}, {mermaid} and {raw} in backtick and tilde fences are left to Markdown, which shows their contents as plain code.",
+      "comment": "Backtick, tilde and colon fences. Code directives are left to the #code-* rules, which come first. {math}, {mermaid} and {raw} in backtick and tilde fences are left to Markdown, which shows their contents as plain code.",
       "begin": "(?:^|\\G)\\s*((?:`{3,}|~{3,})(?!\\s*\\{(?:code|code-block|code-cell|sourcecode|math|mermaid|raw)\\})|:{3,})\\s*(\\{)([\\w:.+-]+)(\\})(.*)$",
       "end": "(?:^|\\G)\\s*\\1[`~:]*\\s*$",
       "name": "meta.directive.myst",

@@ -16,7 +16,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     const spec = languages.findByName('ipythongfm');
     if (!spec) return;
     // Lab's entries have the same `name`, `alias`, `load` and `support` fields as `LanguageDescription`, so cast them.
-    // This is a snapshot: languages registered later still highlight in plain fences (looked up live below) but not in code directives.
+    // `descriptions` is a snapshot of the registry. A language registered later still highlights in plain fences, since `codeLanguages` looks the registry up live, but not in code directives.
     const descriptions = languages.getLanguages() as unknown as LanguageDescription[];
     const md = markdown({
       base: markdownLanguage,

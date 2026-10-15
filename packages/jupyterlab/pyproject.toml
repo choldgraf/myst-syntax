@@ -24,7 +24,7 @@ Homepage = "https://github.com/choldgraf/myst-syntax"
 [tool.hatch.version]
 source = "nodejs"
 
-# The labextension is gitignored, so the sdist must list it explicitly; pip then installs from the sdist without Node.
+# The labextension is gitignored, so the sdist must list it explicitly. pip then installs from the sdist without Node.
 [tool.hatch.build.targets.sdist]
 artifacts = ["jupyterlab_myst_syntax/labextension"]
 
@@ -33,7 +33,7 @@ artifacts = ["jupyterlab_myst_syntax/labextension"]
 "jupyterlab_myst_syntax/labextension" = "share/jupyter/labextensions/jupyterlab-myst-syntax"
 "install.json" = "share/jupyter/labextensions/jupyterlab-myst-syntax/install.json"
 
-# Builds the labextension only when it's missing; normally `npm run build` has already made it (see README).
+# Builds the labextension only when it's missing. Normally `npm run build` has already made it, as the README says.
 [tool.hatch.build.hooks.jupyter-builder]
 build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = ["jupyterlab_myst_syntax/labextension/package.json"]

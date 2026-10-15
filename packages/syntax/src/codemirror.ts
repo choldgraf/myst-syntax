@@ -8,11 +8,11 @@ import { citationChars, codeDirectives, labelChars, nameChars } from './rules.ts
 // grammar.mjs has its own `lineStart`, since TextMate's Markdown grammar consumes those markers before MyST rules see the line.
 const lineStart = String.raw`^\s*(?:(?:[-+*]|\d+[.)])\s+|>\s*)*`;
 
-/** MyST syntax on top of Markdown. Each regex matches within one line; the whole match is highlighted. */
+/** MyST syntax on top of Markdown. Each regex matches within one line, and the whole match is highlighted. */
 export const patterns = {
   role: new RegExp('\\{(' + nameChars + '+)\\}`[^`\\n]*`', 'g'),
   directive: new RegExp('(?<=' + lineStart + '(?:`{3,}|~{3,}|:{3,})\\s*)\\{(' + nameChars + '+)\\}', 'g'),
-  // Highlighted only right after a directive's opening fence; see `highlighted`.
+  // Highlighted only right after a directive's opening fence. See `highlighted`.
   option: new RegExp('(?<=' + lineStart + '):([\\w-]+):(?=\\s|$)', 'g'),
   label: new RegExp('(?<=' + lineStart + ')\\((' + labelChars + '+)\\)=(?=\\s*$)', 'g'),
   // Close to mystmd's dollarmath: spaces and digits are allowed inside. Skips `$$`, which is display math.

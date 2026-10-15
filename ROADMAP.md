@@ -6,11 +6,12 @@ Keep it small, editor-neutral and CC0, so it can move to [jupyter-book](https://
 
 ## Where it fits
 
-- The CodeMirror part is for JupyterLab and the many web editors that use CodeMirror.
-  [`jupyterlab-myst-syntax`](packages/jupyterlab/README.md) adds it to JupyterLab.
-- The TextMate grammar is for VS Code, where the [VS Code extension](packages/vscode/README.md) ships it.
-  Docs sites that highlight with Shiki can use it too, as the [package README](packages/syntax/README.md#using-with-shiki) shows.
-  Sphinx and mystmd sites don't use it: MyST-Parser's Sphinx docs use a Pygments lexer, and myst-theme uses highlight.js.
+The CodeMirror part is for JupyterLab and the many web editors that use CodeMirror.
+[`jupyterlab-myst-syntax`](packages/jupyterlab/README.md) adds it to JupyterLab.
+
+The TextMate grammar is for VS Code, where the [VS Code extension](packages/vscode/README.md) ships it.
+Docs sites that highlight with Shiki can use it too, as the [package README](packages/syntax/README.md#using-with-shiki) shows.
+Sphinx and mystmd sites don't use it: MyST-Parser's Sphinx docs use a Pygments lexer, and myst-theme uses highlight.js.
 
 ## 1. Cheap fixes
 
@@ -20,8 +21,9 @@ Done: both parts highlight MyST inside list items and blockquotes, as the [packa
 
 Done: both parts highlight inline math, citations, comments, block breaks, substitutions and footnote references.
 Left: CodeMirror doesn't highlight display math or YAML options in a directive, as the [package README](packages/syntax/README.md) shows.
-Both need a [block parser](docs/findings.md#why-textmate-and-codemirror-need-different-approaches), which is step 4.
-Both parts are checked against the shared examples in `packages/syntax/src/cases.ts`; add new syntax there first, then fill in the gaps.
+Highlighting those needs a [block parser](docs/findings.md#why-textmate-and-codemirror-need-different-approaches), which is step 4.
+Both parts are checked against the shared examples in `packages/syntax/src/cases.ts`.
+Add new syntax there first, then fill in the gaps.
 [myst-parser-unified](https://github.com/choldgraf/myst-parser-unified)'s syntax edge cases are a good source of tricky examples.
 
 ## 3. A working Shiki recipe
@@ -43,7 +45,8 @@ Rewrite the CodeMirror part as [`@lezer/markdown`](https://github.com/lezer-pars
 ## 5. Move to jupyter-book
 
 Once step 2 is done, propose moving the repo to the jupyter-book organization.
-The three packages [release from this repo](README.md#releasing), so the npm and PyPI trusted publishers would need to point at the new one, and the Marketplace publisher `myst-author` would need a decision, since the MyST Language Server extension depends on the extension id `myst-author.myst-syntax-vscode`.
+The three packages [release from this repo](README.md#releasing), so the npm and PyPI trusted publishers would need to point at the new one.
+The Marketplace publisher `myst-author` would need a decision too, since the MyST Language Server extension depends on the extension id `myst-author.myst-syntax-vscode`.
 
 ## Later, if asked
 

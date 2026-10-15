@@ -9,8 +9,9 @@ It has two parts:
 - `myst-syntax/codemirror`: a [CodeMirror 6](https://codemirror.net) extension to use with `markdown()`.
   [`jupyterlab-myst-syntax`](https://github.com/choldgraf/myst-syntax/blob/main/packages/jupyterlab/README.md) adds it to JupyterLab.
 
-Both parts take the role and directive name pattern, the label pattern, the citation key characters and the list of code directives from `myst-syntax/rules`, which other tools can import too.
-The rest is kept [in sync by hand](#what-must-stay-in-sync-by-hand).
+Both parts share the regex fragments in `myst-syntax/rules`: the characters allowed in names, labels and citation keys, and the list of code directives.
+Other tools can import it too.
+Everything else the two parts share is kept [in sync by hand](#what-must-stay-in-sync-by-hand).
 
 They highlight different syntax:
 

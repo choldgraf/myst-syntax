@@ -33,7 +33,7 @@ An example matches if both lists are the same, counting repeats.
 Examples where neither side finds a name are skipped.
 
 An example is excluded, not missed, when every difference is in `{math}`, `{raw}`, `{mermaid}` or a code directive.
-`grammar.mjs` and `conformance.ts` each type out `{math}`, `{mermaid}` and `{raw}`, so they are kept [in sync by hand](../packages/syntax/README.md#what-must-stay-in-sync-by-hand).
+`grammar.mjs` and `conformance.ts` each spell out `{math}`, `{mermaid}` and `{raw}`, so they are kept [in sync by hand](../packages/syntax/README.md#what-must-stay-in-sync-by-hand).
 In myst-spec, TextMate's 4 exclusions are all `{math}`, and CodeMirror's 5 are `{code}` and `{code-block}`, whose fences Markdown parses as code.
 
 | Examples | Part | Matched | Missed | Excluded |
@@ -68,20 +68,20 @@ TextMate's grammar is injected into the editor's Markdown grammar.
 Injections run after Markdown's list and blockquote rules have consumed a line's markers and indentation.
 So inside `- ` or `> `, the scanner starts mid-line, where `^` never matches.
 Every line-anchored rule starts with `(?:^|\G)` instead, since `\G` matches where Markdown left off.
-The injection selector also excludes `markup.raw.block`, so indented code isn't matched at `\G` too.
+The injection selector also excludes `markup.raw.block`, so indented code isn't matched at `\G` either.
 
 CodeMirror's part sits on `@lezer/markdown`, which only knows backtick and tilde fences.
 It reads `:::{code-cell} python` as a paragraph, so `mystCode` adds a small block parser that turns colon-fenced code directives into the same nodes as backtick ones.
 Option lines are highlighted by looking back from each one to the directive's opening fence.
-YAML option blocks and display math span lines, and Markdown already parses their lines as headings, code or paragraphs.
+YAML option blocks and display math span several lines, and Markdown already parses their lines as headings, code or paragraphs.
 Highlighting them needs a block parser that claims those lines first, so both are deferred to the Lezer step in the [roadmap](../ROADMAP.md).
 
 ## Shiki drops Markdown's injections
 
 Shiki loses an injected grammar once a second language that Markdown embeds lazily, like `yaml` or `python`, is loaded.
 `Registry.loadLanguage` in `@shikijs/primitive` rebuilds Markdown to pick up the new language, but vscode-textmate's grammar cache skips the rebuild, so the injections are never registered again.
-Nothing is thrown; MyST just isn't highlighted.
-It isn't reported to Shiki yet; it is U13 in MyST Author's [upstream proposals](https://github.com/choldgraf/myst-author/blob/main/upstream/README.md).
+Nothing is thrown, MyST just isn't highlighted.
+It isn't reported to Shiki yet, but it is U13 in MyST Author's [upstream proposals](https://github.com/choldgraf/myst-author/blob/main/upstream/README.md).
 
 [Using with Shiki](../packages/syntax/README.md#using-with-shiki) has two recipes that avoid it, and `packages/syntax/src/shiki.test.ts` pins both.
 
