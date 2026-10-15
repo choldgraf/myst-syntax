@@ -1,7 +1,7 @@
 # What we learned
 
 This page records what building myst-syntax taught us about highlighting MyST.
-For what each part highlights, see the table in the [package README](../packages/syntax/README.md).
+For what each part highlights, see the table in the [package README](https://github.com/choldgraf/myst-syntax/blob/main/packages/syntax/README.md).
 
 ## What regex highlighters can and can't do for MyST
 

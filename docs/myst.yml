@@ -1,0 +1,18 @@
+version: 1
+extends:
+  - https://raw.githubusercontent.com/myst-contrib/myst-contrib.github.io/main/docs/footer.yml
+project:
+  id: myst-syntax
+  title: myst-syntax
+  github: https://github.com/choldgraf/myst-syntax
+  plugins:
+    # Rewrites relative links in {include}d repo files (READMEs) to GitHub.
+    - https://github.com/myst-contrib/myst-include-link-rewrites/releases/latest/download/index.mjs
+  toc:
+    - file: index.md
+    - file: findings.md
+    - file: roadmap.md
+site:
+  template: book-theme
+  options:
+    logo_text: myst-syntax

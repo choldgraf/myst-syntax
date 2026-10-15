@@ -33,7 +33,7 @@ Where things live:
 - `packages/syntax`: the grammar, the CodeMirror mode and the rules they share.
 - `packages/vscode`: the VS Code extension, which copies the grammar in at build time.
 - `packages/jupyterlab`: the JupyterLab extension and its Python package.
-- `docs/findings.md`: design notes and conformance numbers.
+- `docs/`: the [docs site](https://chrisholdgraf.com/myst-syntax/), which includes this README, the roadmap and `findings.md`, the design notes and conformance numbers. `npm run docs:live` previews it and `npm run docs` builds it.
 
 Each package README says how to build that package.
 

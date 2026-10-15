@@ -8,6 +8,11 @@
     "test": "npm test --workspaces --if-present",
     "conformance": "npm run conformance -w packages/syntax",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "build": "npm run build -w packages/syntax && npm run build -w packages/jupyterlab -w packages/vscode"
+    "build": "npm run build -w packages/syntax && npm run build -w packages/jupyterlab -w packages/vscode",
+    "docs": "cd docs && myst build --html",
+    "docs:live": "cd docs && myst start"
+  },
+  "devDependencies": {
+    "mystmd": "^1.11.0"
   }
 }
