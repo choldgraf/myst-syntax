@@ -37,7 +37,7 @@ See the [roadmap](ROADMAP.md) for what's next, and [what we learned](docs/findin
 It isn't on npm, so install it from GitHub:
 
 ```sh
-npm install github:choldgraf/myst-syntax
+npm install myst-syntax
 ```
 
 ## Use it
