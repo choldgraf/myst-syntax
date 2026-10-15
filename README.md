@@ -9,8 +9,8 @@ One grammar, kept in `packages/syntax`, and three ways to get it: the npm packag
 | [MyST Syntax for VS Code](packages/vscode/README.md) | Search "MyST Syntax" in the Extensions view | Highlighting in VS Code |
 | [`jupyterlab-myst-syntax`](packages/jupyterlab/README.md) | `pip install jupyterlab-myst-syntax` | Highlighting in JupyterLab's notebook cells and Markdown editors |
 
-Neither extension is published yet.
-[MyST Author](https://github.com/choldgraf/myst-author)'s VS Code extension depends on the VS Code extension, and its JupyterLab extension leaves highlighting to `jupyterlab-myst-syntax`.
+Until they are published, build each from this repo as its README says.
+The [MyST Language Server](https://github.com/choldgraf/mystmd-lsp) extension depends on the VS Code extension, and MyST Author's extension on that; MyST Author's JupyterLab extension leaves highlighting to `jupyterlab-myst-syntax`.
 
 See the [roadmap](ROADMAP.md) for what's next, and [what we learned](docs/findings.md) for why it works the way it does.
 
@@ -51,5 +51,5 @@ The workflow publishes the package at the version in its `package.json`, then ta
 Each package needs one thing set up on its registry:
 
 - `syntax`: npm's [trusted publisher](https://docs.npmjs.com/trusted-publishers) for `release.yml`.
-- `vscode`: a `VSCE_PAT` repository secret for the `myst-author` Marketplace publisher.
+- `vscode`: `VSCE_PAT` and `OVSX_PAT` repository secrets for the `myst-author` publisher on the Marketplace and on Open VSX, which code-server uses.
 - `jupyterlab`: PyPI's [trusted publisher](https://docs.pypi.org/trusted-publishers/) for `release.yml`.

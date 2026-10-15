@@ -36,9 +36,10 @@ jobs:
       - if: inputs.package == 'syntax'
         run: npm publish -w packages/syntax
       - if: inputs.package == 'vscode'
-        run: npm run package -w packages/vscode && npx -w packages/vscode @vscode/vsce publish --no-dependencies --packagePath myst-syntax.vsix
+        run: npm run package -w packages/vscode && npx -w packages/vscode @vscode/vsce publish --no-dependencies --packagePath myst-syntax.vsix && npx -w packages/vscode ovsx publish myst-syntax.vsix
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
       - if: inputs.package == 'jupyterlab'
         run: npm run build -w packages/jupyterlab && pip install build && python -m build packages/jupyterlab --outdir dist
       - if: inputs.package == 'jupyterlab'

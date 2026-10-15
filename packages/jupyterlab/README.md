@@ -8,7 +8,7 @@ It only highlights.
 
 ## Install
 
-Once it is on PyPI:
+Until it is published, build it from source as below; after that:
 
 ```sh
 pip install jupyterlab-myst-syntax
