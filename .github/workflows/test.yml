@@ -11,8 +11,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install jupyterlab # the JupyterLab build reads which packages Lab shares from an installed Lab
       - run: npm ci
       - run: npm test
       - run: npm run conformance
       - run: npm run typecheck
       - run: npm run build
+      - run: npm run package -w packages/vscode
+      - run: pip wheel packages/jupyterlab --no-deps -w dist

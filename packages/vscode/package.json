@@ -1,0 +1,39 @@
+{
+  "name": "myst-syntax-vscode",
+  "displayName": "MyST Syntax",
+  "description": "Highlights MyST Markdown syntax on top of VS Code's Markdown highlighting",
+  "version": "0.0.1",
+  "publisher": "myst-author",
+  "private": true,
+  "license": "CC0-1.0",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/choldgraf/myst-syntax.git",
+    "directory": "packages/vscode"
+  },
+  "contributes": {
+    "grammars": [
+      {
+        "scopeName": "text.myst.injection",
+        "path": "./myst.tmLanguage.json",
+        "injectTo": [
+          "text.html.markdown"
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node -e \"fs.copyFileSync(require.resolve('myst-syntax/myst.tmLanguage.json'), 'myst.tmLanguage.json'); fs.copyFileSync('../../LICENSE', 'LICENSE')\"",
+    "package": "npm run build && vsce package --no-dependencies -o myst-syntax.vsix"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^3.0.0",
+    "myst-syntax": "*"
+  }
+}
