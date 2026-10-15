@@ -23,7 +23,7 @@ Neither gets a real tree of directives.
 Some directives are left alone on purpose.
 The body of `{math}` is LaTeX, `{mermaid}` is Mermaid, `{raw}` is whatever format it targets, and code directives hold code in another language.
 Highlighting MyST inside them would be wrong.
-The [package README](../packages/syntax/README.md) says how each part treats them.
+The [package README](../packages/syntax/README.md) says how the TextMate grammar treats them.
 
 ## Conformance results
 
