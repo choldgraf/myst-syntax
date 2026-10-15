@@ -1,5 +1,8 @@
 # myst-syntax
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/choldgraf/myst-syntax)
+[![Launch on Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/choldgraf/myst-syntax/main?urlpath=lab/tree/demo/index.md)
+
 Syntax highlighting for [MyST Markdown](https://mystmd.org), on top of an editor's Markdown highlighting.
 The highlighting lives in `packages/syntax`, and there are three ways to get it: the npm package, a VS Code extension and a JupyterLab extension.
 
@@ -9,7 +12,7 @@ The highlighting lives in `packages/syntax`, and there are three ways to get it:
 | [MyST Syntax for VS Code](packages/vscode/README.md) | Search "MyST Syntax" in the Extensions view | Highlighting in VS Code |
 | [`jupyterlab-myst-syntax`](packages/jupyterlab/README.md) | `pip install jupyterlab-myst-syntax` | Highlighting in JupyterLab's notebook cells and Markdown editors |
 
-The npm package is published; until the two extensions are, build them from this repo as their READMEs say.
+The npm package is published; until the two extensions are, build them from this repo as their READMEs say, or try them on `demo/index.md` with the badges above: Codespaces for VS Code, Binder for JupyterLab.
 The [MyST Language Server](https://github.com/choldgraf/mystmd-lsp) extension depends on the VS Code extension, and MyST Author's extension on that; MyST Author's JupyterLab extension leaves highlighting to `jupyterlab-myst-syntax`.
 
 See the [roadmap](ROADMAP.md) for what's next, and [what we learned](docs/findings.md) for why it works the way it does.
@@ -33,6 +36,7 @@ Where things live:
 - `packages/syntax`: the grammar, the CodeMirror mode and the rules they share.
 - `packages/vscode`: the VS Code extension, which copies the grammar in at build time.
 - `packages/jupyterlab`: the JupyterLab extension and its Python package.
+- `demo/`: one file with each kind of syntax, which Codespaces and Binder (`.devcontainer/`, `binder/`) open.
 - `docs/`: the [docs site](https://chrisholdgraf.com/myst-syntax/), which includes this README, the roadmap and `findings.md`, the design notes and conformance numbers. `npm run docs:live` previews it and `npm run docs` builds it.
 
 Each package README says how to build that package.

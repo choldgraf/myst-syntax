@@ -1,0 +1,11 @@
+// GitHub Codespaces: VS Code with the MyST Syntax extension, opened on demo/index.md.
+{
+  "name": "myst-syntax",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:24",
+  "postCreateCommand": "npm ci && npm run package -w packages/vscode",
+  // `code` only reaches the editor once it has attached, so install the extension here rather than in postCreateCommand.
+  "postAttachCommand": "code --install-extension packages/vscode/myst-syntax.vsix",
+  "customizations": {
+    "codespaces": { "openFiles": ["demo/index.md"] }
+  }
+}

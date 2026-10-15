@@ -1,0 +1,7 @@
+#!/bin/bash
+set -euo pipefail
+# Build the JupyterLab extension and link it into Lab, as packages/jupyterlab/README.md describes.
+npm ci
+npm run build -w packages/syntax -w packages/jupyterlab
+mkdir -p "$(jupyter --data-dir)/labextensions"
+ln -sfn "$PWD/packages/jupyterlab/jupyterlab_myst_syntax/labextension" "$(jupyter --data-dir)/labextensions/jupyterlab-myst-syntax"
