@@ -15,8 +15,7 @@ The highlighting lives in `packages/syntax`, and there are three ways to get it:
 The npm package is published.
 The two extensions aren't yet, so build them from this repo as their READMEs say.
 Or try them on `demo/index.md` without installing anything: the Codespaces badge above opens it in VS Code, and the Binder badge in JupyterLab.
-The [MyST Language Server](https://github.com/choldgraf/mystmd-lsp) extension depends on the VS Code extension, and [MyST Author](https://github.com/choldgraf/myst-author)'s extension depends on that.
-MyST Author's JupyterLab extension leaves highlighting to `jupyterlab-myst-syntax`.
+The [MyST Language Server](https://github.com/choldgraf/mystmd-lsp) and [MyST Author](https://github.com/choldgraf/myst-author) extensions build on these instead of shipping their own highlighting.
 
 See the [roadmap](ROADMAP.md) for what's next, and [what we learned](docs/findings.md) for why it works the way it does.
 
@@ -27,21 +26,18 @@ The repo is an npm workspace, so run everything from the root:
 
 - `npm install`: install the dependencies for every package.
 - `npm test`: check the grammar and the CodeMirror mode against the examples in `packages/syntax/src/cases.ts`.
-- `npm run conformance`: compare both with mystmd's parser, see [the package README](packages/syntax/README.md#conformance).
+- `npm run conformance`: [compare both with mystmd's parser](packages/syntax/CONTRIBUTING.md#conformance).
 - `npm run typecheck`: type-check every package.
 - `npm run build`: build every package.
+- `npm run docs`: build the docs site, and `npm run docs:live` previews it.
 
 Add `-w packages/<name>` to run a script in one package.
 CI (`.github/workflows/test.yml`) runs all of these, then packages the `.vsix` and the Python wheel.
 
 Where things live:
 
-- `packages/syntax`: the grammar, the CodeMirror mode and the rules they share.
-- `packages/vscode`: the VS Code extension, which copies the grammar in at build time.
-- `packages/jupyterlab`: the JupyterLab extension and its Python package.
-- `demo/`: one file with each kind of syntax, which Codespaces and Binder (`.devcontainer/`, `binder/`) open.
-- `docs/`: the [docs site](https://chrisholdgraf.com/myst-syntax/), which includes this README, the roadmap, and the design notes and conformance numbers in `findings.md`.
-  `npm run docs:live` previews it and `npm run docs` builds it.
+- `demo/`: one file with each kind of syntax, which Codespaces and Binder open.
+- `docs/`: the [docs site](https://chrisholdgraf.com/myst-syntax/), which includes the READMEs, the roadmap and `findings.md`.
 
 Each package README says how to build that package.
 

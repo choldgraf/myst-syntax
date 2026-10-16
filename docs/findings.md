@@ -30,27 +30,11 @@ The [package README](../packages/syntax/README.md) says how the TextMate grammar
 `npm run conformance` compares each part with mystmd's parser.
 For every example, it collects the role names, directive names and target labels from `mystParse`, and the ones each part highlights.
 An example matches if both lists are the same, counting repeats.
-Examples where neither side finds a name are skipped.
-
 An example is excluded, not missed, when every difference is in `{math}`, `{raw}`, `{mermaid}` or a code directive.
-`grammar.mjs` and `conformance.ts` each spell out `{math}`, `{mermaid}` and `{raw}`, so they are kept [in sync by hand](../packages/syntax/README.md#what-must-stay-in-sync-by-hand).
-In myst-spec, TextMate's 4 exclusions are all `{math}`, and CodeMirror's 5 are `{code}` and `{code-block}`, whose fences Markdown parses as code.
 
-| Examples | Part | Matched | Missed | Excluded |
-| --- | --- | --- | --- | --- |
-| myst-spec (63 with a name) | TextMate | 59 | 0 | 4 |
-| myst-spec | CodeMirror | 58 | 0 | 5 |
-| Corpus (398 with a name) | TextMate | 355 | 33 | 10 |
-| Corpus | CodeMirror | 294 | 43 | 61 |
-
-The corpus rows come from `MYST_CORPUS=<path> npm run conformance`.
-To rebuild it, put these in one folder:
-
-- [jupyter-book/mystmd](https://github.com/jupyter-book/mystmd) at `3b00993`, its `docs/`.
-- [jupyter-book/jupyter-book](https://github.com/jupyter-book/jupyter-book) at `11acb1b`, its `docs/`.
-- [2i2c-org/docs](https://github.com/2i2c-org/docs) at `c1ca3ba`.
-- [jupyter-book/example-outputs](https://github.com/jupyter-book/example-outputs) at `d7ee89e`, the whole repo, for its notebooks.
-- Copies of the docs of myst-parser-unified, the docs and demo of mystmd-lsp, and this repo's README and ROADMAP, as they were when the corpus was built.
+Both parts match every myst-spec example that isn't excluded.
+A corpus of real projects, like the mystmd and jupyter-book docs, turns up misses, and `MYST_CORPUS` points the check at one.
+Run `npm run conformance` for the current numbers.
 
 Most corpus misses are noise from the comparison, not highlighting bugs:
 
@@ -81,7 +65,7 @@ Highlighting them needs a block parser that claims those lines first, so both ar
 Shiki loses an injected grammar once a second language that Markdown embeds lazily, like `yaml` or `python`, is loaded.
 `Registry.loadLanguage` in `@shikijs/primitive` rebuilds Markdown to pick up the new language, but vscode-textmate's grammar cache skips the rebuild, so the injections are never registered again.
 Nothing is thrown, MyST just isn't highlighted.
-It isn't reported to Shiki yet, but it is U13 in MyST Author's [upstream proposals](https://github.com/choldgraf/myst-author/blob/main/upstream/README.md).
+It isn't reported to Shiki yet.
 
 [Using with Shiki](../packages/syntax/README.md#using-with-shiki) has two recipes that avoid it, and `packages/syntax/src/shiki.test.ts` pins both.
 

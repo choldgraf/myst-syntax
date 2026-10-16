@@ -18,7 +18,6 @@ npm run package -w packages/vscode    # writes packages/vscode/myst-syntax.vsix
 code --install-extension packages/vscode/myst-syntax.vsix
 ```
 
-`npm run build` copies `myst.tmLanguage.json` and `LICENSE` in from the repository, since the grammar lives in `packages/syntax`.
-`npm run package` runs the build and then `vsce package`.
+`npm run package` copies the grammar and `LICENSE` in from `packages/syntax`, then runs `vsce package`.
 
 Releasing is described in the [repository README](https://github.com/choldgraf/myst-syntax#releasing).
