@@ -26,7 +26,7 @@ Add new syntax there first, then fill in the gaps.
 The [Shiki recipe](packages/syntax/README.md#using-with-shiki) works around [a Shiki bug](docs/findings.md#shiki-drops-markdowns-injections) with its load order, and `packages/syntax/src/shiki.test.ts` pins it.
 Report the bug to [Shiki](https://github.com/shikijs/shiki).
 
-[mystmd#1683](https://github.com/jupyter-book/mystmd/issues/1683) proposes Shiki for mystmd sites.
+mystmd has an open issue to [investigate Shiki for highlighting](https://github.com/jupyter-book/mystmd/issues/1683).
 If it lands, add a `myst` language so ```` ```myst ```` blocks highlight.
 It needs an `injections` key aimed at its own scope.
 A grammar that includes the Markdown grammar and adds MyST patterns doesn't work, because Markdown's paragraph rule wins over inline patterns like roles.
