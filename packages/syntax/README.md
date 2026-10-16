@@ -71,7 +71,7 @@ new EditorView({ extensions: [markdown({ codeLanguages: languages, extensions: [
 It skips code, so `@property` in a Python block isn't a citation.
 `mystCode` highlights code directives in their language, as `codeLanguages` does for plain ```` ```python ```` blocks.
 It also parses colon-fenced code directives, like `:::{code-cell} python`, as code, which Markdown doesn't.
-Leave out `codeLanguages` and `mystCode` if you don't want code highlighted.
+Leave out both if you don't want code highlighted.
 
 ### Using with Shiki
 
@@ -87,7 +87,7 @@ highlighter.codeToHtml(src, { lang: 'markdown', theme: 'github-light' });
 
 Load `yaml` first, then `markdown`, then the grammar, and nothing else.
 The order works around a Shiki bug, described in [what we learned](https://github.com/choldgraf/myst-syntax/blob/main/docs/findings.md#shiki-drops-markdowns-injections).
-To load more languages, pass Markdown with its lazy list emptied, and then the order doesn't matter:
+To load more languages, pass Markdown with `embeddedLangsLazy` emptied, as below, and then the order doesn't matter:
 
 ```ts
 import markdown from '@shikijs/langs/markdown';

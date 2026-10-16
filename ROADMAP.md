@@ -1,7 +1,7 @@
 # Roadmap
 
 What's left, most important first.
-Keep it small, editor-neutral and CC0 so it can move to [jupyter-book](https://github.com/jupyter-book).
+Keep it small, editor-neutral and CC0-licensed so it can move to [jupyter-book](https://github.com/jupyter-book).
 [What we learned](docs/findings.md) has the design notes.
 
 ## Where it fits

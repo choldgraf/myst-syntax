@@ -17,7 +17,7 @@ It works badly for syntax whose meaning depends on what came before.
 A directive's body is MyST again, so it can hold more directives with their own options, nested to any depth.
 A regex can't count fences or know which directive it's inside, so directive bodies and options are the hard part.
 TextMate gets a little state from begin and end rules.
-CodeMirror gets some from Markdown's syntax tree, and by looking back to a directive's opening fence.
+CodeMirror gets some from Markdown's syntax tree.
 Neither gets a real tree of directives.
 
 Some directives are left alone on purpose.
@@ -65,7 +65,6 @@ Highlighting them needs a block parser that claims those lines first, so both ar
 Shiki loses an injected grammar once a second language that Markdown embeds lazily, like `yaml` or `python`, is loaded.
 `Registry.loadLanguage` in `@shikijs/primitive` rebuilds Markdown to pick up the new language, but vscode-textmate's grammar cache skips the rebuild, so the injections are never registered again.
 Nothing is thrown, MyST just isn't highlighted.
-It isn't reported to Shiki yet.
 
 [Using with Shiki](../packages/syntax/README.md#using-with-shiki) has two recipes that avoid it, and `packages/syntax/src/shiki.test.ts` pins both.
 

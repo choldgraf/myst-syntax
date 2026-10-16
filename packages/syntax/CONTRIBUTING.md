@@ -24,7 +24,7 @@ flowchart LR
 
 The TextMate part is an injection grammar, so it has no Markdown rules of its own.
 The editor tokenizes the file with its Markdown grammar, and `injectTo` tells it to try MyST's rules too.
-The `injectionSelector` limits where: `L:` puts MyST's rules ahead of Markdown's, and the `-` scopes keep them out of code and math.
+The `injectionSelector` limits where: the `L:` prefix puts MyST's rules ahead of Markdown's, and the negated `-` scopes keep them out of code and math.
 [What we learned](../../docs/findings.md#why-textmate-and-codemirror-need-different-approaches) explains why every line-anchored rule starts with `(?:^|\G)`.
 
 The CodeMirror part works on top of `@lezer/markdown`, the parser in `@codemirror/lang-markdown`.
@@ -64,4 +64,4 @@ Nothing checks these, so change them together:
 
 - The math, citation, option body, substitution and footnote patterns in `grammar.mjs` and `patterns` in `src/codemirror.ts`.
 - The syntax table in the README and what the two parts highlight.
-- `src/rules.ts` and mystmd's rules in `markdown-it-myst`: `TARGET_PATTERN` in `dist/block.js`, and `dist/citations.js`.
+- `src/rules.ts`, which mirrors the target and citation regexes in `markdown-it-myst`.

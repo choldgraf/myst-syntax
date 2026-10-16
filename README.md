@@ -44,7 +44,7 @@ Each package README says how to build that package.
 ## Releasing
 
 Each package is released on its own, with its own version.
-The extensions build from the grammar in the working tree, so a grammar change usually means releasing all three.
+The extensions build from the grammar in the working tree, so a grammar change usually means releasing the package and both extensions.
 
 1. Bump the version: `npm version <version> --no-git-tag-version -w packages/<name>`.
 2. Commit the changes to `package.json` and `package-lock.json`, and push to main.
@@ -55,5 +55,6 @@ The workflow publishes the package at the version in its `package.json`, then ta
 Each package needs one thing set up on its registry:
 
 - `syntax`: npm's [trusted publisher](https://docs.npmjs.com/trusted-publishers) for `release.yml`.
-- `vscode`: `VSCE_PAT` and `OVSX_PAT` repository secrets for the `myst-author` publisher on the Marketplace and on Open VSX, which code-server uses.
+- `vscode`: `VSCE_PAT` and `OVSX_PAT` repository secrets for the `myst-author` publisher.
+  Open VSX is what code-server installs from.
 - `jupyterlab`: PyPI's [trusted publisher](https://docs.pypi.org/trusted-publishers/) for `release.yml`.
