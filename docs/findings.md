@@ -23,7 +23,7 @@ Neither gets a real tree of directives.
 Some directives are left alone on purpose.
 The body of `{math}` is LaTeX, `{mermaid}` is Mermaid, `{raw}` is whatever format it targets, and code directives hold code in another language.
 Highlighting MyST inside them would be wrong.
-The [package README](../packages/syntax/README.md) says how the TextMate grammar treats them.
+The [package README](https://github.com/choldgraf/myst-syntax/blob/main/packages/syntax/README.md) says how the TextMate grammar treats them.
 
 ## Conformance results
 
@@ -58,7 +58,7 @@ CodeMirror's part sits on `@lezer/markdown`, which only knows backtick and tilde
 It reads `:::{code-cell} python` as a paragraph, so `mystCode` adds a small block parser that turns colon-fenced code directives into the same nodes as backtick ones.
 Option lines are highlighted by looking back from each one to the directive's opening fence.
 YAML option blocks and display math span several lines, and Markdown already parses their lines as headings, code or paragraphs.
-Highlighting them needs a block parser that claims those lines first, so both are deferred to the Lezer step in the [roadmap](../ROADMAP.md).
+Highlighting them needs a block parser that claims those lines first, so both are deferred to the Lezer step in the [roadmap](https://github.com/choldgraf/myst-syntax/blob/main/ROADMAP.md).
 
 ## Shiki drops Markdown's injections
 
@@ -66,7 +66,7 @@ Shiki loses an injected grammar once a second language that Markdown embeds lazi
 `Registry.loadLanguage` in `@shikijs/primitive` rebuilds Markdown to pick up the new language, but vscode-textmate's grammar cache skips the rebuild, so the injections are never registered again.
 Nothing is thrown, MyST just isn't highlighted.
 
-[Using with Shiki](../packages/syntax/README.md#using-with-shiki) has two recipes that avoid it, and `packages/syntax/src/shiki.test.ts` pins both.
+[Using with Shiki](https://github.com/choldgraf/myst-syntax/blob/main/packages/syntax/README.md#using-with-shiki) has two recipes that avoid it, and `packages/syntax/src/shiki.test.ts` pins both.
 
 ## When a Lezer or tree-sitter grammar would be worth it
 

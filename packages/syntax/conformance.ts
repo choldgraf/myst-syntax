@@ -6,6 +6,7 @@ import { ensureSyntaxTree } from '@codemirror/language';
 import { EditorState } from '@codemirror/state';
 import { load } from 'js-yaml';
 import { mystParse } from 'myst-parser';
+import { mystCode } from './src/codemirror.ts';
 import { codeDirectives } from './src/rules.ts';
 import { highlightedNames, scoped, scopes } from './src/tokenize.ts';
 
@@ -52,7 +53,7 @@ function mystmd(src: string) {
 const textmate = (src: string) => kinds.flatMap((kind) => scoped(src, scopes[kind]).map((name) => `${kind} ${name}`));
 
 function codemirror(src: string) {
-  const created = EditorState.create({ doc: src, extensions: [markdown()] });
+  const created = EditorState.create({ doc: src, extensions: [markdown({ extensions: [mystCode([])] })] }); // as the JupyterLab extension sets it up
   // Finish parsing the whole document, as an editor does in the background, then pick up the tree.
   ensureSyntaxTree(created, src.length, 10_000);
   const state = created.update({}).state;

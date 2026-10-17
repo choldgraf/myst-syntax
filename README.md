@@ -32,7 +32,8 @@ The repo is an npm workspace, so run everything from the root:
 - `npm run docs`: build the docs site, and `npm run docs:live` previews it.
 
 Add `-w packages/<name>` to run a script in one package.
-CI (`.github/workflows/test.yml`) runs all of these, then packages the `.vsix` and the Python wheel.
+CI (`.github/workflows/test.yml`) runs all of these except `docs`, then packages the `.vsix` and the Python wheel.
+`docs.yml` builds and publishes the docs site.
 
 Where things live:
 

@@ -1,7 +1,7 @@
 # MyST Syntax for VS Code
 
 Highlights MyST Markdown on top of VS Code's built-in Markdown highlighting.
-Roles, directives, directive options, labels, math, citations and comments get their own colours.
+It highlights the TextMate column of [the syntax package's table](https://github.com/choldgraf/myst-syntax/tree/main/packages/syntax#readme).
 
 It is the TextMate grammar from the [`myst-syntax`](https://www.npmjs.com/package/myst-syntax) package, with nothing else: no activation code, no settings.
 Its id is `myst-author.myst-syntax-vscode`, the publisher and name in `package.json`.
@@ -18,6 +18,6 @@ npm run package -w packages/vscode    # writes packages/vscode/myst-syntax.vsix
 code --install-extension packages/vscode/myst-syntax.vsix
 ```
 
-`npm run package` copies the grammar and `LICENSE` in from `packages/syntax`, then runs `vsce package`.
+`npm run package` copies the grammar in from `packages/syntax` and `LICENSE` from the repo root, then runs `vsce package`.
 
 Releasing is described in the [repository README](https://github.com/choldgraf/myst-syntax#releasing).
