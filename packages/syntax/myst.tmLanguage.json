@@ -606,7 +606,7 @@
       }
     },
     "display-math": {
-      "comment": "Like mystmd's dollarmath: from a line starting with $$ to a line ending with $$, or $$ (label). A blank line ends it, as it does in mystmd.",
+      "comment": "Like mystmd's dollarmath. It runs from a line starting with $$ to a line ending with $$, or $$ (label). A blank line ends it, as it does in mystmd.",
       "begin": "(?:^|\\G) {0,3}(\\$\\$)",
       "end": "(\\$\\$)(?:\\s*\\([^)$]+\\))?\\s*$|^(?=\\s*$)",
       "contentName": "markup.math.block.myst",

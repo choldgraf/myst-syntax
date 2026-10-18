@@ -1,4 +1,4 @@
-// Compares the role, directive and label names each part finds with mystmd's parse. See "Conformance" in the README.
+// Compares the role, directive and label names each part finds with mystmd's parse. See "Conformance" in packages/syntax/CONTRIBUTING.md.
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { markdown } from '@codemirror/lang-markdown';
@@ -72,7 +72,7 @@ function minus(a: string[], b: string[]) {
 
 /** Prints each miss and a summary table, and returns the number of misses. Cases where neither side finds a name are left out. */
 function report(title: string, cases: Case[]) {
-  console.log(`${title}: - is a name mystmd found and the part didn't, + the other way round`);
+  console.log(`${title}: -name means only mystmd found it, +name means only the part did`);
   const counts: Record<string, Record<string, number>> = {};
   for (const [part, find] of [['TextMate', textmate], ['CodeMirror', codemirror]] as const) {
     counts[part] = { matched: 0, missed: 0, excluded: 0 };

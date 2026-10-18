@@ -15,14 +15,14 @@ export const patterns = {
   // Highlighted only right after a directive's opening fence. See `highlighted`.
   option: new RegExp('(?<=' + lineStart + '):([\\w-]+):(?=\\s|$)', 'g'),
   label: new RegExp('(?<=' + lineStart + ')\\((' + labelChars + '+)\\)=(?=\\s*$)', 'g'),
-  // Close to mystmd's dollarmath: spaces and digits are allowed inside. Skips `$$`, which is display math.
+  // Close to mystmd's dollarmath. Spaces and digits are allowed inside. Skips `$$`, which is display math.
   math: /(?<![\\$])\$([^$\n]+)\$(?!\$)/g,
   // Each key, alone or in brackets like [@a; @b]. Keys start and end with a word character, as in mystmd's `inText`.
   citation: new RegExp('(?<![\\w@])@(\\w(?:' + citationChars + '*\\w)?)', 'g'),
   comment: new RegExp('(?<=' + lineStart + ')(%.*)', 'g'),
   'block-break': new RegExp('(?<=' + lineStart + ')(\\+\\+\\+.*)', 'g'),
   substitution: /\{\{([^}\n]*)\}\}/g,
-  // Markdown parses these as links; @lezer/markdown has no footnote syntax.
+  // @lezer/markdown has no footnote syntax, so Markdown parses these as links.
   footnote: /\[\^([^\]\s]+)\]/g,
 };
 
@@ -41,7 +41,7 @@ const colonCode: BlockParser = {
     const from = cx.lineStart + line.pos;
     const info = from + open[0].indexOf(open[2]);
     const children = [cx.elt('CodeMark', from, from + open[1].length), cx.elt('CodeInfo', info, info + open[2].length)];
-    // The same check lang-markdown's own `FencedCode` parser uses to stay inside the enclosing list item or blockquote.
+    // Stay inside the enclosing list item or blockquote, with the same check lang-markdown's own `FencedCode` parser uses.
     for (let first = true; cx.nextLine() && (line as any).depth >= cx.depth; first = false) {
       const close = line.text.slice(line.pos).match(/^:+(?=\s*$)/);
       if (close && close[0].length >= open[1].length) {
@@ -76,7 +76,10 @@ export function mystCode(languages: readonly LanguageDescription[]) {
   return [code, { parseBlock: [colonCode] }];
 }
 
-/** Whether `pos` is in Markdown code, such as `x`, ```python or ```{code-cell}, but not in another directive, whose fence also parses as code. */
+/**
+ * Whether `pos` is in Markdown code, such as `x`, ```python or ```{code-cell}.
+ * Other directives don't count, even though their fences also parse as code.
+ */
 export function inCode(state: EditorState, pos: number) {
   for (let node = syntaxTree(state).resolveInner(pos, 1); node.parent; node = node.parent) {
     if (node.name === 'InlineCode' || node.name === 'CodeBlock') return true;
@@ -99,7 +102,7 @@ function afterFence(state: EditorState, pos: number) {
   return false;
 }
 
-/** Whether to highlight a match of the pattern `name` at `pos`: not in code, and for options, only right after a directive's opening fence. */
+/** Whether to highlight a match of the pattern `name` at `pos`. Skips matches in code, and highlights options only right after a directive's opening fence. */
 export function highlighted(state: EditorState, name: string, pos: number) {
   return !inCode(state, pos) && (name !== 'option' || afterFence(state, pos));
 }

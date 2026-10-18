@@ -6,8 +6,8 @@ import { createHighlighter } from 'shiki';
 
 const myst = JSON.parse(readFileSync(new URL('../myst.tmLanguage.json', import.meta.url), 'utf8'));
 
-// The README's two Shiki recipes. Shiki rebuilds markdown without its injections when it loads a second lazily embedded language,
-// so either load yaml before markdown, or empty markdown's lazy list and then the order doesn't matter.
+// The README's two Shiki recipes, which avoid a Shiki bug that drops MyST once a second lazily embedded language loads.
+// See "Shiki drops Markdown's injections" in docs/findings.md.
 const recipes = {
   'yaml before markdown': ['yaml', 'markdown', myst],
   'markdown with no lazy languages': [{ ...markdown[0], embeddedLangsLazy: [] }, 'yaml', myst],

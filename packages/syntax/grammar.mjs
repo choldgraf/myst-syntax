@@ -17,7 +17,8 @@ const languages = [
   ['css', 'css', 'source.css'],
 ];
 
-// The start of a line, or \G: where Markdown's list and blockquote rules leave the scanner after their markers and indentation.
+// The start of a line, or \G.
+// \G is where Markdown's list and blockquote rules leave the scanner, after their markers and indentation.
 // vscode-textmate only lets \G match right after a begin or while match, so this doesn't match after a token in the middle of a line.
 const lineStart = '(?:^|\\G)';
 const punctuation = { name: 'punctuation.definition.directive.myst' };
@@ -97,7 +98,7 @@ const grammar = {
       },
     },
     'display-math': {
-      comment: "Like mystmd's dollarmath: from a line starting with $$ to a line ending with $$, or $$ (label). A blank line ends it, as it does in mystmd.",
+      comment: "Like mystmd's dollarmath. It runs from a line starting with $$ to a line ending with $$, or $$ (label). A blank line ends it, as it does in mystmd.",
       begin: lineStart + ' {0,3}(\\$\\$)',
       end: '(\\$\\$)(?:\\s*\\([^)$]+\\))?\\s*$|^(?=\\s*$)',
       contentName: 'markup.math.block.myst',

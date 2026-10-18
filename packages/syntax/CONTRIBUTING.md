@@ -24,12 +24,14 @@ flowchart LR
 
 The TextMate part is an injection grammar, so it has no Markdown rules of its own.
 The editor tokenizes the file with its Markdown grammar, and `injectTo` tells it to try MyST's rules too.
-The `injectionSelector` limits where: the `L:` prefix puts MyST's rules ahead of Markdown's, and the negated `-` scopes keep them out of code and math.
+The `injectionSelector` limits where MyST's rules apply.
+Its `L:` prefix puts them ahead of Markdown's rules, and its negated `-` scopes keep them out of code and math.
 [What we learned](../../docs/findings.md#why-textmate-and-codemirror-need-different-approaches) explains why every line-anchored rule starts with `(?:^|\G)`.
 
 The CodeMirror part works on top of `@lezer/markdown`, the parser in `@codemirror/lang-markdown`.
 `myst()` matches each regex in `patterns` line by line and marks the matches, skipping anything Markdown's syntax tree calls code.
-`mystCode` is a Markdown extension that tells the parser which language a `{code-cell}` fence holds, and adds a block parser that reads colon fences as code.
+`mystCode` is a Markdown extension that tells the parser which language a `{code-cell}` fence holds.
+It also adds a block parser that reads colon fences as code.
 
 `src/tokenize.ts` runs both parts outside an editor, the way VS Code and CodeMirror would.
 The tests and `conformance.ts` both use it.
@@ -37,7 +39,8 @@ The tests and `conformance.ts` both use it.
 ## To add a syntax
 
 1. Add examples to `cases` in `src/cases.ts`, under a new key, with the names each one should highlight.
-2. Add a rule to `grammar.mjs` and its scope to `scopes` in `src/tokenize.ts`, then run `npm run grammar` and commit `myst.tmLanguage.json`.
+2. Add a rule to `grammar.mjs` and its scope to `scopes` in `src/tokenize.ts`.
+   Then run `npm run grammar` and commit `myst.tmLanguage.json`.
 3. Add a pattern with the same key to `patterns` in `src/codemirror.ts`, and its colours to the theme there.
 4. Add a row to the syntax table in the README.
 5. Run `npm test` and `npm run conformance`.
@@ -47,7 +50,8 @@ The tests and `conformance.ts` both use it.
 `npm run conformance` checks that both parts find the same role names, directive names and target labels as mystmd's parser, on the [myst-spec](https://github.com/jupyter-book/myst-spec) examples.
 It prints each miss and a table of matched, missed and excluded examples, and fails if any example is missed.
 [What we learned](../../docs/findings.md#conformance-results) says which differences count as excluded.
-mystmd leaves the body of a directive it doesn't know, like `{tab-set}`, as text, so the check parses those bodies again to find the names nested inside.
+mystmd leaves the body of a directive it doesn't know, like `{tab-set}`, as text.
+The check parses those bodies again to find the names nested inside.
 
 To also check your own MyST projects, point `MYST_CORPUS` at a folder of them:
 

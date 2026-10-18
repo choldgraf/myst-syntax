@@ -2,7 +2,8 @@
 
 MyST Markdown syntax highlighting in JupyterLab 4, in notebook Markdown cells and in `.md` file editors.
 
-It highlights the MyST syntax in the CodeMirror column of [the syntax package's table](https://github.com/choldgraf/myst-syntax/tree/main/packages/syntax#readme), on top of Lab's own Markdown highlighting.
+It highlights the MyST syntax marked ✓ in the CodeMirror column of [the syntax package's table](https://github.com/choldgraf/myst-syntax/tree/main/packages/syntax#readme).
+It works on top of Lab's own Markdown highlighting.
 It only highlights.
 [MyST Author](https://github.com/choldgraf/myst-author)'s Lab extension handles preview and cross-references.
 

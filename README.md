@@ -8,20 +8,22 @@ The highlighting lives in `packages/syntax`, and there are three ways to get it:
 
 | Package | Install | Use it for |
 | --- | --- | --- |
-| [`myst-syntax`](packages/syntax/README.md) | `npm install myst-syntax` | The TextMate grammar and CodeMirror mode, for your own extension, editor or Shiki site |
+| [`myst-syntax`](packages/syntax/README.md) | `npm install myst-syntax` | The TextMate grammar and CodeMirror mode, to use in your own extension, editor or Shiki site |
 | [MyST Syntax for VS Code](packages/vscode/README.md) | Search "MyST Syntax" in the Extensions view | Highlighting in VS Code |
 | [`jupyterlab-myst-syntax`](packages/jupyterlab/README.md) | `pip install jupyterlab-myst-syntax` | Highlighting in JupyterLab's notebook cells and Markdown editors |
 
 The npm package is published.
 The two extensions aren't yet, so build them from this repo as their READMEs say.
-Or try them on `demo/index.md` without installing anything: the Codespaces badge above opens it in VS Code, and the Binder badge in JupyterLab.
+Or try them on `demo/index.md` without installing anything.
+The Codespaces badge above opens it in VS Code, and the Binder badge opens it in JupyterLab.
 The [MyST Language Server](https://github.com/choldgraf/mystmd-lsp) and [MyST Author](https://github.com/choldgraf/myst-author) extensions build on these instead of shipping their own highlighting.
 
 See the [roadmap](ROADMAP.md) for what's next, and [what we learned](docs/findings.md) for why it works the way it does.
 
 ## Develop
 
-You need Node 24 or later, which runs the TypeScript files directly, and a `python` with JupyterLab installed for the JupyterLab build.
+You need Node 24 or later, which runs the TypeScript files directly.
+The JupyterLab build also needs a `python` with JupyterLab installed.
 The repo is an npm workspace, so run everything from the root:
 
 - `npm install`: install the dependencies for every package.
@@ -29,7 +31,8 @@ The repo is an npm workspace, so run everything from the root:
 - `npm run conformance`: [compare both with mystmd's parser](packages/syntax/CONTRIBUTING.md#conformance).
 - `npm run typecheck`: type-check every package.
 - `npm run build`: build every package.
-- `npm run docs`: build the docs site, and `npm run docs:live` previews it.
+- `npm run docs`: build the docs site.
+- `npm run docs:live`: preview the docs site.
 
 Add `-w packages/<name>` to run a script in one package.
 CI (`.github/workflows/test.yml`) runs all of these except `docs`, then packages the `.vsix` and the Python wheel.
@@ -57,5 +60,5 @@ Each package needs one thing set up on its registry:
 
 - `syntax`: npm's [trusted publisher](https://docs.npmjs.com/trusted-publishers) for `release.yml`.
 - `vscode`: `VSCE_PAT` and `OVSX_PAT` repository secrets for the `myst-author` publisher.
-  Open VSX is what code-server installs from.
+  `OVSX_PAT` is for Open VSX, which code-server installs from.
 - `jupyterlab`: PyPI's [trusted publisher](https://docs.pypi.org/trusted-publishers/) for `release.yml`.
