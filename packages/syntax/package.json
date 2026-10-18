@@ -1,6 +1,6 @@
 {
   "name": "myst-syntax",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Syntax highlighting for MyST Markdown: a TextMate grammar and a CodeMirror extension",
   "type": "module",
   "exports": {
