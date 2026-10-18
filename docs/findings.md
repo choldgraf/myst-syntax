@@ -5,7 +5,7 @@ For what each part highlights, see the table in the [package README](https://git
 
 ## What regex highlighters can and can't do for MyST
 
-Both parts are regular expressions layered on an editor's Markdown highlighting.
+Both parts, the TextMate grammar and the CodeMirror extension, are regular expressions layered on an editor's Markdown highlighting.
 Each pattern looks at one line, anchored to its start, and has no memory of earlier lines.
 
 That works well for syntax that announces itself on one line.
@@ -31,12 +31,12 @@ The [package README](https://github.com/choldgraf/myst-syntax/blob/main/packages
 ## Conformance results
 
 `npm run conformance` compares each part with mystmd's parser.
-For every example, it collects the role names, directive names and target labels that `mystParse` finds.
+For every example, it collects the role names, directive names and target labels that mystmd's `mystParse` finds.
 It also collects the ones each part highlights.
 An example matches if both lists are the same, counting repeats.
 When every difference is in `{math}`, `{raw}`, `{mermaid}` or a code directive, the example counts as excluded instead of missed.
 
-Both parts match every myst-spec example that isn't excluded.
+Both parts match every example in myst-spec, the MyST specification's test cases, that isn't excluded.
 A corpus of real projects, like the mystmd and jupyter-book docs, turns up misses.
 To check a corpus, point `MYST_CORPUS` at its folder.
 Run `npm run conformance` for the current numbers.
@@ -73,10 +73,9 @@ Both are left for the Lezer step in the [roadmap](https://github.com/choldgraf/m
 Shiki loses an injected grammar when it loads a second language that Markdown embeds lazily, like `yaml` or `python`.
 `Registry.loadLanguage` in `@shikijs/primitive` rebuilds Markdown to pick up the new language.
 But vscode-textmate's grammar cache skips the rebuild, so the injections are never registered again.
-There's no error.
-MyST just isn't highlighted.
+MyST just stops being highlighted, with no error.
 
-[Using with Shiki](https://github.com/choldgraf/myst-syntax/blob/main/packages/syntax/README.md#using-with-shiki) has two recipes that avoid it, and `packages/syntax/src/shiki.test.ts` pins both.
+[Using with Shiki](https://github.com/choldgraf/myst-syntax/blob/main/packages/syntax/README.md#using-with-shiki) has two recipes that avoid it, and `packages/syntax/src/shiki.test.ts` tests both.
 
 ## When a Lezer or tree-sitter grammar would be worth it
 

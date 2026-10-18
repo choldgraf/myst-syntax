@@ -5,8 +5,8 @@ It highlights the syntax marked ✓ in the TextMate column of [the syntax packag
 
 It is the TextMate grammar from the [`myst-syntax`](https://www.npmjs.com/package/myst-syntax) package, and nothing else.
 It has no activation code and no settings.
-Its id is `myst-author.myst-syntax-vscode`, the publisher and name in `package.json`.
-The [MyST Language Server](https://github.com/choldgraf/mystmd-lsp) extension depends on that id, so VS Code installs this one with it.
+Its id is `myst-author.myst-syntax-vscode`, made of the publisher and name in `package.json`.
+The [MyST Language Server](https://github.com/choldgraf/mystmd-lsp) extension depends on that id, so VS Code installs this extension along with it.
 
 ## Install
 

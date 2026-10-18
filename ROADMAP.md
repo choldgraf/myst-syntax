@@ -12,7 +12,7 @@ The CodeMirror part is for JupyterLab and the many web editors that use CodeMirr
 The TextMate grammar is for VS Code, where the [VS Code extension](packages/vscode/README.md) ships it.
 Docs sites that highlight with Shiki can use it too, as the [package README](packages/syntax/README.md#using-with-shiki) shows.
 Sphinx and mystmd sites don't use it.
-MyST-Parser's Sphinx docs use a Pygments lexer, and myst-theme uses highlight.js.
+MyST-Parser's Sphinx docs use a Pygments lexer, and myst-theme, which renders mystmd sites, uses highlight.js.
 
 ## 1. Both parts highlight the same things
 
@@ -24,7 +24,7 @@ Add new syntax there first, then fill in the gaps.
 
 ## 2. Report the Shiki bug
 
-The [Shiki recipe](packages/syntax/README.md#using-with-shiki) works around [a Shiki bug](docs/findings.md#shiki-drops-markdowns-injections) with its load order, and `packages/syntax/src/shiki.test.ts` pins it.
+The [Shiki recipe](packages/syntax/README.md#using-with-shiki) works around [a Shiki bug](docs/findings.md#shiki-drops-markdowns-injections) with its load order, and `packages/syntax/src/shiki.test.ts` tests that workaround.
 Report the bug to [Shiki](https://github.com/shikijs/shiki).
 
 mystmd has an open issue to [investigate Shiki for highlighting](https://github.com/jupyter-book/mystmd/issues/1683).

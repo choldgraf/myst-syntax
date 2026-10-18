@@ -11,7 +11,7 @@ It has two parts:
 
 Both parts share the regex fragments in `myst-syntax/rules`, which other tools can import too.
 
-They highlight different syntax:
+They don't highlight quite the same syntax:
 
 | Syntax | TextMate | CodeMirror |
 | --- | --- | --- |
@@ -70,7 +70,7 @@ new EditorView({ extensions: [markdown({ codeLanguages: languages, extensions: [
 
 `myst()` adds a `cm-myst-<name>` class to each match, such as `cm-myst-role`.
 It comes with colours for light and dark themes.
-It skips code, so `@property` in a Python block isn't a citation.
+It skips code, so `@property` in a Python block isn't highlighted as a citation.
 `mystCode` highlights code directives in their language, as `codeLanguages` does for plain ```` ```python ```` blocks.
 It also parses colon-fenced code directives, like `:::{code-cell} python`, as code, which Markdown doesn't.
 Leave out `codeLanguages` and `mystCode` if you don't want code highlighted.

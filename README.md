@@ -12,11 +12,9 @@ The highlighting lives in `packages/syntax`, and there are three ways to get it:
 | [MyST Syntax for VS Code](packages/vscode/README.md) | Search "MyST Syntax" in the Extensions view | Highlighting in VS Code |
 | [`jupyterlab-myst-syntax`](packages/jupyterlab/README.md) | `pip install jupyterlab-myst-syntax` | Highlighting in JupyterLab's notebook cells and Markdown editors |
 
-The npm package is published.
-The two extensions aren't yet, so build them from this repo as their READMEs say.
-Or try them on `demo/index.md` without installing anything.
-The Codespaces badge above opens it in VS Code, and the Binder badge opens it in JupyterLab.
-The [MyST Language Server](https://github.com/choldgraf/mystmd-lsp) and [MyST Author](https://github.com/choldgraf/myst-author) extensions build on these instead of shipping their own highlighting.
+The npm package is published, but the two extensions aren't yet, so build them from this repo as their READMEs say.
+Or try them on `demo/index.md` without installing anything: the Codespaces badge above opens it in VS Code, and the Binder badge opens it in JupyterLab.
+The [MyST Language Server](https://github.com/choldgraf/mystmd-lsp) and [MyST Author](https://github.com/choldgraf/myst-author) extensions build on these packages instead of shipping their own highlighting.
 
 See the [roadmap](ROADMAP.md) for what's next, and [what we learned](docs/findings.md) for why it works the way it does.
 
