@@ -9,8 +9,6 @@ It has two parts:
 - `myst-syntax/codemirror`: a [CodeMirror 6](https://codemirror.net) extension to use with `markdown()`.
   [`jupyterlab-myst-syntax`](https://github.com/choldgraf/myst-syntax/blob/main/packages/jupyterlab/README.md) adds it to JupyterLab.
 
-Both parts share the regex fragments in `myst-syntax/rules`, which other tools can import too.
-
 They don't highlight quite the same syntax:
 
 | Syntax | TextMate | CodeMirror |

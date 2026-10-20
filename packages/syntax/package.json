@@ -8,10 +8,6 @@
       "types": "./dist/codemirror.d.ts",
       "default": "./dist/codemirror.js"
     },
-    "./rules": {
-      "types": "./dist/rules.d.ts",
-      "default": "./dist/rules.js"
-    },
     "./myst.tmLanguage.json": "./myst.tmLanguage.json"
   },
   "files": [
