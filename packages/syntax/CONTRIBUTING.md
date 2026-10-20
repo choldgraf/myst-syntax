@@ -48,8 +48,9 @@ The tests and `conformance.ts` both use it.
 ## Conformance
 
 `npm run conformance` checks that both parts find the same role names, directive names and target labels as mystmd's parser, on the [myst-spec](https://github.com/jupyter-book/myst-spec) examples.
+An example matches if both lists are the same, counting repeats.
+When every difference is in `{math}`, `{raw}`, `{mermaid}` or a code directive, the example counts as excluded instead of missed.
 It prints each miss and a table of matched, missed and excluded examples, and fails if any example is missed.
-[What we learned](../../docs/findings.md#conformance-results) says which differences count as excluded.
 mystmd leaves the body of a directive it doesn't know, like `{tab-set}`, as text.
 The check parses those bodies again to find the names nested inside.
 
@@ -64,8 +65,8 @@ Corpus misses are printed but don't fail the command.
 
 ## Kept in sync by hand
 
-Nothing checks these, so change them together:
+The shared examples in `src/cases.ts` check these only on the examples given, so change them together:
 
-- The math, citation, option body, substitution and footnote patterns in `grammar.mjs` and `patterns` in `src/codemirror.ts`.
+- The math, citation, option body, substitution, footnote, comment and block break patterns in `grammar.mjs` and `patterns` in `src/codemirror.ts`.
 - The syntax table in the README and what the two parts highlight.
 - `src/rules.ts`, which mirrors the target and citation regexes in `markdown-it-myst`.

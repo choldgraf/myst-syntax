@@ -30,15 +30,10 @@ The [package README](https://github.com/choldgraf/myst-syntax/blob/main/packages
 
 ## Conformance results
 
-`npm run conformance` compares each part with mystmd's parser.
-For every example, it collects the role names, directive names and target labels that mystmd's `mystParse` finds.
-It also collects the ones each part highlights.
-An example matches if both lists are the same, counting repeats.
-When every difference is in `{math}`, `{raw}`, `{mermaid}` or a code directive, the example counts as excluded instead of missed.
+`npm run conformance` compares each part with mystmd's parser, as [CONTRIBUTING](https://github.com/choldgraf/myst-syntax/blob/main/packages/syntax/CONTRIBUTING.md#conformance) describes.
 
 Both parts match every example in myst-spec, the MyST specification's test cases, that isn't excluded.
 A corpus of real projects, like the mystmd and jupyter-book docs, turns up misses.
-To check a corpus, point `MYST_CORPUS` at its folder.
 Run `npm run conformance` for the current numbers.
 
 Most corpus misses are noise from the comparison, not highlighting bugs:
