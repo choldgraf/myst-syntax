@@ -29,7 +29,7 @@ TextMate highlights code directives in common languages like Python.
 It leaves other code, `{math}`, `{mermaid}` and `{raw}` plain.
 
 The TextMate grammar takes inspiration from chrisjsewell's [`vscode-myst-syntax`](https://github.com/chrisjsewell/vscode-myst-syntax).
-See the [roadmap](https://github.com/choldgraf/myst-syntax/blob/main/ROADMAP.md) for what's next, and [what we learned](https://github.com/choldgraf/myst-syntax/blob/main/docs/findings.md) for why it works the way it does.
+See the [issues](https://github.com/choldgraf/myst-syntax/issues) for what's next, and [what we learned](https://github.com/choldgraf/myst-syntax/blob/main/docs/findings.md) for why it works the way it does.
 To work on the package itself, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Install it

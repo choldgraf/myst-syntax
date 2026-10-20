@@ -16,7 +16,7 @@ The npm package is published, but the two extensions aren't yet, so build them f
 Or try them on `demo/index.md` without installing anything: the Codespaces badge above opens it in VS Code, and the Binder badge opens it in JupyterLab.
 The [MyST Language Server](https://github.com/choldgraf/mystmd-lsp) and [MyST Author](https://github.com/choldgraf/myst-author) extensions build on these packages instead of shipping their own highlighting.
 
-See the [roadmap](ROADMAP.md) for what's next, and [what we learned](docs/findings.md) for why it works the way it does.
+See the [issues](https://github.com/choldgraf/myst-syntax/issues) for what's next, and [what we learned](docs/findings.md) for why it works the way it does.
 
 ## Develop
 
@@ -39,7 +39,7 @@ CI (`.github/workflows/test.yml`) runs all of these except `docs`, then packages
 Where things live:
 
 - `demo/`: one file with each kind of syntax, which Codespaces and Binder open.
-- `docs/`: the [docs site](https://chrisholdgraf.com/myst-syntax/), which includes the READMEs, the roadmap and `findings.md`.
+- `docs/`: the [docs site](https://chrisholdgraf.com/myst-syntax/), which includes the READMEs and `findings.md`.
 
 Each package README says how to build that package.
 

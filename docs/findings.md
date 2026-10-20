@@ -61,7 +61,7 @@ To fix that, `mystCode` adds a small block parser that turns colon-fenced code d
 Option lines are highlighted by looking back from each one to the directive's opening fence.
 YAML option blocks and display math span several lines, and Markdown already parses their lines as headings, code or paragraphs.
 Highlighting them needs a block parser that claims those lines before Markdown does.
-Both are left for the Lezer step in the [roadmap](https://github.com/choldgraf/myst-syntax/blob/main/ROADMAP.md).
+[Issue #1](https://github.com/choldgraf/myst-syntax/issues/1) tracks adding one for each.
 
 ## Shiki drops Markdown's injections
 
@@ -69,6 +69,7 @@ Shiki loses an injected grammar when it loads a second language that Markdown em
 `Registry.loadLanguage` in `@shikijs/primitive` rebuilds Markdown to pick up the new language.
 But vscode-textmate's grammar cache skips the rebuild, so the injections are never registered again.
 MyST just stops being highlighted, with no error.
+This is [shikijs/shiki#1332](https://github.com/shikijs/shiki/issues/1332).
 
 [Using with Shiki](https://github.com/choldgraf/myst-syntax/blob/main/packages/syntax/README.md#using-with-shiki) has two recipes that avoid it, and `packages/syntax/src/shiki.test.ts` tests both.
 
