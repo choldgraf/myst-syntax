@@ -41,9 +41,13 @@ The tests and `conformance.ts` both use it.
 1. Add examples to `cases` in `src/cases.ts`, under a new key, with the names each one should highlight.
 2. Add a rule to `grammar.mjs` and its scope to `scopes` in `src/tokenize.ts`.
    Then run `npm run grammar` and commit `myst.tmLanguage.json`.
+   Pick a scope that common themes already colour.
+   Anything that names a link target is `string.other.link.*`, like Markdown's link text, and math is `string.other.math.*`, like LaTeX.
 3. Add a pattern with the same key to `patterns` in `src/codemirror.ts`, and its colours to the theme there.
 4. Add a row to the syntax table in the README.
 5. Run `npm test` and `npm run conformance`.
+
+If you rename `string.other.link.label.myst`, change it in mystmd-lsp's VS Code extension too, which colours references with it.
 
 ## Conformance
 
