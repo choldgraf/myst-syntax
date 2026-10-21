@@ -6,7 +6,8 @@ For what each part highlights, see the table in the [package README](https://git
 ## What regex highlighters can and can't do for MyST
 
 Both parts, the TextMate grammar and the CodeMirror extension, are regular expressions layered on an editor's Markdown highlighting.
-Each pattern looks at one line, anchored to its start, and has no memory of earlier lines.
+Each pattern looks at one line and has no memory of earlier lines.
+Patterns for block syntax, like directive fences and labels, are anchored to the start of the line.
 
 That works well for syntax that announces itself on one line.
 Roles, directive fences, labels, comments, citations and inline math can each be recognised from the line alone.
@@ -26,13 +27,16 @@ Some directives are left alone on purpose.
 The body of `{math}` is LaTeX, and the body of `{mermaid}` is Mermaid.
 `{raw}` holds whatever format it targets, and code directives hold code in another language.
 Highlighting MyST inside them would be wrong.
-The [package README](https://github.com/choldgraf/myst-syntax/blob/main/packages/syntax/README.md) says how the TextMate grammar treats them.
+TextMate leaves `{math}`, `{mermaid}` and `{raw}` plain in backtick and tilde fences, as the [package README](https://github.com/choldgraf/myst-syntax/blob/main/packages/syntax/README.md) says.
+In colon fences, and everywhere in CodeMirror, MyST inside `{math}`, `{mermaid}` and `{raw}` is still highlighted.
+Neither part highlights MyST in the code of a code directive.
 
 ## Conformance results
 
 `npm run conformance` compares each part with mystmd's parser, as [CONTRIBUTING](https://github.com/choldgraf/myst-syntax/blob/main/packages/syntax/CONTRIBUTING.md#conformance) describes.
 
-Both parts match every example in myst-spec, the MyST specification's test cases, that isn't excluded.
+myst-spec is the MyST specification's set of test cases.
+Both parts match every myst-spec example that isn't excluded.
 A corpus of real projects, like the mystmd and jupyter-book docs, turns up misses.
 Run `npm run conformance` for the current numbers.
 
@@ -75,7 +79,7 @@ This is [shikijs/shiki#1332](https://github.com/shikijs/shiki/issues/1332).
 
 ## When a Lezer or tree-sitter grammar would be worth it
 
-A real grammar would reach what the regexes can't:
+A real grammar could handle what the regexes can't:
 
 - Directive bodies with their own nested directives and options.
 - YAML option blocks and display math in CodeMirror.

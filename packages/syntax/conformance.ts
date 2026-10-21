@@ -13,7 +13,8 @@ import { highlightedNames, scoped, scopes } from './src/tokenize.ts';
 type Case = { id: string; src: string };
 const kinds = ['role', 'directive', 'label'] as const;
 
-// Syntax neither part highlights as MyST on purpose (see the README), so a difference in these names isn't a miss.
+// Names of directives whose bodies aren't MyST (see docs/findings.md), and of the {math} and {raw} roles.
+// A difference in these names isn't a miss.
 const excluded = new RegExp('^(?:(?:role|directive) (?:math|raw)|directive (?:mermaid|' + codeDirectives + '))$');
 
 /** Each myst-spec example with MyST source. */

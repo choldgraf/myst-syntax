@@ -24,7 +24,8 @@ So the extension rebuilds Lab's Markdown parser with [`myst-syntax/codemirror`](
 
 ## Build
 
-You need Node 24 and a `python` with JupyterLab installed, because `build.mjs` reads Lab's list of shared packages from that JupyterLab.
+You need Node 24 or later and a `python` with JupyterLab installed.
+`build.mjs` reads Lab's list of shared packages from that JupyterLab.
 From the repository root:
 
 ```sh

@@ -25,8 +25,9 @@ They don't highlight quite the same syntax:
 [What we learned](https://github.com/choldgraf/myst-syntax/blob/main/docs/findings.md#why-textmate-and-codemirror-need-different-approaches) says why CodeMirror skips YAML options and display math.
 
 Both parts handle backtick, tilde and colon fences, at the top level and inside lists and blockquotes.
-TextMate highlights code directives in common languages like Python.
-It leaves other code, `{math}`, `{mermaid}` and `{raw}` plain.
+TextMate highlights code directives in common languages like Python, and leaves other code plain.
+It also leaves `{math}`, `{mermaid}` and `{raw}` plain in backtick and tilde fences.
+In colon fences, TextMate still highlights the MyST inside these directives.
 
 The TextMate grammar takes inspiration from chrisjsewell's [`vscode-myst-syntax`](https://github.com/chrisjsewell/vscode-myst-syntax).
 See the [issues](https://github.com/choldgraf/myst-syntax/issues) for what's next, and [what we learned](https://github.com/choldgraf/myst-syntax/blob/main/docs/findings.md) for why it works the way it does.

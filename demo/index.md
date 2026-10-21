@@ -1,6 +1,8 @@
 # MyST syntax demo
 
-Open this file in VS Code or JupyterLab with the extension installed, and each kind of MyST syntax below gets its own colour.
+Open this file in VS Code or JupyterLab with the extension installed, and the MyST syntax below is highlighted.
+In VS Code, labels, citations and footnotes share the colour of link text.
+JupyterLab doesn't highlight display math.
 
 Roles: {ref}`intro`, {numref}`fig-logo`, {math}`x^2` and {eval}`1 + 1`.
 Citations: @smith2020, and [@smith2020; @doe2021, p. 3].

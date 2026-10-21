@@ -4,7 +4,8 @@
 [![Launch on Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/choldgraf/myst-syntax/main?urlpath=lab/tree/demo/index.md)
 
 Syntax highlighting for [MyST Markdown](https://mystmd.org), on top of an editor's Markdown highlighting.
-The highlighting lives in `packages/syntax`, and there are three ways to get it: the npm package, a VS Code extension and a JupyterLab extension.
+The highlighting is in `packages/syntax`.
+There are three ways to get it: the npm package, a VS Code extension and a JupyterLab extension.
 
 | Package | Install | Use it for |
 | --- | --- | --- |
@@ -33,12 +34,13 @@ The repo is an npm workspace, so run everything from the root:
 - `npm run docs:live`: preview the docs site.
 
 Add `-w packages/<name>` to run a script in one package.
-CI (`.github/workflows/test.yml`) runs all of these except `docs`, then packages the `.vsix` and the Python wheel.
+CI (`.github/workflows/test.yml`) runs all of these except `docs` and `docs:live`, then packages the `.vsix` and the Python wheel.
 `docs.yml` builds and publishes the docs site.
 
 Where things live:
 
-- `demo/`: one file with each kind of syntax, which Codespaces and Binder open.
+- `demo/`: one file with most kinds of syntax, which Codespaces and Binder open.
+  It doesn't have YAML options or a code directive.
 - `docs/`: the [docs site](https://chrisholdgraf.com/myst-syntax/), which includes the READMEs and `findings.md`.
 
 Each package README says how to build that package.
@@ -46,7 +48,10 @@ Each package README says how to build that package.
 ## Releasing
 
 Each package is released on its own, with its own version.
-The extensions build from the grammar in the working tree, so a grammar change usually means releasing the package and both extensions.
+The extensions build from `packages/syntax` in the working tree, not from npm.
+The VS Code extension copies the TextMate grammar.
+The JupyterLab extension bundles the CodeMirror part.
+A change to one part usually means releasing the package and the extension that uses that part.
 
 1. Bump the version: `npm version <version> --no-git-tag-version -w packages/<name>`.
 2. Commit the changes to `package.json` and `package-lock.json`, and push to main.

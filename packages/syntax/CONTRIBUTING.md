@@ -25,13 +25,17 @@ flowchart LR
 The TextMate part is an injection grammar, so it has no Markdown rules of its own.
 The editor tokenizes the file with its Markdown grammar, and `injectTo` tells it to try MyST's rules too.
 The `injectionSelector` limits where MyST's rules apply.
-Its `L:` prefix puts them ahead of Markdown's rules, and its negated `-` scopes keep them out of code and math.
+The `L:` prefix makes the editor try MyST's rules before Markdown's.
+The negated `-` scopes keep MyST's rules out of code and math.
 [What we learned](../../docs/findings.md#why-textmate-and-codemirror-need-different-approaches) explains why every line-anchored rule starts with `(?:^|\G)`.
 
 The CodeMirror part works on top of `@lezer/markdown`, the parser in `@codemirror/lang-markdown`.
-`myst()` matches each regex in `patterns` line by line and marks the matches, skipping anything Markdown's syntax tree calls code.
-`mystCode` is a Markdown extension that tells the parser which language a `{code-cell}` fence holds.
-It also adds a block parser that reads colon fences as code.
+`myst()` matches each regex in `patterns` line by line and marks the matches.
+It skips code, which `inCode` finds from Markdown's syntax tree.
+Markdown also parses backtick and tilde directive fences as code.
+`inCode` only counts code directives, like `{code-cell}`, so MyST inside other directives is still highlighted.
+`mystCode` is a Markdown extension that tells the parser which language a code directive's fence holds, like `{code-cell} python`.
+It also adds a block parser that reads colon-fenced code directives as code.
 
 `src/tokenize.ts` runs both parts outside an editor, the way VS Code and CodeMirror would.
 The tests and `conformance.ts` both use it.
@@ -42,7 +46,8 @@ The tests and `conformance.ts` both use it.
 2. Add a rule to `grammar.mjs` and its scope to `scopes` in `src/tokenize.ts`.
    Then run `npm run grammar` and commit `myst.tmLanguage.json`.
    Pick a scope that common themes already colour.
-   Anything that names a link target is `string.other.link.*`, like Markdown's link text, and math is `string.other.math.*`, like LaTeX.
+   Anything that names a link target, like a label, citation or footnote, is `string.other.link.*`, as Markdown's link text is.
+   Math is `string.other.math.*`, as LaTeX is.
 3. Add a pattern with the same key to `patterns` in `src/codemirror.ts`, and its colours to the theme there.
 4. Add a row to the syntax table in the README.
 5. Run `npm test` and `npm run conformance`.
@@ -53,7 +58,7 @@ If you rename `string.other.link.label.myst`, change it in mystmd-lsp's VS Code 
 
 `npm run conformance` checks that both parts find the same role names, directive names and target labels as mystmd's parser, on the [myst-spec](https://github.com/jupyter-book/myst-spec) examples.
 An example matches if both lists are the same, counting repeats.
-When every difference is in `{math}`, `{raw}`, `{mermaid}` or a code directive, the example counts as excluded instead of missed.
+When every difference is the name of a `{math}`, `{raw}`, `{mermaid}` or code directive, or the name of a `{math}` or `{raw}` role, the example counts as excluded instead of missed.
 It prints each miss and a table of matched, missed and excluded examples, and fails if any example is missed.
 mystmd leaves the body of a directive it doesn't know, like `{tab-set}`, as text.
 The check parses those bodies again to find the names nested inside.
@@ -69,7 +74,7 @@ Corpus misses are printed but don't fail the command.
 
 ## Kept in sync by hand
 
-The shared examples in `src/cases.ts` check these only on the examples given, so change them together:
+The tests and the conformance check only catch drift on the examples they run, so when you change one side of these pairs, change the other too:
 
 - The math, citation, option body, substitution, footnote, comment and block break patterns in `grammar.mjs` and `patterns` in `src/codemirror.ts`.
 - The syntax table in the README and what the two parts highlight.
