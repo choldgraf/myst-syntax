@@ -10,8 +10,8 @@ test('the grammar scopes MyST syntax', () => {
 });
 
 test('display math is highlighted', () => {
-  assert.deepEqual(scoped('$$\nx^2\n$$ (eq1)\n\n$$y$$\n\nText', 'markup.math.block.myst'), ['x^2', 'y']);
-  assert.deepEqual(scoped('$$\nx\n\nText', 'markup.math.block.myst'), ['x']);
+  assert.deepEqual(scoped('$$\nx^2\n$$ (eq1)\n\n$$y$$\n\nText', 'string.other.math.block.myst'), ['x^2', 'y']);
+  assert.deepEqual(scoped('$$\nx\n\nText', 'string.other.math.block.myst'), ['x']);
 });
 
 test('code directives are highlighted in their language', () => {

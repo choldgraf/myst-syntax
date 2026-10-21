@@ -59,7 +59,7 @@ const grammar = {
   name: 'myst',
   scopeName: 'text.myst.injection',
   injectTo: ['text.html.markdown'],
-  injectionSelector: 'L:text.html.markdown -meta.embedded -markup.inline.raw -markup.fenced_code -markup.raw.block -markup.math',
+  injectionSelector: 'L:text.html.markdown -meta.embedded -markup.inline.raw -markup.fenced_code -markup.raw.block -markup.math -string.other.math',
   patterns: [...Object.keys(code), 'directive', 'role', 'target', 'display-math', 'math', 'citation', 'block-break', 'comment', 'substitution', 'footnote'].map((name) => ({ include: `#${name}` })),
   repository: {
     ...code,
@@ -92,7 +92,7 @@ const grammar = {
       match: lineStart + '\\s*(\\()(' + labelChars + '+)(\\))(=)\\s*$',
       captures: {
         1: { name: 'punctuation.definition.target.myst' },
-        2: { name: 'entity.name.label.myst' },
+        2: { name: 'string.other.link.label.myst' },
         3: { name: 'punctuation.definition.target.myst' },
         4: { name: 'punctuation.definition.target.myst' },
       },
@@ -101,7 +101,7 @@ const grammar = {
       comment: "Like mystmd's dollarmath. It runs from a line starting with $$ to a line ending with $$, or $$ (label). A blank line ends it, as it does in mystmd.",
       begin: lineStart + ' {0,3}(\\$\\$)',
       end: '(\\$\\$)(?:\\s*\\([^)$]+\\))?\\s*$|^(?=\\s*$)',
-      contentName: 'markup.math.block.myst',
+      contentName: 'string.other.math.block.myst',
       beginCaptures: { 1: { name: 'punctuation.definition.math.myst' } },
       endCaptures: { 1: { name: 'punctuation.definition.math.myst' } },
     },
@@ -110,7 +110,7 @@ const grammar = {
       match: '(?<![\\\\$])(\\$)([^$]+)(\\$)(?!\\$)',
       captures: {
         1: { name: 'punctuation.definition.math.myst' },
-        2: { name: 'markup.math.inline.myst' },
+        2: { name: 'string.other.math.inline.myst' },
         3: { name: 'punctuation.definition.math.myst' },
       },
     },
@@ -119,7 +119,7 @@ const grammar = {
       match: '(?<![\\w@])(@)(\\w(?:' + citationChars + '*\\w)?)',
       captures: {
         1: { name: 'punctuation.definition.citation.myst' },
-        2: { name: 'constant.other.citation.myst' },
+        2: { name: 'string.other.link.citation.myst' },
       },
     },
     'block-break': {
@@ -150,7 +150,7 @@ const grammar = {
       match: '(\\[\\^)([^\\]\\s]+)(\\])',
       captures: {
         1: { name: 'punctuation.definition.footnote.myst' },
-        2: { name: 'constant.other.footnote.myst' },
+        2: { name: 'string.other.link.footnote.myst' },
         3: { name: 'punctuation.definition.footnote.myst' },
       },
     },
